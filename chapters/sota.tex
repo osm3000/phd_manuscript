@@ -1,0 +1,24 @@
+\chapter{State of the art}
+\label{ch:SOTA}
+
+\par The study of the styles is quite interdisciplinary: one needs to connect many areas and fields together. This leads to many design decisions and trade-offs. The motivation for this chapter is to provide information about the related research areas - and the state of the art related to these areas - , how these areas combine in order to form the pipeline/system of the study for styles, and also highlight the decisions and trade-offs that we made.
+
+\paragraph{Styles} In Section \ref{sec:style}, we first look at examples the different definitions of styles in different areas. Since style extraction is an ill-posed problem -- as mentioned earlier --, it is important to take a look at how styles are being perceived across different domain, and in the same domain as well.
+
+% \par Neural networks is a very powerful machine learning tool that can be used to model this problem
+
+\paragraph{Generative Neural Networks and Autoencoders} Since they are ill-defined, styles can not be evaluated explicitly (we can not quantify them in advance). However, we can evaluate them implicitly using them in order to generate behaviors (i.e., synthesis handwriting traces), and evaluate the quality of those behaviors relative to the target behaviors (i.e., the original letters traces). In other words, to study styles, we would like to use reconstruct the target behaviors using generative models, and given the task and the styles to perform the behavior. In section \ref{sec:rnn}, we discuss the recent advances in neural generative models: how are they trained? how do we infer from them?...etc. In section \ref{sec:autoencoder}, we look at paradigm for reconstruct target behaviors, with focus on the usage of neural networks.
+
+\paragraph{Evaluation metrics} After we generate the behaviors, we need to evaluate them in a manner that evaluates the styles. This is still an open research question, and a complicated one as well. It also goes hand-in-hand with the choices made in generative models. In section \ref{sec:eval_metrics}, we discuss the used evaluation metrics across different domains (e.g., text, speech and handwriting evaluation). We also discuss the difficulties associated with finding the suitable evaluation metric.
+
+\paragraph{Data representation} A critical decision is how to represent the data. This depends on the need to keep large amount of style information, the flexibility of the machine learning algorithms used, the amount of data we have, and the possible evaluation metrics. For example, low-level quantization will make the machine learning task easier, but will lead to loss of style information. In section \ref{sec:data_representation}, we discuss the available data representation.
+
+\paragraph{Transfer learning} The final objective of this thesis is to achieve transfer of style from one task (i.e., the source task) to a new task (i.e., the target task). There is many aspects to transfer learning though, like the differences between the source and the target tasks, what will be actually transferred, and how to measure the quality of transfer (i.e., the transfer metrics). We discuss these points in section \ref{sec:transfer_learning}.
+
+\paragraph{Where do we stand?} Last, it is necessary to compile all this information from different areas of research into a coherent vision, and describe where do we stand relative to the state of the art. We discuss this in section \ref{sec:conclusions}.
+
+
+%\endnote{I report on this part for the sake of completeness. Although negative transfer learning is a well documented phenomena, there is no clear study - to the best of my knowledge - that addresses the roots of phenomena in a systematic way.}
+
+\section{Where do we stand?}\label{sec:conclusions}
+% \section{D}

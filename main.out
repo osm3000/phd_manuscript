@@ -1,0 +1,67 @@
+\BOOKMARK [-1][-]{part.1}{I Introduction and Problem Description}{}% 1
+\BOOKMARK [0][-]{chapter.1}{Introduction}{part.1}% 2
+\BOOKMARK [1][-]{section.1.1}{What is a style?}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.2}{Why studying styles?}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.3}{Why Handwriting?}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.4}{An overview of the PhD}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.5}{Disclaimer}{chapter.1}% 7
+\BOOKMARK [0][-]{chapter.2}{Datasets}{part.1}% 8
+\BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.2}{Online Handwriting \205 IRONOFF}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.3}{Sketch Drawing \205 QuickDraw!}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.4}{Data representation}{chapter.2}% 12
+\BOOKMARK [2][-]{subsection.2.4.1}{Continuous or Discrete representation?}{section.2.4}% 13
+\BOOKMARK [2][-]{subsection.2.4.2}{Feature engineering: Direction and Speed}{section.2.4}% 14
+\BOOKMARK [1][-]{section.2.5}{Summary}{chapter.2}% 15
+\BOOKMARK [-1][-]{part.2}{II Experiments}{}% 16
+\BOOKMARK [0][-]{chapter.3}{Generation, benchmarks and evaluation}{part.2}% 17
+\BOOKMARK [1][-]{section.3.1}{Background}{chapter.3}% 18
+\BOOKMARK [2][-]{subsection.3.1.1}{Deep Learning: quick overview}{section.3.1}% 19
+\BOOKMARK [2][-]{subsection.3.1.2}{A word about sequential data}{section.3.1}% 20
+\BOOKMARK [2][-]{subsection.3.1.3}{Recurrent Neural Networks and Sequence Generation}{section.3.1}% 21
+\BOOKMARK [2][-]{subsection.3.1.4}{Optimization Algorithms}{section.3.1}% 22
+\BOOKMARK [2][-]{subsection.3.1.5}{Architectures}{section.3.1}% 23
+\BOOKMARK [2][-]{subsection.3.1.6}{Inference: How to generate sequences from the network?}{section.3.1}% 24
+\BOOKMARK [2][-]{subsection.3.1.7}{How to introduce prior to the model? \(conditioning the model\)}{section.3.1}% 25
+\BOOKMARK [2][-]{subsection.3.1.8}{How to evaluate the quality of generation?}{section.3.1}% 26
+\BOOKMARK [1][-]{section.3.2}{Putting all of that together}{chapter.3}% 27
+\BOOKMARK [2][-]{subsection.3.2.1}{Our proposed evaluation metrics}{section.3.2}% 28
+\BOOKMARK [2][-]{subsection.3.2.2}{How to ground the metrics?}{section.3.2}% 29
+\BOOKMARK [2][-]{subsection.3.2.3}{Model used}{section.3.2}% 30
+\BOOKMARK [2][-]{subsection.3.2.4}{Results}{section.3.2}% 31
+\BOOKMARK [2][-]{subsection.3.2.5}{Examples of the generated letters}{section.3.2}% 32
+\BOOKMARK [1][-]{section.3.3}{Summary}{chapter.3}% 33
+\BOOKMARK [0][-]{chapter.4}{Framework}{part.2}% 34
+\BOOKMARK [1][-]{section.4.1}{Background}{chapter.4}% 35
+\BOOKMARK [2][-]{subsection.4.1.1}{Auto-encoders}{section.4.1}% 36
+\BOOKMARK [2][-]{subsection.4.1.2}{Objectives}{section.4.1}% 37
+\BOOKMARK [2][-]{subsection.4.1.3}{Static and Temporal auto-encoder}{section.4.1}% 38
+\BOOKMARK [1][-]{section.4.2}{Putting it all together}{chapter.4}% 39
+\BOOKMARK [2][-]{subsection.4.2.1}{Letter generation with style preservation}{section.4.2}% 40
+\BOOKMARK [2][-]{subsection.4.2.2}{Style transfer}{section.4.2}% 41
+\BOOKMARK [2][-]{subsection.4.2.3}{Styles per letters}{section.4.2}% 42
+\BOOKMARK [0][-]{chapter.5}{Style Extraction and Transfer}{part.2}% 43
+\BOOKMARK [1][-]{section.5.1}{Introduction and objectives}{chapter.5}% 44
+\BOOKMARK [1][-]{section.5.2}{Transfer learning}{chapter.5}% 45
+\BOOKMARK [2][-]{subsection.5.2.1}{Notation and problem definition}{section.5.2}% 46
+\BOOKMARK [2][-]{subsection.5.2.2}{Metrics to evaluate transfer learning}{section.5.2}% 47
+\BOOKMARK [2][-]{subsection.5.2.3}{Homogeneous transfer learning}{section.5.2}% 48
+\BOOKMARK [2][-]{subsection.5.2.4}{Heterogeneous transfer learning}{section.5.2}% 49
+\BOOKMARK [2][-]{subsection.5.2.5}{Negative transfer}{section.5.2}% 50
+\BOOKMARK [1][-]{section.5.3}{Application of transfer learning}{chapter.5}% 51
+\BOOKMARK [2][-]{subsection.5.3.1}{Transfer between writers}{section.5.3}% 52
+\BOOKMARK [2][-]{subsection.5.3.2}{Transfer between tasks}{section.5.3}% 53
+\BOOKMARK [1][-]{section.5.4}{Style Extraction}{chapter.5}% 54
+\BOOKMARK [1][-]{section.5.5}{Summary}{chapter.5}% 55
+\BOOKMARK [-1][-]{part.3}{III Discussion and Closing Remarks}{}% 56
+\BOOKMARK [0][-]{chapter.6}{Discussion}{part.3}% 57
+\BOOKMARK [1][-]{section.6.1}{Challenges}{chapter.6}% 58
+\BOOKMARK [2][-]{subsection.6.1.1}{Choice of the topic}{section.6.1}% 59
+\BOOKMARK [2][-]{subsection.6.1.2}{Unclear state-of-the art}{section.6.1}% 60
+\BOOKMARK [2][-]{subsection.6.1.3}{Lack of Benchmarks, evaluation metrics}{section.6.1}% 61
+\BOOKMARK [2][-]{subsection.6.1.4}{Deep learning: theory, hardware and software frameworks}{section.6.1}% 62
+\BOOKMARK [1][-]{section.6.2}{Limitations of the current work}{chapter.6}% 63
+\BOOKMARK [2][-]{subsection.6.2.1}{Style extraction and exploration using PCA and tSNE methods}{section.6.2}% 64
+\BOOKMARK [2][-]{subsection.6.2.2}{Leak in the style module}{section.6.2}% 65
+\BOOKMARK [1][-]{section.6.3}{Future directions}{chapter.6}% 66
+\BOOKMARK [0][-]{chapter.7}{Closing Remarks}{part.3}% 67

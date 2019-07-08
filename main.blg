@@ -1,0 +1,81 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: apalike.bst
+Database file #1: bibliography.bib
+Warning--entry type for "quickdraw" isn't style-file defined
+--line 746 of file bibliography.bib
+Warning--entry type for "quickdrawgame" isn't style-file defined
+--line 761 of file bibliography.bib
+Warning--entry type for "howrnnworks" isn't style-file defined
+--line 956 of file bibliography.bib
+Warning--entry type for "gradientdescent" isn't style-file defined
+--line 963 of file bibliography.bib
+Warning--entry type for "convexfn" isn't style-file defined
+--line 970 of file bibliography.bib
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1023 of file apalike.bst
+Warning--empty note in lecture_nn_optimization
+Warning--empty journal in hinton2012neural
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1098 of file apalike.bst
+Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, Jongmin Kim, Nick Fox-Gieg, with friends at Google Creative Lab and Data Arts Team" for entry quickdrawgame
+while executing---line 1098 of file apalike.bst
+Warning--empty journal in lecun-mnisthandwrittendigit-2010
+Warning--empty booktitle in lowe1999object
+Warning--empty journal in narang2015speech
+Warning--empty journal in maaten2008visualizing
+You've used 70 entries,
+            1935 wiz_defined-function locations,
+            839 strings with 16033 characters,
+and the built_in function-call counts, 31364 in all, are:
+= -- 3125
+> -- 1332
+< -- 64
++ -- 473
+- -- 453
+* -- 2427
+:= -- 5197
+add.period$ -- 219
+call.type$ -- 70
+change.case$ -- 566
+chr.to.int$ -- 66
+cite$ -- 76
+duplicate$ -- 1332
+empty$ -- 2144
+format.name$ -- 562
+if$ -- 6414
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 68
+newline$ -- 344
+num.names$ -- 212
+pop$ -- 617
+preamble$ -- 1
+purify$ -- 570
+quote$ -- 0
+skip$ -- 1072
+stack$ -- 0
+substring$ -- 2039
+swap$ -- 340
+text.length$ -- 29
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 412
+warning$ -- 6
+while$ -- 242
+width$ -- 0
+write$ -- 887
+(There were 9 error messages)

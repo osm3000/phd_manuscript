@@ -1,0 +1,179 @@
+% \documentclass[12pt,a4paper,twoside]{scrbook}
+\documentclass[12pt,a4paper,twoside, leqno]{book}
+% \documentclass{tufte-book}
+% Prints a trailing space in a smart way.
+\usepackage{xspace}
+% \documentclass[12pt,a4paper,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[breaklinks=true]{hyperref} % Added by Omar - for URLs
+% next 3 are needed for tables
+\usepackage{array} % Added by Omar
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage[light,condensed,math]{kurier}
+\usepackage[T1]{fontenc}
+\renewcommand*\familydefault{kurier}
+
+% \usepackage{lmodern}
+% \usepackage[T1]{fontenc}
+% \renewcommand*\familydefault{lmodern}
+
+% to add framed boxes
+\usepackage{mdframed}
+
+% to change the style of the title of the chapter
+\usepackage{xcolor}
+\usepackage{sectsty}
+\chapterfont{\color{cyan}}  % sets colour of chapters
+\sectionfont{\color{black}}  % sets colour of sections
+\partfont{\color{red}}
+\paragraphfont{\textbf{\color{orange}}}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+% \usepackage{enumitem}
+\usepackage{epsfig}
+\usepackage{calc}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{pslatex}
+\usepackage[normalem]{ulem}
+% to add captions and labels to subfigures
+% check this page on how to format the captions -- really cool
+% http://www.peteryu.ca/tutorials/publishing/latex_captions
+\usepackage{subcaption} % added by omar
+\usepackage{cleveref}
+% \captionsetup[figure]{name={Figure.}}
+\captionsetup[figure]{labelfont=normalfont, textfont={normalfont}}
+\captionsetup[subfigure]{labelformat=simple, labelsep=period, textfont=normalfont}
+\renewcommand{\thetable}{\arabic{table}}
+% \renewcommand{\thefigure}{\arabic{table}}
+\renewcommand{\thesubfigure}{\arabic{subfigure}}
+
+% \usepackage[font=scriptsize]{caption} % added by omar, to control the font size of the caption
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{pagenote}
+\usepackage{breakcites} % added by omar - to divide long citations
+% \usepackage{natbib}
+\usepackage[semicolon, sort]{natbib}
+\usepackage{enumitem}
+\usepackage{apalike}
+
+% Select the font type. See this link
+% https://www.overleaf.com/learn/latex/Font_typefaces
+\usepackage{cmtt}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{fancyhdr} % omar - to have a line in the header
+\usepackage{endnotes} % Omar: to add endnotes
+\usepackage{lscape} % Omar: to make some pages in landscape
+\usepackage{rotating} % Omar: another way to rotate the image
+% next two packages are to enable marginnotes
+\usepackage{geometry}
+\usepackage{marginnote}
+
+\usepackage{pagenote} % to enable pagenotes, which are endnotes, put appears after each chapter, instead of at the end of the document all together.
+
+% \usepackage{titlesec} % Allows customization of titles
+\usepackage{eso-pic} % Required for specifying an image background in the title page
+
+\definecolor{rosepale}{rgb}{1.0, 0.7, 1.0}
+\definecolor{rougepale}{rgb}{1.0, 0.4, 0.4}
+\definecolor{violetpale}{rgb}{0.8, 0.4, 1.0}
+\definecolor{jaunepale}{rgb}{0.8, 0.8, .2}
+\definecolor{cyanpale}{rgb}{0.0, 0.8, .8}
+\newcommand{\GB}[1]{\sethlcolor{cyanpale}\hl{GB: #1}}
+\newcommand{\GBR}[2]{\sethlcolor{cyanpale}\hl{GB:}\sout{#1}\hl{#2}}
+\newcommand{\OSM}[1]{\sethlcolor{rosepale}\hl{OSM: #1}}
+\newcommand{\OSMR}[2]{\sethlcolor{rosepale}\hl{OSM:}\sout{#1}\hl{#2}}
+\newcommand{\DP}[1]{\sethlcolor{violetpale}\hl{DP: #1}}
+\newcommand{\DPR}[2]{\sethlcolor{violetpale}\hl{DP:}\sout{#1}\hl{#2}}
+
+% \newcommand{\citex}[1]{(\cite{#1})}
+
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{1pt}
+%Control the space between the paragraphs
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+%Control the space between the lines
+\renewcommand{\baselinestretch}{1.2}
+
+% \setcitestyle{square}
+
+\pagestyle{fancy} % to configure the header and the footer
+\fancyhf{}
+% \fancyhead[CE,CO]{\leftmark}
+\fancyhead[CE,CO]{\rightmark}
+\fancyhead[LE,RO]{\thepage}
+\fancyfoot[CE,CO]{Deep learning methods for style extraction and transfer}
+% See this page for info about the fancy formats
+% https://www.overleaf.com/learn/latex/Headers_and_footers
+
+% \makepagenote % to enable pagenotes
+
+% Generates the index
+\usepackage{makeidx}
+\makeindex
+
+\title{Deep learning methods for style extraction and transfer}
+\author{Omar Mohammed}
+\date{Date unknown, somewhere far far in another galaxy, long time ago}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\part{Introduction and Problem Description}
+% \chapterimage{./images/chapter_images/black_hole_interstellar.jpeg}
+\input{chapters/intro.tex}
+% \theendnotes
+% \setcounter{endnote}{0}
+
+\input{chapters/datasets.tex}
+\theendnotes
+\setcounter{endnote}{0}
+
+\part{Experiments}
+% \chapter{Generative models, benchmarks and evaluation metrics}
+\input{chapters/gbem.tex}
+\setcounter{endnote}{0}
+\theendnotes
+
+\input{chapters/framework.tex}
+\setcounter{endnote}{0}
+\theendnotes
+% \setcounter{endnote}{0}
+
+\input{chapters/seat.tex}
+\setcounter{endnote}{0}
+\theendnotes
+% \setcounter{endnote}{0}
+
+\part{Discussion and Closing Remarks}
+\input{chapters/discussions.tex}
+\setcounter{endnote}{0}
+\theendnotes
+% \setcounter{endnote}{0}
+
+\input{chapters/conclusion.tex}
+\setcounter{endnote}{0}
+\theendnotes
+% \setcounter{endnote}{0}
+
+\bibliographystyle{apalike} % I need to solve this style problem with the bibliography
+% \bibliography{bibliography}
+{\small \bibliography{bibliography}}
+
+\printindex
+\end{document}

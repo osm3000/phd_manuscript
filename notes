@@ -1,0 +1,24 @@
+Papers I should read about style:
+===============================================
+Speech:
+
+- all tacatron papers
+*********
+Self driving car?
+
+- Start from the paper of Gerard
+*********
+Handwriting styles
+
+- Sonia's papers
+- Chinese handwriting
+
+* Mention pytorch, scikit learn and the whole scipy stack. Solid engineering is the key for the future of science.
+==============================================================================================
+* Write a paper about the usage of ML in science, the pipeline, experimental and analysis protocol. Make it an ongoin-project. Allow people to share and modify this document.
+==============================================================================================
+# General issues:
+* Unify the terminology of: 
+    - generated traces, letters, tracing, example, sequence (because right now, it is confusing)
+    - ground truth, target, 
+* Replace all mention of 'bias' with 'condition'. Also, when talking about the letter/letter+writer bias, replace it with letter/writer identities.

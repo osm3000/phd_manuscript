@@ -1,0 +1,91 @@
+\chapter{Discussion}
+This chapter will be a free discussion about what i had done, shortcomings, difficulties in the PhD, and potential areas of development. 
+
+Science should always be about honesty, humility and respect, and not just flashy results and wide conclusions. Science can always make use of failures as well -- something that is almost in the literature at the moment --. I will do my best in this chapter to highlight the other side of good results.
+
+\section{Challenges}
+\subsection{Choice of the topic}
+
+\subsection{Unclear state-of-the art}
+
+\par A major challenge during the PhD was to determine the relevant state of the art. For generative models, the usage of deep learning methods was not the clear choice of the beginning, and once chosen, it took considerable effort to determine the scope of the relevant state of the art.
+
+\par The same goes for the state of the art on styles. The word itself, and the range of study, is very wide. By far, the work done in handwriting styles was the least relevant to our work; either because the work is done on offline handwriting (thus not dealing with the dynamics of writing itself) -- and this is most of the work done currently --\endnote{Most of the great advances that happened recently in neural networks -- especially in generative models -- is related to computer vision. Thus, it is more convenient to deal with with handwriting as images than as a dynamic process.}, or the work is done under strict assumptions \textbf{I think is 2nd part of the sentence is not accurate, and should be removed.}.
+
+\subsection{Lack of Benchmarks, evaluation metrics}
+Getting around these issues was quite a dilemma, for many reasons:
+\setlist{nolistsep}\begin{itemize}[noitemsep]
+    \item I do not believe it is a healthy practise to pick up the benchmarks to use. This choice can be easily biased, and it could be argued that the benchmarks are chosen to be weak enough in order to show progress). In our case, it was mandatory to do so nonetheless, and we tried as much as possible to be fair in making these choices.
+    \item 
+\end{itemize}
+
+\subsection{Deep learning: theory, hardware and software frameworks}
+\par 
+
+\section{Limitations of the current work}
+In this section, I discuss what I consider shortcomings for some of the methods used in this work. 
+
+\subsection{Style extraction and exploration using PCA and tSNE methods}
+In this work, when exploring the latent space of our model, I used either PCA or tSNE projection methods (to project the latent space from the high dimensional space into a smaller one), and tried to use the assumptions behind both methods to extract meaningful information from the latent space.
+
+While this is legit, it really stretches these methods to the breaking point, plus, it hinders further investigation.
+
+\paragraph{PCA} assumes orthogonality and linearity in the space being projected. There is no reason however to assume that these assumptions hold for different styles. 
+In the non-linearity aspect, the latent space does not have the clear objective of transferring non-linear style relationship into linear ones (simply, because no such objective can be formulated directly, since the problem of styles is ill-defined), unlike what can be noticed for the last layers of classifiers (where an embedded objective of the network is project the data from their non-linear manifold into a linear one).
+Founding orthogonality in the style space is an interesting aspect to explore, but this is a strong assumption, and there is no reason to believe that it holds for all aspects of styles.
+.
+\paragraph{tSNE} provide us with a way to deal with non-linearity, thus allowing another further exploring the latent space, but it is hard to repeat the results (the method is stochastic) and the projection does not always yield clear information about the styles. Changing the \textit{perplexity} parameter leads to different results as well (I didn't explore the relation of that parameter to find a more suitable style manifold, and I am not sure if it is worth the effort).
+
+But what is a good projection criteria in this case? should we let the organization of styles emerge on its own, by constraining the latent space and add regularization to the loss function (i.e., during an end-to-end training of the network)? should a second optimization step be performed on the latent space, in order to disentangle it? I discuss some of these ideas briefly in section \ref{sec:future_direction}.
+
+\subsection{Leak in the style module}
+In a basic autoencoder (no condition on the bottleneck), one can assume that encoder part will learn the identity of the task + the style in the same time. The idea of conditioning is to provide the task description (aka: task identity) as an input to the decoder (the condition), thus, relieving the encoder from learning it, and focus only on learning the styles, thus enhancing the style transfer capability.
+
+Ideally, we expect that the output of the encoder has little to none information about the task identity. However, careful testing shows that this is not the case. There is a considerable leak of information about the task identity into the encoder.
+
+\textbf{PUT THE RESULTS OF OUR TESTING HERE. TRY IF POSSIBLE TO COMPARE WITH A NORMAL AUTOENCODER.}
+
+I don't have an explanation at the moment for the reason behind this phenomena. My intuition\endnote{I did not have the time to perform rigorous testing for this idea unfortunately.} is that on aspect of the problem lies in the task description. The assumption that a harsh one-hot encoding of the task is sufficient to describe the task correctly is flawed in my opinion. 
+
+An analogy for this can been drawn from clustering (hard clustering VS fuzzy clustering). Hard clustering, similar to one-hot encoding, does provide us with which this task is, but nothing about how this task relates to other tasks (i.e., proximity/similarity to other task), which is what fuzzy clustering do.
+
+The influential work done by Geoffrey Hinton in \cite{hinton2015distilling} -- performed on the MNIST dataset \cite{lecun-mnisthandwrittendigit-2010} -- is a contributing factor in this intuition. I will not dive into details about this article here, since it is outside the scope of this work, I will just mention two interesting results from this study:
+\setlist{nolistsep}\begin{itemize}[noitemsep]
+    \item In a classification task, the traditional description of the labels is one-hot encoding. However, using a soft/fuzzy description of the labels reveals much better results (makes sense, since it is more rich in information).
+    \item If you train a classifier on the soft labels of digits 7 and 8 only, the classifier will perform almost 90\% accuracy on the other labels \endnote{I personally find this particular result fascinating.}!. It means that a better task description may increase the data efficiency of the model.
+\end{itemize}
+A similar concept should definitely be explored in the context of this work.
+
+\section{Future directions}\label{sec:future_direction}
+\setlist{nolistsep}\begin{itemize}[noitemsep]
+    \item Embedding (robust generalization/maybe style extraction)
+    \item Multi-stage optimization (for style extraction)
+    \item Disentanglement of styles / latent space distributions / loss OR constraint (for knowledge extraction)
+    \item RL and planning to reduce the complexity/have control over the generation and evaluation process
+    \item Memories of the neural network for better task decomposition (useful for transfer learning) -- maybe report my experiment with the external memory here.
+    \item Statistical testing for neural network performance and for the inference quality + the effect of the random seed.
+    \item Better task description
+    \item Automatic separation of task and style
+    \item Data efficiency and Model Complexity
+    \item Define data augmentation protocol: while many techniques exists for images, it is not so clear in case of sequences. 
+    \item \textbf{Treating dynamical system as an image, with coloring gradients representing the dynamics of the system}: this will give us massive power in using the SOTA of generative models developed for static images (based on GANs), while addressing all the characteristics of the dynamical system in the same time.
+    
+    This is similar to treating sound waves as images (the ML course I did with Washington University), or spectrum images (like what i did with Marielle).
+    
+    \item Dealing with style extraction as an embedding problem: \textbf{NOTE: i am not sure if we didn't do that already.}
+    
+    \item Modeling the error distribution of the model during the generation phase: in order to enhance the quality of the generation, and reduce the distance between the generation and the prediction (i.e., the training and the usage phases) \endnote{nothing, quick test}.
+    
+    \item World models paper: having a model of the world, and use it to train a proper generator using RL.
+    
+    \item Re-visiting MDN (even the in discrete case): a useful tool, even for finite-discrete distribution. Mixed with good embedding, and giving 'uncertainty' level, provides important information. This also has a very good potential for optimization.
+    
+    \item Using RL for generation instead of log-likelihood models, and free the metric and the study from the constraints of differentiability.
+    \item The hyper-parameter tuning: Do we need it? And how to do it efficiently? (yes we do need it. the question is how to do it in an effecient manner).
+    
+    \item Evaluate the quality of the content/task generated, not just the style: usually done via subjective testing or using another model -- which i strictly refuse --. Subjective testing is too slow.
+    
+    \item What do these numbers actually mean in real life? how much should we care? \cite{wagstaff2012machine} (machine learning that matters paper): we used multiple metrics in order to compare/assess our models. But the main issue is how much this really matter? at how much $X\%$ difference in the performance that humans start to perceive the difference for example? This is very important in order to reach ML that actually matters in real life.
+    
+    \item The experimental protocol and scientific practices:
+\end{itemize}
