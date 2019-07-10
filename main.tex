@@ -82,6 +82,8 @@
 % \usepackage{titlesec} % Allows customization of titles
 \usepackage{eso-pic} % Required for specifying an image background in the title page
 
+\usepackage{minitoc} % to create a small table of content in the begining of each chapter
+
 \definecolor{rosepale}{rgb}{1.0, 0.7, 1.0}
 \definecolor{rougepale}{rgb}{1.0, 0.4, 0.4}
 \definecolor{violetpale}{rgb}{0.8, 0.4, 1.0}
@@ -121,6 +123,16 @@
 \usepackage{makeidx}
 \makeindex
 
+% in order to create a glossaries
+\usepackage{glossaries}
+\makeglossaries
+
+\newglossaryentry{task}
+{
+    name=task,
+    description={In this manuscript, a task is used to describe executing set of actions, in order to achieve an objective. We will refer to the objective as the \textbf{content} of the task. To achieve an objective, usually there are multiple possible ways (multiple possible sets of actions) that allows us to achieve that objective. Each set of actions in this case is called a \textbf{style}.}
+}
+
 \title{Deep learning methods for style extraction and transfer}
 \author{Omar Mohammed}
 \date{Date unknown, somewhere far far in another galaxy, long time ago}
@@ -128,6 +140,7 @@
 
 \maketitle
 
+\dominitoc% Initialization of minitoc package
 \tableofcontents
 
 \listoffigures
@@ -137,6 +150,8 @@
 \part{Introduction and Problem Description}
 % \chapterimage{./images/chapter_images/black_hole_interstellar.jpeg}
 \input{chapters/intro.tex}
+
+\Gls{task}
 % \theendnotes
 % \setcounter{endnote}{0}
 
@@ -171,9 +186,12 @@
 \theendnotes
 % \setcounter{endnote}{0}
 
+\printglossaries
+
+\printindex
+
 \bibliographystyle{apalike} % I need to solve this style problem with the bibliography
 % \bibliography{bibliography}
 {\small \bibliography{bibliography}}
 
-\printindex
 \end{document}
