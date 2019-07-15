@@ -47,26 +47,27 @@
   % \subsection{Notation and problem definition}
   \par Let's first introduce some notations that will help in formulating the problem:
   \begin{itemize}
-      \item A domain $\mathcal{D}$ is defined as $\mathcal{D} = \{\mathcal{X}, P(X)\}$, where:\\
+      \item We first introduce the concept of \textit{Domain}. A domain defines a feature space (e.g., images of animals), and the probability distribution of this space (i.e., the distribution of pixels in the images of animals). We can consider the domain as the available \textit{knowledge} to us. Thus, a domain $\mathcal{D}$ is defined as $\mathcal{D} = \{\mathcal{X}, P(X)\}$, where:\\
       $\mathcal{X}$ is the feature space, $X$ is the data samples available to us from the feature samples, $X = \{x_1,x_2,\cdots,x_n\} \in \mathcal{X}$, where $n$ is the size of the learning sample. $P(X)$ is the marginal distribution probability of this data sample.
 
-      \item For a given domain, a task $\mathcal{T}$ is defined as $\mathcal{T} = \{\mathcal{Y}, f(.)\}$, where:\\
-      $\mathcal{Y}$ is the label space, $f(.)$ is the predictive function (takes $x_i$ and outputs $y_i$). It can also be rewritten as $\mathcal{T} = \{\mathcal{Y}, P(Y|X)\}$.
+      \item For a given domain (aka, the knowledge available to us), we define a the concept of a \textit{task}. A task is something we would like to achieve using the knowledge we have. For example, a task can be classifying animals given animal pictures, or perform robot navigation given a map of the building. Thus, a task $\mathcal{T}$ is defined as $\mathcal{T} = \{\mathcal{Y}, f(.)\}$, where:\\
+      $\mathcal{Y}$ is the label space (the task objectives), $f(.)$ is the mapping function (mapping the domain knowledge to the task objectives). It can also be rewritten as a conditional probability over the domain knowledge, $\mathcal{T} = \{\mathcal{Y}, P(Y|X)\}$.
 
-      \item Source domain data set, $D_S = \{(x_{1S},y_{1S}),\cdots,(x_{nS},y_{nS})\} = \{X_S,Y_S\}$.\\ Target domain data set, $D_T = \{(x_{1T},y_{1T}),\cdots,(x_{nT},y_{nT})\}= \{X_T,Y_T\}$.\\
-      Source task $\mathcal{T}_s$, target task $\mathcal{T}_t$.
+      % \item Source domain data set, $D_S = \{(x_{1S},y_{1S}),\cdots,(x_{nS},y_{nS})\} = \{X_S,Y_S\}$.\\ Target domain data set, $D_T = \{(x_{1T},y_{1T}),\cdots,(x_{nT},y_{nT})\}= \{X_T,Y_T\}$. Source task $\mathcal{T}_s$, target task $\mathcal{T}_t$.
+      \item Based on this notation, we define two more concepts: \textit{Source} and \textit{Target}. A source defines a domain and a task/s that are available to us already (where we have plenty of domain knowledge, and examples on the task/s). A target defines a domain and a task/s as well, where we usually do not have enough domain knowledge and/or examples on the task/s.
   \end{itemize}
 
-  \GB{be careful, it's not clean!}
+  \par Now that we clarified some basic terminology, we can move on to define transfer learning: given source domain data $D_S$, source task $\mathcal{T}_S$,  target domain $D_T$ and target task $\mathcal{T}_T$, we wish to improve the performance of the target task $f_T(.)$ by using $D_S$ and $\mathcal{T}_S$.
 
-  \par DEFINITION OF TRANSFER LEARNING: Given source domain data $D_S$, source task, $\mathcal{T}_S$,  target domain $D_T$ and target task $\mathcal{T}_T$, we wish to improve the the prediction function of the target task $f_T(.)$ by using $D_S$ and $\mathcal{T}_S$. Conditions of transfer learning are:
+  \par Given this definition, we can categorize different types of problems that transfer learning covers:
 
   \begin{itemize}
-      \item $D_S \neq D_T$, which means $\mathcal{X}_S \neq \mathcal{X}_T$ and/or $P(X_S) \neq P(X_T)$ (frequency feature bias).\\
-      If $\mathcal{X}_S \neq \mathcal{X}_T$, the transfer learning problem is \textit{Heterogeneous}. Otherwise, it is \textit{Homogeneous}.
+      \item The source and taget domains are different, $D_S \neq D_T$, which means that the feature space is different, $\mathcal{X}_S \neq \mathcal{X}_T$, and/or the probability distribution of the feature space are not the same, $P(X_S) \neq P(X_T)$. If $\mathcal{X}_S \neq \mathcal{X}_T$, the transfer learning problem is \textit{Heterogeneous}. Otherwise, it is \textit{Homogeneous}.
 
-      \item $\mathcal{T}_S \neq \mathcal{T}_T$, which means $\mathcal{Y_S} \neq \mathcal{Y_T}$ and/or $P(Y_S|X_S) \neq P(Y_T|X_T)$ (context feature bias).
+      \item The source and target tasks are different, $\mathcal{T}_S \neq \mathcal{T}_T$, which means that the objectives are different, $\mathcal{Y_S} \neq \mathcal{Y_T}$, and/or the mapping function (from the feature space to the objectives) are different, $P(Y_S|X_S) \neq P(Y_T|X_T)$.
   \end{itemize}
+
+  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}.
 
   \paragraph{Symmetric and Asymmetric transfer} \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains. \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
 
