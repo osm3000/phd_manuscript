@@ -3,32 +3,52 @@
 
 \par We finally arrive to the core objective of the PhD: how to leverage information of style from one (or more) \Gls{task}/s, in order to bootstrap the learning of a new task?
 
-\par Before we dive into the technical details, it is important to motivate why do we need to perform this in the first place. A common scenario is that we collect data over time for a particular task. This process can be quite expensive (e.g., collecting data from the robots is a slow and expensive process). Then, a new task of interest emerges. This task has common aspects with the old one. The question here is if we can leverage this common aspects, in order to boostrap the learn the new task.
-
-For example, in case of handwriting, when trying to write new letters, and need to have the skill of using the pen, and performing micro-actions, like curves and straight lines. In the case of new letters, we need to recombine those mico-actions with new actions, in order to draw the new letters. Another example, in case of humans, is grasping objects. If you learn how to hold a plastic bottle, then you try to hold a glass cup, there are a lot of atomic actions in common, but the forces you apply are different.
 
 \section{Introduction and objectives}
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
-      \item Explain different paradigms and metrics used to characterise transfer learning.
-      \item Why extracting style?: on our side, as ML practitioners, the ultimate objective of using ML is to help us extract new knowledge
-      \item The questions of research here: extracting styles from bottleneck, transfer between writers, transfer between tasks
+  % \begin{itemize}
+  %     \item Explain different paradigms and metrics used to characterise transfer learning.
+  %     \item Why extracting style?: on our side, as ML practitioners, the ultimate objective of using ML is to help us extract new knowledge
+  %     \item The questions of research here: extracting styles from bottleneck, transfer between writers, transfer between tasks
+  % \end{itemize}
+
+  \par Before we dive into the technical details, it is important to motivate why do we need to perform this in the first place. A common scenario is that we collect data over time for a particular task. This process can be quite expensive (e.g., collecting data from the robots is a slow and expensive process). Then, a new task of interest emerges. This task has common aspects with the old one. The question here is if we can leverage this common aspects, in order to boostrap the learn the new task.
+
+  % For example, in case of handwriting, when trying to write new letters, and need to have the skill of using the pen, and performing micro-actions, like curves and straight lines. In the case of new letters, we need to recombine those mico-actions with new actions, in order to draw the new letters. Another example, in case of humans, is grasping objects. If you learn how to hold a plastic bottle, then you try to hold a glass cup, there are a lot of atomic actions in common, but the forces you apply are different.
+
+  \par Examples of transfer learning:
+  \begin{itemize}
+      \item If you know how to hold a glass cup, with little adjustments, you can learn how to hold a plastic bottle.
+      \item If you know probability and algebra, you can use this knowledge in order to boostrap/accelerate your progress in mastering machine learning.
   \end{itemize}
+
+  \par There are plenty of cases where transfer learning is/could be useful, like:
+  \begin{itemize}
+    \item In robotics \citep{konidaris2012robot,Konidaris:2012:TRL:2188385.2343689}, collecting data can be quite expensive process, due to hardware limitations from one side, and human limitatio as well (in case of human-robot interaction scenarios). In addition, with techniques like reinforcement learning \citep{sutton2018reinforcement}, where the agent learns by trial and error, the process can be prohibitively slow, with safety concerns sometimes.
+    \item In underwater acoustics \citep{malfante2018automatic}, an essential task is collecting and cleaning the data about the different fish sounds. This is a tediously manual job, and any change (type of fish, time of the day or place in the ocean) degrades the quality of prediction a lot. Transfer learning can be very useful in this case, to reduce the effort needed to collect, clean and annotate the data.
+  \end{itemize}
+
+  \begin{mdframed}[backgroundcolor=blue!20]
+      \begin{center}
+          Points addressed in this chapter
+      \end{center}
+
+      \begin{itemize}
+          \item What is transfer learning? and what are the different approaches to perform it? I will explain the different paradigms and metrics used to characterise transfer learning.
+          \item How do we approach the problem of style transfer, for both handwriting and sketch drawing?
+          \item The experiments performed, the results, and our conclusions.
+      \end{itemize}
+  \end{mdframed}
 
 \section{Transfer learning}\label{sec:transfer_learning}
-  \par An important research direction in machine learning nowadays is transfer learning. If humans and machines are able to learn how to perform a task, one of the thing that separates humans from machines is the ability to leverage this knowledge in order to acquire new skills and perform new tasks, without the need for additional trials and errors from tabula rasa. For example:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
-      \item If you know how to hold a glass cup, with little adjustments, you can learn how to hold a plastic bottle.
-      \item If you know probability and algebra, it will accelerate your progress in machine learning.
-  \end{itemize}
-  This however, is not a straightforward thing for machine learning to do. The algorithms are fitted to data responding directly to the task required (i.e., has the same input feature space and same distribution). Thus, a change in the task can lead to degradation in the algorithm performance \citep{shimodaira2000improving,pan2009survey,weiss2016survey,DBLP:journals/corr/abs-1808-01974}.
+  \par An important research direction in machine learning nowadays is transfer learning. If humans and machines are able to learn how to perform a task, one of the thing that separates humans from machines is the ability to leverage this knowledge in order to acquire new skills and perform new tasks, without the need for additional trials and errors from tabula rasa. This however, is not a straightforward thing for machine learning to do. The algorithms are fitted to data responding directly to the task required (i.e., has the same input feature space and same distribution). Thus, a change in the task can lead to degradation in the algorithm performance \citep{shimodaira2000improving,pan2009survey,weiss2016survey,dtl2018survey}.
 
-  \par In the following subsections, I first introduced notations and clear description for the objective of transfer learning, and the metrics used to evaluate the quality of transfer. I then discuss different types of transfer learning, with examples on each type.
+  % \par In the following subsections, I first introduced notations and clear description for the objective of transfer learning, and the metrics used to evaluate the quality of transfer. I then discuss different types of transfer learning, with examples on each type.
 
-  \subsection{Notation and problem definition}
-  \par BASIC NOTATION:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  % \subsection{Notation and problem definition}
+  \par Let's first introduce some notations that will help in formulating the problem:
+  \begin{itemize}
       \item A domain $\mathcal{D}$ is defined as $\mathcal{D} = \{\mathcal{X}, P(X)\}$, where:\\
-      $\mathcal{X}$ is the feature space, $X$ is the learning sample, $X = \{x_1,x_2,\cdots,x_n\} \in \mathcal{X}$, $n$ is the size of the learning sample, $P(X)$ is the marginal distribution probability of the learning sample.
+      $\mathcal{X}$ is the feature space, $X$ is the data samples available to us from the feature samples, $X = \{x_1,x_2,\cdots,x_n\} \in \mathcal{X}$, where $n$ is the size of the learning sample. $P(X)$ is the marginal distribution probability of this data sample.
 
       \item For a given domain, a task $\mathcal{T}$ is defined as $\mathcal{T} = \{\mathcal{Y}, f(.)\}$, where:\\
       $\mathcal{Y}$ is the label space, $f(.)$ is the predictive function (takes $x_i$ and outputs $y_i$). It can also be rewritten as $\mathcal{T} = \{\mathcal{Y}, P(Y|X)\}$.
@@ -41,7 +61,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \par DEFINITION OF TRANSFER LEARNING: Given source domain data $D_S$, source task, $\mathcal{T}_S$,  target domain $D_T$ and target task $\mathcal{T}_T$, we wish to improve the the prediction function of the target task $f_T(.)$ by using $D_S$ and $\mathcal{T}_S$. Conditions of transfer learning are:
 
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item $D_S \neq D_T$, which means $\mathcal{X}_S \neq \mathcal{X}_T$ and/or $P(X_S) \neq P(X_T)$ (frequency feature bias).\\
       If $\mathcal{X}_S \neq \mathcal{X}_T$, the transfer learning problem is \textit{Heterogeneous}. Otherwise, it is \textit{Homogeneous}.
 
@@ -78,7 +98,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \subsection{Homogeneous transfer learning}
   \par In this case, most of the research are focused on one of the 3 areas:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item Correct for source marginal distribution $P(X_S)$,
       \item Correct for the source conditional distribution $P(Y_S|X_S)$,
       \item Both.
@@ -86,7 +106,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \subsubsection{Symmetric - transfer learning using deep learning}
   \textbf{NEEDS TO BE UPDATED}\citep{glorot2011domain} discusses a deep learning approach for transfer learning, by using using stacked de-noising auto-encoders, to correct the marginal distribution between the source and the target domain, by learning latent variables/features common between the two data sources in two steps:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item First, train an auto-encoder on the unlabeled data from the source and the target. This will produce latent variables.
       \item Use those latent features to train a classifier on the labeled source data.
   \end{itemize}
@@ -141,7 +161,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \subsubsection{Symmetric}
   \citep{shi2010transfer} developed a method called \emph{Heterogeneous Spectral Mapping} (HeMap). It is assumed that: $\mathcal{X_S} \neq \mathcal{X_T}$, $P(X_S) \neq P(X_T)$ and $\mathcal{Y_S} \neq \mathcal{Y_T}$. It also assumes the availability of labeled source data, and limited labeled target data.
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item First is to find common latent variables between the source and the target domains, by using spectral mapping techniques. The spectral mapping objective is to maintain the original data structure, while minimizing the difference between the two domains (NOTE: Review the way it is formalized).
       \item Second, a cluster based sampling is performed to selected new training data (Thus, correcting the difference in marginal distribution).
       \item Third, correct the conditional distribution by Bayesian methods (NOTE: To be reviewed again, not clear to me).
@@ -150,7 +170,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \subsubsection{Asymmetric}
   \citep{Nam:2015:HDP:2786805.2786814} discuss the application of transfer learning in software module defect problem. The source and the target software projects collect different performance metrics. The solution developed is called heterogeneous defect prediction (HDP). \endnote{This solution performs well on the assumption that the source and the target features are statistically close}.
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item First, perform feature selection on the source and on the target data, in reduce the dimensionality.
       \item Second, a statistical comparison (Kolmogorov-Smirnov test) is performed between the reduced source and target features, in order to determine the closeness of different features.
       \item Third, train a classifier using those close source features.
@@ -159,7 +179,7 @@ For example, in case of handwriting, when trying to write new letters, and need 
 
   \subsection{Negative transfer}
   \par A concern that arises in transfer learning is what is called \textit{negative transfer}, where the knowledge learned from one task leads to no improvement on the target task, but reduces the quality of learning for that task. This can happen for multiple reasons, for example:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item The source task is not sufficiently related to the target task, thus, in the best case scenario, no useful knowledge can be transferred.
       \item The transfer method is not able to exploit the similarities between the source and the target task
   \end{itemize}
@@ -168,13 +188,68 @@ For example, in case of handwriting, when trying to write new letters, and need 
 \section{Application of transfer learning}
   \par In the previous section, we explored the concept of transfer learning, and the different categories mentioned in the literature about this
   In the section, I will explain the work done during the PhD on transfer learning. There are two questions we addressed:
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \begin{itemize}
       \item Transfer between writers
       \item Transfer between tasks
   \end{itemize}
 
   \subsection{Transfer between writers}
   \subsection{Transfer between tasks}
+
+    \subsubsection{IRONOFF}
+    \subsubsection{QuickDraw!}
+      \begin{figure}
+        \centering
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_target_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_transfer_strokes_heatmap.png}
+        \end{subfigure}
+
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_target_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_transfer_strokes_heatmap.png}
+        \end{subfigure}
+
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_target_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_transfer_strokes_heatmap.png}
+        \end{subfigure}
+
+      \end{figure}
+      \begin{figure}\ContinuedFloat
+
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_target_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_transfer_strokes_heatmap.png}
+        \end{subfigure}
+
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_target_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_transfer_strokes_heatmap.png}
+        \end{subfigure}
+
+        \caption{QuickDraw! Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
+        \label{fig:quickdraw_strokes_cnf}
+      \end{figure}
+
 
 \section{Style Extraction}
 

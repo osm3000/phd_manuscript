@@ -143,6 +143,16 @@ Kingma, D.~P. and Ba, J. (2014).
 \newblock Adam: A method for stochastic optimization.
 \newblock {\em arXiv preprint arXiv:1412.6980}.
 
+\bibitem[Konidaris et~al., 2012a]{konidaris2012robot}
+Konidaris, G., Kuindersma, S., Grupen, R., and Barto, A. (2012a).
+\newblock Robot learning from demonstration by constructing skill trees.
+\newblock {\em The International Journal of Robotics Research}, 31(3):360--375.
+
+\bibitem[Konidaris et~al., 2012b]{Konidaris:2012:TRL:2188385.2343689}
+Konidaris, G., Scheidwasser, I., and Barto, A.~G. (2012b).
+\newblock Transfer in reinforcement learning via shared features.
+\newblock {\em J. Mach. Learn. Res.}, 13:1333--1371.
+
 \bibitem[Kostadinov, 2017]{howrnnworks}
 Kostadinov, S. (2017).
 \newblock How recurrent neural networks work.
@@ -180,6 +190,11 @@ LeCun, Y. and Cortes, C. (2010).
 \bibitem[Lowe et~al., 1999]{lowe1999object}
 Lowe, D.~G. et~al. (1999).
 \newblock Object recognition from local scale-invariant features.
+
+\bibitem[Malfante, 2018]{malfante2018automatic}
+Malfante, M. (2018).
+\newblock {\em Automatic classification of natural signals for environmental
+  monitoring}.
 
 \bibitem[Marti and Bunke, 1999]{marti1999full}
 Marti, U.-V. and Bunke, H. (1999).
@@ -225,6 +240,12 @@ Ordóñez, F.~J. and Roggen, D. (2016).
 \newblock Deep convolutional and lstm recurrent neural networks for multimodal
   wearable activity recognition.
 \newblock {\em Sensors}, 16(1).
+
+\bibitem[Pan and Yang, 2009]{pan2009survey}
+Pan, S.~J. and Yang, Q. (2009).
+\newblock A survey on transfer learning.
+\newblock {\em IEEE Transactions on knowledge and data engineering},
+  22(10):1345--1359.
 
 \bibitem[Papineni et~al., 2002]{papineni2002bleu}
 Papineni, K., Roukos, S., Ward, T., and Zhu, W.-J. (2002).
@@ -297,12 +318,21 @@ Sutskever, I., Vinyals, O., and Le, Q.~V. (2014b).
   Information Processing Systems - Volume 2}, NIPS'14, pages 3104--3112,
   Cambridge, MA, USA. MIT Press.
 
+\bibitem[Sutton and Barto, 2018]{sutton2018reinforcement}
+Sutton, R.~S. and Barto, A.~G. (2018).
+\newblock {\em Reinforcement learning: An introduction}.
+
 \bibitem[Szegedy et~al., 2015]{szegedy2015going}
 Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., Anguelov, D., Erhan, D.,
   Vanhoucke, V., and Rabinovich, A. (2015).
 \newblock Going deeper with convolutions.
 \newblock In {\em Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 1--9.
+
+\bibitem[Tan et~al., 2018]{dtl2018survey}
+Tan, C., Sun, F., Kong, T., Zhang, W., Yang, C., and Liu, C. (2018).
+\newblock A survey on deep transfer learning.
+\newblock {\em ArXiv}, abs/1808.01974.
 
 \bibitem[Taylor et~al., 2008]{taylor2008transferring}
 Taylor, M.~E., Jong, N.~K., and Stone, P. (2008).

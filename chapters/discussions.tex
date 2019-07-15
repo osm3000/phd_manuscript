@@ -59,22 +59,23 @@ The influential work done by Geoffrey Hinton in \cite{hinton2015distilling} -- p
 A similar concept should definitely be explored in the context of this work.
 
 \section{Future directions}\label{sec:future_direction}
+\textbf{Separate the technical parts (very tactical/low-level) from the research parts (strategic/high-level/long-range)}
 \setlist{nolistsep}\begin{itemize}[noitemsep]
     \item Embedding (robust generalization/maybe style extraction)
-    \item Multi-stage optimization (for style extraction)
-    \item Disentanglement of styles / latent space distributions / loss OR constraint (for knowledge extraction)
-    \item RL and planning to reduce the complexity/have control over the generation and evaluation process
-    \item Memories of the neural network for better task decomposition (useful for transfer learning) -- maybe report my experiment with the external memory here.
-    \item Statistical testing for neural network performance and for the inference quality + the effect of the random seed.
-    \item Better task description
-    \item Automatic separation of task and style
-    \item Data efficiency and Model Complexity
-    \item Define data augmentation protocol: while many techniques exists for images, it is not so clear in case of sequences.
+    \item Multi-stage optimization (for style extraction) (research)
+    \item Disentanglement of styles / latent space distributions / loss OR constraint (for knowledge extraction): interesting for extracting new styles AND building behavior generators. (research)
+    \item RL and planning to reduce the complexity/have control over the generation and evaluation process (not sure)
+    \item Memories of the neural network for better task decomposition (useful for transfer learning) -- maybe report my experiment with the external memory here. (research)
+    \item Statistical testing for neural network performance and for the inference quality + the effect of the random seed. (engineering/deployment)
+    \item Better task description (research)
+    \item Automatic separation of task and style (research)
+    \item Data efficiency and Model Complexity (engineering/deployment)
+    \item Define data augmentation protocol: while many techniques exists for images, it is not so clear in case of sequences. (research)
     \item \textbf{Treating dynamical system as an image, with coloring gradients representing the dynamics of the system}: this will give us massive power in using the SOTA of generative models developed for static images (based on GANs), while addressing all the characteristics of the dynamical system in the same time.
 
     This is similar to treating sound waves as images (the ML course I did with Washington University), or spectrum images (like what i did with Marielle).
 
-    \item Dealing with style extraction as an embedding problem: \textbf{NOTE: i am not sure if we didn't do that already.}
+    \item Dealing with style extraction as an embedding problem: \textbf{NOTE: i am not sure if we didn't do that already. Probably in the shaping of the latent space or the loss function. Or maybe it is already okay now. }
 
     \item Modeling the error distribution of the model during the generation phase: in order to enhance the quality of the generation, and reduce the distance between the generation and the prediction (i.e., the training and the usage phases) \endnote{nothing, quick test}.
 
@@ -90,4 +91,6 @@ A similar concept should definitely be explored in the context of this work.
     \item What do these numbers actually mean in real life? how much should we care? \cite{wagstaff2012machine} (machine learning that matters paper): we used multiple metrics in order to compare/assess our models. But the main issue is how much this really matter? at how much $X\%$ difference in the performance that humans start to perceive the difference for example? This is very important in order to reach ML that actually matters in real life.
 
     \item The experimental protocol and scientific practices:
+
+    \item Use of CNN instead of RNN for the style extraction (embedding) part: more flexible and faster, many off-the-shelf components to choose from (in order to build the network)
 \end{itemize}

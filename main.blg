@@ -35,47 +35,49 @@ Too many commas in name 1 of "Jonas Jongejan, Henry Rowley, Takashi Kawashima, J
 while executing---line 1098 of file apalike.bst
 Warning--empty journal in lecun-mnisthandwrittendigit-2010
 Warning--empty booktitle in lowe1999object
+Warning--empty publisher in malfante2018automatic
 Warning--empty journal in narang2015speech
+Warning--empty publisher in sutton2018reinforcement
 Warning--empty journal in maaten2008visualizing
-You've used 70 entries,
+You've used 76 entries,
             1935 wiz_defined-function locations,
-            839 strings with 16033 characters,
-and the built_in function-call counts, 31364 in all, are:
-= -- 3125
-> -- 1332
-< -- 64
-+ -- 473
-- -- 453
-* -- 2427
-:= -- 5197
-add.period$ -- 219
-call.type$ -- 70
-change.case$ -- 566
-chr.to.int$ -- 66
-cite$ -- 76
-duplicate$ -- 1332
-empty$ -- 2144
-format.name$ -- 562
-if$ -- 6414
-int.to.chr$ -- 5
+            872 strings with 17015 characters,
+and the built_in function-call counts, 33712 in all, are:
+= -- 3347
+> -- 1439
+< -- 67
++ -- 514
+- -- 489
+* -- 2637
+:= -- 5610
+add.period$ -- 235
+call.type$ -- 76
+change.case$ -- 612
+chr.to.int$ -- 71
+cite$ -- 84
+duplicate$ -- 1415
+empty$ -- 2303
+format.name$ -- 608
+if$ -- 6859
+int.to.chr$ -- 6
 int.to.str$ -- 0
-missing$ -- 68
-newline$ -- 344
-num.names$ -- 212
-pop$ -- 617
+missing$ -- 76
+newline$ -- 372
+num.names$ -- 230
+pop$ -- 662
 preamble$ -- 1
-purify$ -- 570
+purify$ -- 618
 quote$ -- 0
-skip$ -- 1072
+skip$ -- 1133
 stack$ -- 0
-substring$ -- 2039
-swap$ -- 340
+substring$ -- 2202
+swap$ -- 346
 text.length$ -- 29
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 412
-warning$ -- 6
-while$ -- 242
+type$ -- 444
+warning$ -- 8
+while$ -- 260
 width$ -- 0
-write$ -- 887
+write$ -- 959
 (There were 9 error messages)

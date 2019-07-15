@@ -3,10 +3,10 @@
 # compilation script
 pdflatex main.tex
 
-bibtex main.aux
 
 makeindex main.idx
-
+bibtex main.aux
 makeglossaries main.glo
+
 
 pdflatex main.tex
