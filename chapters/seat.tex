@@ -65,11 +65,13 @@
       \item The source and taget domains are different, $D_S \neq D_T$, which means that the feature space is different, $\mathcal{X}_S \neq \mathcal{X}_T$, and/or the probability distribution of the feature space are not the same, $P(X_S) \neq P(X_T)$. If $\mathcal{X}_S \neq \mathcal{X}_T$, the transfer learning problem is \textit{Heterogeneous}. Otherwise, it is \textit{Homogeneous}.
 
       \item The source and target tasks are different, $\mathcal{T}_S \neq \mathcal{T}_T$, which means that the objectives are different, $\mathcal{Y_S} \neq \mathcal{Y_T}$, and/or the mapping function (from the feature space to the objectives) are different, $P(Y_S|X_S) \neq P(Y_T|X_T)$.
+
+      \item \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains.
+
+      \item \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
   \end{itemize}
 
   \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}.
-  %% OMAR: i stopped here
-  \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains. \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
 
   \begin{figure}[!htbp]
   \centering
