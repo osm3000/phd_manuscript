@@ -65,13 +65,14 @@
       \item The source and taget domains are different, $D_S \neq D_T$, which means that the feature space is different, $\mathcal{X}_S \neq \mathcal{X}_T$, and/or the probability distribution of the feature space are not the same, $P(X_S) \neq P(X_T)$. If $\mathcal{X}_S \neq \mathcal{X}_T$, the transfer learning problem is \textit{Heterogeneous}. Otherwise, it is \textit{Homogeneous}.
 
       \item The source and target tasks are different, $\mathcal{T}_S \neq \mathcal{T}_T$, which means that the objectives are different, $\mathcal{Y_S} \neq \mathcal{Y_T}$, and/or the mapping function (from the feature space to the objectives) are different, $P(Y_S|X_S) \neq P(Y_T|X_T)$.
-
-      \item \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains.
-
-      \item \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
   \end{itemize}
 
-  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}.
+  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}, by first identifying two main categories of transfer learning:
+  \begin{itemize}
+    \item \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains.
+
+    \item \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
+  \end{itemize}
 
   \begin{figure}[!htbp]
   \centering
@@ -80,24 +81,30 @@
   \label{fig:feature_transformation}
   \end{figure}
 
-  % TODO: Complete this from the TL in RL paper
+  % Note: I no longer see that this section is relevant. These metrics make sense in RL domain, not in
+  % \subsection{Metrics to evaluate transfer learning}
+  % \par There is no one way to evaluate transfer learning; it depends on the needed requirements. Several metrics have been proposed in the literature \citep{taylor2007cross}, like (see also figure \ref{fig:tl_metrics}) \GB{complete figure to have these 4 features}:
+  % \begin{enumerate}
+  %     \item Jump start: It is the difference in the initial performance between using transfer relative to learning without transfer.
+  %     \item Asymptotic performance: The difference in the learning performance through time/epochs between using transfer relative to learning without transfer.
+  %     \item Total Reward/Accuracy difference between end-performance with vs. without transfer learning.
+  %     \item Time-to-threshold: It the amount of time (or number of samples) needed to achieve a pre-specific performance level.
+  % \end{enumerate}
+  %
+  % \begin{figure}[!htbp]
+  % \centering
+  % \includegraphics[scale=0.3]{images/sota/TL_metrics.png}
+  % \caption{Different proposed metrics to measure transfer learning \textbf{Mention the source of this image}}
+  % \label{fig:tl_metrics}
+  % \end{figure}
+  %
+  % \par The transfer is considered as successful if metric 1 is greater than zero, metrics 2-3 increases with transfer or metric 4 reduces through transfer. It is worth mentioning that, in most state of the art, only metrics 3 and/or \GB{4??} are reported (which are the relevant metrics in my opinion for our work). I report all those metrics however, since I believe they give us a good diagnostics for our transfer learning system.
+
+  % New try to attack this problem
   \subsection{Metrics to evaluate transfer learning}
-  \par There is no one way to evaluate transfer learning; it depends on the needed requirements. Several metrics have been proposed in the literature \citep{taylor2007cross}, like (see also figure \ref{fig:tl_metrics}) \GB{complete figure to have these 4 features}:
-  \begin{enumerate}
-      \item Jump start: It is the difference in the initial performance between using transfer relative to learning without transfer.
-      \item Asymptotic performance: The difference in the learning performance through time/epochs between using transfer relative to learning without transfer.
-      \item Total Reward/Accuracy difference between end-performance with vs. without transfer learning.
-      \item Time-to-threshold: It the amount of time (or number of samples) needed to achieve a pre-specific performance level.
-  \end{enumerate}
-
-  \begin{figure}[!htbp]
-  \centering
-  \includegraphics[scale=0.3]{images/sota/TL_metrics.png}
-  \caption{Different proposed metrics to measure transfer learning \textbf{Mention the source of this image}}
-  \label{fig:tl_metrics}
-  \end{figure}
-
-  \par The transfer is considered as successful if metric 1 is greater than zero, metrics 2-3 increases with transfer or metric 4 reduces through transfer. It is worth mentioning that, in most state of the art, only metrics 3 and/or \GB{4??} are reported (which are the relevant metrics in my opinion for our work). I report all those metrics however, since I believe they give us a good diagnostics for our transfer learning system.
+    \par There is no one way to evaluate transfer learning in general. This depends a lot on the objectives of transfer learning, and the criteria of success. In the case of machine learning, the improve in classification accuracy (mention papers here) or the reduction in the average error (mention papers here). is the most common aspects.
+    \par With the introduction of transfer learning via deep learning, another growing aspect is the 'time to train'
+    \par In other areas, like reinforcement Learning, metrics similar to the one used in machine learning do exist, like (use the pervious part)
 
   \subsection{Homogeneous transfer learning}
   \par In this case, most of the research are focused on one of the 3 areas:
