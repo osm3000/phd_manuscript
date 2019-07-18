@@ -18,7 +18,8 @@ Handwriting styles
 * Write a paper about the usage of ML in science, the pipeline, experimental and analysis protocol. Make it an ongoin-project. Allow people to share and modify this document.
 ==============================================================================================
 # General issues:
-* Unify the terminology of: 
+* Unify the terminology of:
     - generated traces, letters, tracing, example, sequence (because right now, it is confusing)
-    - ground truth, target, 
+    - ground truth, target,
 * Replace all mention of 'bias' with 'condition'. Also, when talking about the letter/letter+writer bias, replace it with letter/writer identities.
+* For the captions of the different figures, since there is a table of figures, create a short caption (which will appear in the table), while leaving the long caption intact.
