@@ -67,19 +67,26 @@
       \item The source and target tasks are different, $\mathcal{T}_S \neq \mathcal{T}_T$, which means that the objectives are different, $\mathcal{Y_S} \neq \mathcal{Y_T}$, and/or the mapping function (from the feature space to the objectives) are different, $P(Y_S|X_S) \neq P(Y_T|X_T)$.
   \end{itemize}
 
-  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}, by first identifying two main categories of transfer learning:
+  % \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{weiss2016survey}, by first identifying two main categories of transfer learning:
+  % \begin{itemize}
+  %   \item \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains.
+  %
+  %   \item \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
+  % \end{itemize}
+  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{dtl2018survey}\endnote{Other categorization exists, like the one used in \citep{weiss2016survey}. When it comes to deep transfer learning, we believe the one in \citep{dtl2018survey} to be the most relevant.}, by first identifying two main categories of transfer learning:
   \begin{itemize}
-    \item \textit{Symmetric} feature transformation attempts to discover underlying meaningful structure between domains, to find common latent features that unify (or at least reduce) the marginal distribution of the two domains.
-
-    \item \textit{Asymmetric} feature transformation attempts to transfer the features of the source space to make them more closely match the target space. See figure \ref{fig:feature_transformation}.
+    \item \textit{Instances-based}: in this case, we utilize examples from the source domain into the training of the new target domain, by defining weights on them.
+    \item \textit{Mapping-based}: the objective in this case is to project the instances from the two domains into a new manifold, that increases the similarity between the two domains.
+    \item \textit{Network-based}: the more common type of deep transfer learning. It is based on the idea that the layers of the deep neural network extracts basic and general information, that shared a lot with other domains. In this case, the network or some of its layers are re-used on the target task.
+    \item \textit{Adversarial-based}: using generative adversarial networks \citep{goodfellow2014generative} in order to find a manifold that are fit for both source and the target domains.
   \end{itemize}
 
-  \begin{figure}[!htbp]
-  \centering
-  \includegraphics[scale=0.4]{images/sota/feature_transformation.png}
-  \caption[Symmetric and Asymmetric transfer]{Illustration for the difference between Symmetric and Asymmetric feature transformation \textbf{REDO THE DIAGRAMS -- NOT CLEAR}}
-  \label{fig:feature_transformation}
-  \end{figure}
+  % \begin{figure}[!htbp]
+  % \centering
+  % \includegraphics[scale=0.4]{images/sota/feature_transformation.png}
+  % \caption[Symmetric and Asymmetric transfer]{Illustration for the difference between Symmetric and Asymmetric feature transformation \textbf{REDO THE DIAGRAMS -- NOT CLEAR}}
+  % \label{fig:feature_transformation}
+  % \end{figure}
 
   % Note: I no longer see that this section is relevant. These metrics make sense in RL domain, not in
   % \subsection{Metrics to evaluate transfer learning}
@@ -101,26 +108,28 @@
   % \par The transfer is considered as successful if metric 1 is greater than zero, metrics 2-3 increases with transfer or metric 4 reduces through transfer. It is worth mentioning that, in most state of the art, only metrics 3 and/or \GB{4??} are reported (which are the relevant metrics in my opinion for our work). I report all those metrics however, since I believe they give us a good diagnostics for our transfer learning system.
 
   % New try to attack this problem
-  \subsection{Metrics to evaluate transfer learning}
-    \par There is no one way to evaluate transfer learning in general. This depends a lot on the objectives of transfer learning, and the criteria of success. In the case of machine learning, the improve in classification accuracy (mention papers here) or the reduction in the average error (mention papers here). is the most common aspects.
-    \par With the introduction of transfer learning via deep learning, another growing aspect is the 'time to train'
-    \par In other areas, like reinforcement Learning, metrics similar to the one used in machine learning do exist, like (use the pervious part)
+
+  \par When it comes to evaluating the success of the transfer, there is no one way to evaluate transfer learning in general. This depends a lot on the objectives of transfer learning, and the criteria of success. In the case of machine learning, the improve in end quality of the model is the primary performance aspect being measured and reported -- like the classification accuracy \citep{chattopadhyay2012multisource,long2013transfer,pan2010cross,glorot2011domain}, the reduction in the average error \citep{pan2010domain}, ...etc --. The transfer is considered successful if it achieves better performance to the baseline method.
+
+  \par We expect that, with the introduction of transfer learning via deep learning, that the \textit{time to train} the model could be another aspect to consider -- similar to what is being done in reinforcement learning \citep{taylor2007cross} --, although -- to the best of our knowledge -- we do not find studies mentioning this at the moment.
 
   \subsection{Homogeneous transfer learning}
   \par In this case, most of the research are focused on one of the 3 areas:
   \begin{itemize}
-      \item Correct for source marginal distribution $P(X_S)$,
-      \item Correct for the source conditional distribution $P(Y_S|X_S)$,
+      \item Correct for source marginal distribution $P(X_S)$, to make it more alligned with the task marginal distribution $P(X_T)$.
+      \item Correct for the source mapping function (between the domain knowledge and the task), $P(Y_S|X_S)$, to make it more alligned with the target mapping function, $P(Y_T|X_T)$
       \item Both.
   \end{itemize}
 
   \subsubsection{Symmetric - transfer learning using deep learning}
-  \textbf{NEEDS TO BE UPDATED}\citep{glorot2011domain} discusses a deep learning approach for transfer learning, by using using stacked de-noising auto-encoders, to correct the marginal distribution between the source and the target domain, by learning latent variables/features common between the two data sources in two steps:
+  \par \citep{glorot2011domain} discusses a deep learning approach for transfer learning for sentiment classification, by using stacked de-noising auto-encoders \citep{vincent2008extracting} to correct the marginal distribution between the source and the target domain, by learning latent variables/features common between the two data sources in two steps:
   \begin{itemize}
-      \item First, train an auto-encoder on the unlabeled data from the source and the target. This will produce latent variables.
+      \item First, train an auto-encoder on the unlabeled data from the source and the target. This will produce latent variables that will make $P(X_S)$ closer to $P(X_T)$.
       \item Use those latent features to train a classifier on the labeled source data.
   \end{itemize}
-  \par Experiments are done on sentimental analysis, for 12 different sources and target domain pairs. The data used reviews for different products (4 different products). \GB{Give performance}
+  \par Experiments are done on 12 different sources and target domain pairs. The data used reviews for different products (4 different products). The performance metric used in this case is the classification error rate when using a classifier trained on the source task only, minus the classification error rate of a classifier trained on the target task only. A SVM classifier trained on the source domain is used as a baseline, and a comparison with other transfer methods \citep{blitzer2006domain,li2008multi,pan2010cross}. All these methods performs better than the baseline, and \citep{glorot2011domain} peforms better than all of them.
+
+  \par \citep{malfante2018use} compares the use of deep transfer learning to manual features \citep{malfante2016automatic,malfante2018machine}, in order to recognize the sounds of fish underwater. Interestingly, the deep learning models are trained on ImageNet \citep{imagenet_cvpr09} dataset (which is completely unrelated to acoustics), then used in order to extract features from the spectrogram of the underwater recordings. The assumption here is the the filters learned with deep learning are basic and generic enough, to be used in other domains, thus, deep learning can provide a natural correction for $P(X_S)$, to make it close to $P(X_T)$. Without any finetuning, the deep learning achieves quite a high perfomance, although less than the state of the art, suggesting that a further investment in this direction is worth the time.
 
   \par The idea of using deep learning~\citep{lecun2015deep} in order to achieve transfer learning has gain popularity during the last years, following the achievements in having better computational resources~\citep{raina2009large}, and the availability of large benchmark datasets - most notably: ImageNet~\citep{imagenet_cvpr09} for object detection, MS-COCO~\citep{2014arXiv1405.0312L} for image captioning~\ldots
   \GB{Give general/key idea rapidly: pre-training of feature extractions performed by layers close to input, vs. training of high-level processing performed by layers close to output.}
@@ -137,12 +146,8 @@
 
   \par It is interesting to note that those filters can be also seen as a representation for the skills we want to extract. In our case, we will need to combine both deep convolution network with a recurrent neural network (like in \citep{s16010115,pinheiro2014recurrent,huang2016deep}).
 
-  % \par Although very interesting, a major concern with this approach - as mentioned in my thesis committee report - is that almost all the studies reported\endnote{To the best of my knowledge} starts from the fact that they have large datasets. I am not aware of a study trying to build lower-boundaries for the minimal amount of data needed to have a good enough filters suitable for transfer learning.
-
-  % \subsection{Asymmetric}
-
   \subsubsection{Parameter-based transfer}
-  \citep{chattopadhyay2012multisource} propose a Conditional probability based domain adaptation (CP-MDA): it corrects the difference between conditional probability distributions of multiple labeled source data, vs. limited amount of labeled target data. The process has five main steps:
+  \citep{chattopadhyay2012multisource} propose a conditional probability based domain adaptation (CP-MDA): it corrects the difference between conditional probability distributions of multiple labeled source data, vs. limited amount of labeled target data. The process has five main steps:
   \begin{enumerate}
       \item Build a classifier for each of the source domains
       \item Measure the closeness of each of those classifiers to the conditional distribution of the target domain.
