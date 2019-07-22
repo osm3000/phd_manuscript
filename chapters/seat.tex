@@ -115,6 +115,10 @@
     \paragraph{Image classification}
     \citep{oquab2014learning} investigated the usage of a convolution neural network (CNN) trained on ImageNet \citep{imagenet_cvpr09} (where the object of interest is centered in the image), to extract low-level and mid-level features, that can transfer well to more complex dataset, PASCAL VOC \citep{everingham2010pascal} (where there are several objects of interest in the image), and is smaller than ImageNet. They use the \textit{average percision} as their peformance metric, and they show that the transfer is better than training a model from scratch on this target dataset.
 
+    \paragraph{Styles of speech synthesis}
+    \citep{wang2018style} discusses the problem of transfering the styles between different speakers, in the task of speech synthesis. Traditionally, the oucome of speech synthesis systems is the same style. One of the challenges is to capture the richness of style of different speakers on some training data, and transfer this style to new text. In their work, they propose an embedding approach called \textit{Global Style Tokens}, in order to extract the styles from the different speakers during the training phase. They then show that they can use these tokens as extra information to the speech synthesis system, to bias/affect the style of the outcome.
+    They compare this to a baseline model, called \textit{TACOTRON} \citep{wang2017tacotron}, without these GST addition. They use \textit{Mean Opinion Score} (MOS) performance metric -- a subjective metric to assess the quality of experience experienced --. The report that transfer learning using GST outperforms the usage of the baseline model.
+
   % \subsection{Adversarial-based transfer learning}
   % \par Encouraged by the recent advances in generative adversarial networks (GANs) \citep{goodfellow2014generative}, a new line work is trying to utilise this tool to achieve transfer learning, on the assumption that a good representation (suitable for transfer) should be general enough that it does not discriminate between the source and the target domains, yet discriminative enough to learn the required tasks on either domains.
   %
@@ -128,74 +132,151 @@
   % Within the framework of \textit{reinforcement learning}, some methods can estimate task similarity \citep{taylor2008transferring, torrey2010transfer}, though these methods do not provide any theoretical guarantees about their effectiveness. This, however, is an open area of investigation in the framework of \textit{supervised learning} \textbf{CAN'T FIND RESOURCES HERE}. The main thing here for us to be careful during the choice/design of the source and the target experiments, to ensure that a possible positive transfer learning can happen.
 
 \section{Putting it all together}
-  \par In the previous section, we explored the concept of transfer learning, and the different categories mentioned in the literature about this
-  In the section, I will explain the work done during the PhD on transfer learning. There are two questions we addressed:
+  \par In the previous section, we explored the concept of transfer learning, with focus on network-based transfer, with multiple examples from the literature on this type of transfer. In the section, I will explain the work done during the PhD on transfer learning. The main challenge we had is how to capture and transfer the styles between different tasks. This proposes multiple questions:
   \begin{itemize}
-      \item Transfer between writers
-      \item Transfer between tasks
+    \item Which framework/methodology of transfer we should use?
+    \item How to assess the quality of transfer?
   \end{itemize}
 
-  \subsection{Transfer between writers}
+  \par In this part, we study these questions on both \textit{IRONOFF} and \textit{QuickDraw!}. Our experimental setup is inspired by the work done in \citep{8686063}. We use a slightly different experimental protocol between the two datasets however. I will discuss the reasoning behind this, and will argue that both setups are good enough to address our questions concerning the transfer of styles.
 
-  \subsection{Transfer between tasks}
+  \par Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the loglikelihood (crossentropy) on the test data\endnote{Based on experience, the crossentropy matters when it comes to generation. A difference of around 0.1 in crossentropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
 
-    \subsubsection{IRONOFF}
-    \subsubsection{QuickDraw!}
+  \subsection{IRONOFF}
+    \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\endnote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
+    \par We explore the idea of transfer learning on all possible combinations of tasks:
+    \begin{itemize}
+      \item From uppercase and lowercase to digits
+      \item From uppercase and digits to lowercase
+      \item From lowercase and digits to uppercase
+    \end{itemize}
 
+    \subsubsection{Experimental setup}
+      \par Figure \ref{fig:ironoff_protocol} details the protocol we used for this experiment. For each source/target task combination, we first perform hyperparameter search for the network for both the source and the target tasks. The best performing hyperparameters gives use the source and the target models. Using these models:
+      \begin{itemize}
+        \item We use the source model to extract the encoder module (aka, the style extraction module). We then add it to a new model, freeze it (it will not be part of training), and train the new model on the target task. We also search for the best hyperparameters for this new model. We call this model the 'transfer model'. We retrain this transfer model 5 times with different random weights each time, and report the stats on the crossentropy of the test data for these repetitions.
+        \item We retrain the target model 5 time as well.
+        \item Then, we use the best performing transfer and targets models for generating the target tasks, and report the stats of the different generation metrics.
+      \end{itemize}
+      \par We use 10\% of the data for testing, another 10\% for validation, and the rest is our training set.
 
-      % Strokes conf matrix
-      \begin{figure}
+    \begin{sidewaysfigure}[htbp]
+      \includegraphics[scale=0.3]{images/sota/ironoff_results/IRONOFF_transfer_learning_flow.png}
+      \caption{Flow chart explaining the experiment protocol used in \textit{IRONOFF} dataset.}
+      \label{fig:ironoff_protocol}
+    \end{sidewaysfigure}
+
+    \subsubsection{Results}
+    \paragraph{Loglikelihood of prediction}
+      In the prediction mode, the model is tested in a similar manner to the way it was trained: it is given the input from the ground truth, representing the current timestep, and asked to predict the next timestep. This tells us about the quality of the training procedure from one side, and shade light on the confidence of the model in predicting the next timestep.
+
+      The result of 5 times repetitions, for all the different combinations of source/target tasks, are mentioned in figure \ref{fig:ironoff_crossentropy}. We can see that the transfer learning always gives a significant advantage over baseline models.
+      \begin{sidewaysfigure}
         \centering
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_target_strokes_heatmap.png}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_transfer_strokes_heatmap.png}
-        \end{subfigure}
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/uppercase.png}\quad
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/lowercase.png}\quad
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/digits.png}
+        \caption{IRONOFF - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the }
+        \label{fig:ironoff_crossentropy}
+      \end{sidewaysfigure}
 
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_target_strokes_heatmap.png}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_transfer_strokes_heatmap.png}
-        \end{subfigure}
+    \paragraph{BLEU score}
+      Now we go to the generation part, our main concern in this thesis. As discussed earlier, we use BLEU score to assess the quality of matching segments between the generated and the ground truth letters, in a gradual manner (i.e., we increase the size of the segments to match gradually). We see that transfer learning always performs better than the baseline.
 
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_target_strokes_heatmap.png}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_transfer_strokes_heatmap.png}
-        \end{subfigure}
+      \begin{table*}[!htbp]
+        \centering
+        \begin{tabular}{|l||c|c|c||c|c|c|}
+          \hline
+          \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
+          Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
+          Uppercase-baseline &   0 & 0 & 0 & 0 & 0 & 0 \\\hline
+          Uppercase-transfer &   0 & 0 & 0 & 0 & 0 & 0 \\\hline
 
-      % Strokes conf matrix - continue
-      \end{figure}
-      \begin{figure}\ContinuedFloat
+          Lowercase-baseline &   73.13 & 69.7 & 55.9 & 54.82 & 37.2 & 40.9 \\\hline
+          Lowercase-transfer &   75.54 & 71.17 & 58.0 & 56.0 & 39.4 & 41.9 \\\hline
 
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_target_strokes_heatmap.png}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_transfer_strokes_heatmap.png}
-        \end{subfigure}
+          Digits-baseline &    68.7 & 65.23 & 49.12 & 49.57 & 29.28 & 34.6  \\\hline
+          Digits-transfer &    71.47 & 70.72 & 51.2 & 55.9 & 31.36 & 41.7 \\\hline
 
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_target_strokes_heatmap.png}
-        \end{subfigure}
-        ~
-        \begin{subfigure}[tb]{0.45\textwidth}
-            \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_transfer_strokes_heatmap.png}
-        \end{subfigure}
+        \end{tabular}
+        \caption{IRONOFF: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning. \textbf{uppercase results are missing}}
+        \label{table:bleu_score_ironoff_transfer}
+      \end{table*}
 
-        \caption{QuickDraw! Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
-        \label{fig:quickdraw_strokes_cnf}
-      \end{figure}
+    \paragraph{EOS}
+
+      \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{|l|c|c|}
+        \hline
+        Models & Pearson coefficient\\ \hline
+        Uppercase-baseline & \\ \hline
+        Uppercase-transfer & \\ \hline
+        Lowercase-baseline & \\ \hline
+        Lowercase-transfer & \\ \hline
+        Digits-baseline & \\ \hline
+        Digits-transfer & \\ \hline
+        \end{tabular}
+        \caption{IRONOFF: Pearson correlation coefficients for the End-Of-Sequence (EoS) distributions between }
+        \label{table:eos_ironoff_transfer}
+      \end{table}
+
+  \subsection{QuickDraw!}
+
+
+    % Strokes conf matrix
+    \begin{figure}
+      \centering
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_target_strokes_heatmap.png}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_transfer_strokes_heatmap.png}
+      \end{subfigure}
+
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_target_strokes_heatmap.png}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_triangle_transfer_strokes_heatmap.png}
+      \end{subfigure}
+
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_target_strokes_heatmap.png}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_transfer_strokes_heatmap.png}
+      \end{subfigure}
+
+    % Strokes conf matrix - continue
+    \end{figure}
+    \begin{figure}\ContinuedFloat
+
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_target_strokes_heatmap.png}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_transfer_strokes_heatmap.png}
+      \end{subfigure}
+
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_target_strokes_heatmap.png}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[tb]{0.45\textwidth}
+          \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_transfer_strokes_heatmap.png}
+      \end{subfigure}
+
+      \caption{QuickDraw! Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
+      \label{fig:quickdraw_strokes_cnf}
+    \end{figure}
 
 
 \section{Style Extraction}

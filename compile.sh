@@ -4,7 +4,7 @@
 # rm -v !("main.tex"|"compile.sh"|"notes"|"bibliography.bib")
 
 # compilation script
-pdflatex main.tex
+pdflatex -interaction nonstopmode main.tex
 
 
 makeindex main.idx
@@ -12,4 +12,4 @@ bibtex main.aux
 makeglossaries main.glo
 
 
-pdflatex main.tex
+pdflatex -interaction nonstopmode main.tex

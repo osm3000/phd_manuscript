@@ -23,3 +23,5 @@ Handwriting styles
     - ground truth, target,
 * Replace all mention of 'bias' with 'condition'. Also, when talking about the letter/letter+writer bias, replace it with letter/writer identities.
 * For the captions of the different figures, since there is a table of figures, create a short caption (which will appear in the table), while leaving the long caption intact.
+* In SEAT chapter, add diagrams explaining the transfer learning in the SOTA section
+* Replace the word crossentropy with loglikelihood
