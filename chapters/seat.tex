@@ -146,9 +146,9 @@
     \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\endnote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
     \par We explore the idea of transfer learning on all possible combinations of tasks:
     \begin{itemize}
-      \item From uppercase and lowercase to digits
-      \item From uppercase and digits to lowercase
-      \item From lowercase and digits to uppercase
+      \item From uppercase and lowercase to digits,
+      \item from uppercase and digits to lowercase,
+      \item and from lowercase and digits to uppercase.
     \end{itemize}
 
     \subsubsection{Experimental setup}
@@ -189,8 +189,8 @@
           \hline
           \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
           Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
-          Uppercase-baseline &   0 & 0 & 0 & 0 & 0 & 0 \\\hline
-          Uppercase-transfer &   0 & 0 & 0 & 0 & 0 & 0 \\\hline
+          Uppercase-baseline &   66.1 & 46.3 & 27.2 & 62.8 & 49.4 & 37.1 \\\hline
+          Uppercase-transfer &   68.3 & 47.8 & 28.3 & 65.47 & 51.8 & 39.0 \\\hline
 
           Lowercase-baseline &   73.13 & 69.7 & 55.9 & 54.82 & 37.2 & 40.9 \\\hline
           Lowercase-transfer &   75.54 & 71.17 & 58.0 & 56.0 & 39.4 & 41.9 \\\hline
@@ -209,23 +209,41 @@
         \centering
         \begin{tabular}{|l|c|c|}
         \hline
-        Models & Pearson coefficient\\ \hline
-        Uppercase-baseline & \\ \hline
-        Uppercase-transfer & \\ \hline
-        Lowercase-baseline & \\ \hline
-        Lowercase-transfer & \\ \hline
-        Digits-baseline & \\ \hline
-        Digits-transfer & \\ \hline
+        Models & Krippendorff coefficient\\ \hline
+        Uppercase-baseline & 0.951 \\ \hline
+        Uppercase-transfer &  0.97\\ \hline
+        Lowercase-baseline & 0.957 \\ \hline
+        Lowercase-transfer & 0.996 \\ \hline
+        Digits-baseline & 0.916 \\ \hline
+        Digits-transfer & 0.985 \\ \hline
         \end{tabular}
-        \caption{IRONOFF: Pearson correlation coefficients for the End-Of-Sequence (EoS) distributions between }
-        \label{table:eos_ironoff_transfer}
+        \caption{IRONOFF: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between }
+        \label{table:ironoff_eos_transfer}
+      \end{table}
+
+      \begin{table}[!htbp]
+        \centering
+        \begin{tabular}{|l|c|c|}
+        \hline
+        Models & Krippendorff coefficient\\ \hline
+        Uppercase-baseline & 0.379 \\ \hline
+        Uppercase-transfer & 0.247 (slight disadvantage)\\ \hline
+        Lowercase-baseline & 0.558 \\ \hline
+        Lowercase-transfer & 0.65 \\ \hline
+        Digits-baseline & 0.398 \\ \hline
+        Digits-transfer & 0.713 \\ \hline
+        \end{tabular}
+        \caption{IRONOFF: Krippendorff correlation coefficients for the strokes distributions between }
+        \label{table:ironoff_strokes_transfer}
       \end{table}
 
   \subsection{QuickDraw!}
+    \par In case of sktech drawings, we define the task by the class it belongs to. So we have 5 tasks: circle, triangle, square, hexagon and octagon. We explore the idea of transfer learning on all possible combinations of tasks: in each combination, one task is removed (the target task), and the other task are considered source tasks.
 
-
+    \subsubsection{Experimental setup}
+    \par Due to the increase the number of tasks -- compared to \textit{IRONOFF} --, and using the same experiment setup proved to be intractable. In order to get around this problem, we are using a simpler (and less powerful protocol). The resuls from this part should be considered as what it is:
     % Strokes conf matrix
-    \begin{figure}
+    \begin{figure}[!htbp]
       \centering
       \begin{subfigure}[tb]{0.45\textwidth}
           \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_circle_target_strokes_heatmap.png}
@@ -254,7 +272,7 @@
       \end{subfigure}
 
     % Strokes conf matrix - continue
-    \end{figure}
+    \end{figure}[!htbp]
     \begin{figure}\ContinuedFloat
 
       \begin{subfigure}[tb]{0.45\textwidth}
