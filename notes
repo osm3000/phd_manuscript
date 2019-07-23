@@ -25,3 +25,6 @@ Handwriting styles
 * For the captions of the different figures, since there is a table of figures, create a short caption (which will appear in the table), while leaving the long caption intact.
 * In SEAT chapter, add diagrams explaining the transfer learning in the SOTA section
 * Replace the word crossentropy with loglikelihood
+* Provide the p-values for the cross entropy (small table addition)
+* Mention that we are using the max size of data on the target task (much stronger evidence about the quality of transfer learning, that even with the max advatnage available to the baseline model, we still perform better).
+* In the different tables, highlight the good results! to make it easier to find!!

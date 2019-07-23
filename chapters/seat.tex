@@ -142,6 +142,10 @@
 
   \par Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the loglikelihood (crossentropy) on the test data\endnote{Based on experience, the crossentropy matters when it comes to generation. A difference of around 0.1 in crossentropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
 
+  \par One of the things we changed from the previous work is that, when analysing \textit{end of sequence}, instead of using Pearson Coefficient, we use Krippendorff-Alpha \citep{krippendorff2011computing}. The reason for this is that it offers a smoother transition between what is good and bad. In Pearson coefficient, if there is a mismatch between the generation and ground truth, it will not matter how big is the mistake (the distance between the generated and the ground truth). With Krippendorff-alpha, we can consider the distance in the analysis, thus providing a softer and more realistic estimation for the correlation.
+
+  \par Another aspect we consider in our analysis is \textit{strokes} the model is generating. In the previous work, we did not model the strokes, in order to simplify the system and the analysis. Now that we are confident about our approach, we added the strokes to our model. Strokes are more complex to model, because they the stroke signals are more sparse. A good stroke generation is an indication that the model can perform hard discrete decisions in order to generate the whole shape. We use Krippendorff coefficients as well to report and analyze the strokes.
+
   \subsection{IRONOFF}
     \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\endnote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
     \par We explore the idea of transfer learning on all possible combinations of tasks:
@@ -176,14 +180,19 @@
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/uppercase.png}\quad
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/lowercase.png}\quad
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/digits.png}
-        \caption{IRONOFF - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the }
+        \caption{IRONOFF - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task.}
         \label{fig:ironoff_crossentropy}
       \end{sidewaysfigure}
 
     \paragraph{BLEU score}
-      Now we go to the generation part, our main concern in this thesis. As discussed earlier, we use BLEU score to assess the quality of matching segments between the generated and the ground truth letters, in a gradual manner (i.e., we increase the size of the segments to match gradually). We see that transfer learning always performs better than the baseline.
+      Now we go to the generation part, our main concern in this thesis. As discussed earlier, we use BLEU score to assess the quality of matching segments between the generated and the ground truth letters, in a gradual manner (i.e., we increase the size of the segments to match gradually). Table \ref{table:bleu_score_ironoff_transfer} summarizes the numbers. We see that transfer learning always performs better than the baseline.
+    \paragraph{End-of-Sequence analysis}
+    One aspect to measure the quality of the generation, that we identified previously, is to analyse how the model anticipate the end of the sequence generation. Table \ref{table:ironoff_eos_transfer} shows the results of the Krippendorff coefficients for the different modes. In general, the different modes are performing quite well. It can be seen that transfer learning is actually performing better than the baseline models, adding another indication to the benefit of using transfer learning.
 
-      \begin{table*}[!htbp]
+    \paragraph{Strokes analysis}
+    As mentioned earlier in this section, we started to consider the the strokes in this part of our work. Table \ref{table:ironoff_strokes_transfer} shows the strokes results of the Krippendorff coefficients for the different modes. With the exception for the uppercase letters, transfer learning performs better than baseline models. For the uppercase, this could be due extra complixty these letters presents (see figure \ref{fig:ironoff_strokes}, where it can be found that uppercase letters are usually the ones with higher number of strokes). A fine tuning for the style extraction module is the next logical step to perform here, to make it adapt to complexity of the this task.
+
+      \begin{table}[!htbp]
         \centering
         \begin{tabular}{|l||c|c|c||c|c|c|}
           \hline
@@ -199,11 +208,9 @@
           Digits-transfer &    71.47 & 70.72 & 51.2 & 55.9 & 31.36 & 41.7 \\\hline
 
         \end{tabular}
-        \caption{IRONOFF: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning. \textbf{uppercase results are missing}}
+        \caption{IRONOFF: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
         \label{table:bleu_score_ironoff_transfer}
-      \end{table*}
-
-    \paragraph{EOS}
+      \end{table}
 
       \begin{table}[!htbp]
         \centering
@@ -241,7 +248,58 @@
     \par In case of sktech drawings, we define the task by the class it belongs to. So we have 5 tasks: circle, triangle, square, hexagon and octagon. We explore the idea of transfer learning on all possible combinations of tasks: in each combination, one task is removed (the target task), and the other task are considered source tasks.
 
     \subsubsection{Experimental setup}
-    \par Due to the increase the number of tasks -- compared to \textit{IRONOFF} --, and using the same experiment setup proved to be intractable. In order to get around this problem, we are using a simpler (and less powerful protocol). The resuls from this part should be considered as what it is:
+    \par Due to the increase the number of tasks -- compared to \textit{IRONOFF} --, and using the same experiment setup proved to be too much compared to the computational budget available to us. We identify that one of the expensive bottlenecks in our work is the number of times we need to perform hyperparameter search. In order to get around this problem, we are using a simpler (and less powerful protocol), see figure \ref{fig:quickdraw_protocol}. We perform the hyperparameter search once in the beginning of the experiment, on the all the tasks combined, to find a good hyperparameter that is suitable to the domain of 'sketch drawing'. From there, we fix the hyperparameters for all the different steps in the experiment. The analysis steps are the same like in \textit{IRONOFF}.
+
+    Another thing we noticed is that retraining the model 5 times only (like in \textit{IRONOFF}) only leads to unstable conclusions, thus make it hard to quantify the difference between the baseline and the transfer modes. We increased the number of models to 30 in this case, in order to have a more consistent trend.
+
+    \begin{sidewaysfigure}[htbp]
+      \includegraphics[scale=0.3]{images/sota/quickdraw_results/QuickDraw_transfer_learning_flow.png}
+      \caption{Flow chart explaining the experiment protocol used in \textit{QuickDraw!} dataset.}
+      \label{fig:quickdraw_protocol}
+    \end{sidewaysfigure}
+
+    \subsubsection{Results}
+      \paragraph{Loglikelihood of prediction}
+        The results can be seen in figure \ref{fig:quickdraw_crossentropy}. For all the combinations, there is a clear advantage for using transfer learning over the baseline model. The difference in all cases is statistically significant.
+        \begin{sidewaysfigure}
+          \centering
+            \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/cir_ce.png}\quad
+            \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/tri_ce.png}\quad
+            \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/sq_ce.png}\quad
+            \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/hex_ce.png}\quad
+            \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/oct_ce.png}\quad
+          \caption{\textit{QuickDraw!} - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 30 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task.}
+          \label{fig:quickdraw_crossentropy}
+        \end{sidewaysfigure}
+
+      \paragraph{BLEU score}
+        The bleu score results are summarized in table \ref{table:bleu_score_quickdraw_transfer}. Transfer learning continusly outperforms the baseline models in this case.
+
+    \begin{table}[!htbp]
+      \centering
+      \begin{tabular}{|l||c|c|c||c|c|c|}
+        \hline
+        \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
+        Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
+        Circle-transfer &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\\hline
+        Circle-baseline &    70.4 & 65.5 & 60.3 & 65.0 & 58.1 & 50.6 \\\hline
+
+        Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\\hline
+        Trianlge-transfer &  61.3 & 52.4 & 44.1 & 50.6 & 44.8 & 39.8  \\\hline
+
+        Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\\hline
+        Square-transfer &    57.9 & 50.8 & 42.9 & 53.0 & 47.4 & 42.3 \\\hline
+
+        Hexagon-baseline &   58.1 & 50.4 & 41.4 & 45.4 & 40.3 & 35.9   \\\hline
+        Hexagon-transfer &   62.0 & 54.0 & 44.8 & 47.6 & 42.3 & 37.8  \\\hline
+
+        Octagon-baseline &   55.2 & 47.1 & 38.3 & 43.7 & 38.7 & 34.6   \\\hline
+        Octagon-transfer &   57.3 & 49.3 & 40.5 & 46.1 & 41.1 & 36.7  \\\hline
+
+      \end{tabular}
+      \caption{\textit{QuickDraw!}: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
+      \label{table:bleu_score_quickdraw_transfer}
+    \end{table}
     % Strokes conf matrix
     \begin{figure}[!htbp]
       \centering
@@ -296,7 +354,5 @@
       \label{fig:quickdraw_strokes_cnf}
     \end{figure}
 
-
-\section{Style Extraction}
 
 \section{Summary}
