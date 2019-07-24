@@ -144,7 +144,9 @@
 
   \par One of the things we changed from the previous work is that, when analysing \textit{end of sequence}, instead of using Pearson Coefficient, we use Krippendorff-Alpha \citep{krippendorff2011computing}. The reason for this is that it offers a smoother transition between what is good and bad. In Pearson coefficient, if there is a mismatch between the generation and ground truth, it will not matter how big is the mistake (the distance between the generated and the ground truth). With Krippendorff-alpha, we can consider the distance in the analysis, thus providing a softer and more realistic estimation for the correlation.
 
-  \par Another aspect we consider in our analysis is \textit{strokes} the model is generating. In the previous work, we did not model the strokes, in order to simplify the system and the analysis. Now that we are confident about our approach, we added the strokes to our model. Strokes are more complex to model, because they the stroke signals are more sparse. A good stroke generation is an indication that the model can perform hard discrete decisions in order to generate the whole shape. We use Krippendorff coefficients as well to report and analyze the strokes.
+  \par Another aspect we consider in our analysis is \textit{strokes} the model is generating. In the previous work, we did not model the strokes, in order to simplify the system and the analysis. Now that we are confident about our approach, we added the strokes to our model. Strokes are more complex to model, because they the stroke signals are more sparse. A good stroke generation is an indication that the model can perform hard discrete decisions in order to generate the whole shape. We use Krippendorff coefficients as well to report and analyze the strokes. We also consider the confusion matrices for the generated strokes versus the ground truth ones, in order to shade more light on the behavior of the model.
+
+  \par One important choice to make is to decide the amount of data to be used in the target task. Normally, the whole point from transfer learning is to address the insufficient data available for the target task. However, since we do not have a particular scenario to solve (we are mainly interested in that 'what if this happens' question), there is no clear criteria to decide the amount of data. If we select very few points, we may be biased towards giving transfer learning an advantage, while also sacrificing having generally bad results (even if transfer learning proved to be better than baseline on our performance metrics). It is important that the overall behavior of the system is acceptable (generating shapes with acceptable quality). To get around this design problem, we decided to use the entire data available to the target task, thus, testing the 'worst case scenario' for transfer learning (where the baseline has plenty of data, and it is used to train the whole model, compared to training only half the model in case of transfer learning). This will be the case for both \textit{IRONOFF} and \textit{QuickDraw!} datasets.
 
   \subsection{IRONOFF}
     \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\endnote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
@@ -190,7 +192,7 @@
     One aspect to measure the quality of the generation, that we identified previously, is to analyse how the model anticipate the end of the sequence generation. Table \ref{table:ironoff_eos_transfer} shows the results of the Krippendorff coefficients for the different modes. In general, the different modes are performing quite well. It can be seen that transfer learning is actually performing better than the baseline models, adding another indication to the benefit of using transfer learning.
 
     \paragraph{Strokes analysis}
-    As mentioned earlier in this section, we started to consider the the strokes in this part of our work. Table \ref{table:ironoff_strokes_transfer} shows the strokes results of the Krippendorff coefficients for the different modes. With the exception for the uppercase letters, transfer learning performs better than baseline models. For the uppercase, this could be due extra complixty these letters presents (see figure \ref{fig:ironoff_strokes}, where it can be found that uppercase letters are usually the ones with higher number of strokes). A fine tuning for the style extraction module is the next logical step to perform here, to make it adapt to complexity of the this task.
+    As mentioned earlier in this section, we started to consider the the strokes in this part of our work. Table \ref{table:ironoff_strokes_transfer} shows the strokes results of the Krippendorff coefficients for the different modes. With the exception for the uppercase letters, transfer learning performs better than baseline models. For the uppercase, this could be due extra complixty these letters presents (see figure \ref{fig:ironoff_strokes}, where it can be found that uppercase letters are usually the ones with higher number of strokes). A fine tuning for the style extraction module is the next logical step to perform here, to make it adapt to complexity of the this task. We also consider the confusion matrix for the generated strokes in comparison with the ground truth, figure \ref{fig:ironoff_strokes_cnf}. We can see that it is consistant with the Krippendorff results, where transfer learning outperforms the baselines. In the uppercase letters however, it is notable that the transfer learning performs better on the single stroke, while the baseline performs better on the 2 and 3 strokes.
 
       \begin{table}[!htbp]
         \centering
@@ -224,7 +226,7 @@
         Digits-baseline & 0.916 \\ \hline
         Digits-transfer & 0.985 \\ \hline
         \end{tabular}
-        \caption{IRONOFF: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between }
+        \caption{IRONOFF: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between the transfer and baseline, for all tasks.}
         \label{table:ironoff_eos_transfer}
       \end{table}
 
@@ -234,15 +236,49 @@
         \hline
         Models & Krippendorff coefficient\\ \hline
         Uppercase-baseline & 0.379 \\ \hline
-        Uppercase-transfer & 0.247 (slight disadvantage)\\ \hline
+        Uppercase-transfer & 0.247 \\ \hline
         Lowercase-baseline & 0.558 \\ \hline
         Lowercase-transfer & 0.65 \\ \hline
         Digits-baseline & 0.398 \\ \hline
         Digits-transfer & 0.713 \\ \hline
         \end{tabular}
-        \caption{IRONOFF: Krippendorff correlation coefficients for the strokes distributions between }
+        \caption{IRONOFF: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks.}
         \label{table:ironoff_strokes_transfer}
       \end{table}
+
+      % Strokes conf matrix
+      \begin{figure}[!htbp]
+        \centering
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/True_upper_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/False_upper_strokes_heatmap.png}
+        \end{subfigure}
+
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/True_lower_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/False_lower_strokes_heatmap.png}
+        \end{subfigure}
+
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/True_digits_strokes_heatmap.png}
+        \end{subfigure}
+        ~
+        \begin{subfigure}[tb]{0.45\textwidth}
+            \includegraphics[width=\textwidth]{images/sota/ironoff_results/False_digits_strokes_heatmap.png}
+        \end{subfigure}
+
+        \caption{\textit{IRONOFF!}: Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
+        \label{fig:ironoff_strokes_cnf}
+
+      \end{figure}
 
   \subsection{QuickDraw!}
     \par In case of sktech drawings, we define the task by the class it belongs to. So we have 5 tasks: circle, triangle, square, hexagon and octagon. We explore the idea of transfer learning on all possible combinations of tasks: in each combination, one task is removed (the target task), and the other task are considered source tasks.
@@ -275,31 +311,79 @@
       \paragraph{BLEU score}
         The bleu score results are summarized in table \ref{table:bleu_score_quickdraw_transfer}. Transfer learning continusly outperforms the baseline models in this case.
 
-    \begin{table}[!htbp]
-      \centering
-      \begin{tabular}{|l||c|c|c||c|c|c|}
-        \hline
-        \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
-        Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
-        Circle-transfer &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\\hline
-        Circle-baseline &    70.4 & 65.5 & 60.3 & 65.0 & 58.1 & 50.6 \\\hline
+        \begin{table}[!htbp]
+          \centering
+          \begin{tabular}{|l||c|c|c||c|c|c|}
+            \hline
+            \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
+            Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
+            Circle-transfer &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\\hline
+            Circle-baseline &    70.4 & 65.5 & 60.3 & 65.0 & 58.1 & 50.6 \\\hline
 
-        Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\\hline
-        Trianlge-transfer &  61.3 & 52.4 & 44.1 & 50.6 & 44.8 & 39.8  \\\hline
+            Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\\hline
+            Trianlge-transfer &  61.3 & 52.4 & 44.1 & 50.6 & 44.8 & 39.8  \\\hline
 
-        Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\\hline
-        Square-transfer &    57.9 & 50.8 & 42.9 & 53.0 & 47.4 & 42.3 \\\hline
+            Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\\hline
+            Square-transfer &    57.9 & 50.8 & 42.9 & 53.0 & 47.4 & 42.3 \\\hline
 
-        Hexagon-baseline &   58.1 & 50.4 & 41.4 & 45.4 & 40.3 & 35.9   \\\hline
-        Hexagon-transfer &   62.0 & 54.0 & 44.8 & 47.6 & 42.3 & 37.8  \\\hline
+            Hexagon-baseline &   58.1 & 50.4 & 41.4 & 45.4 & 40.3 & 35.9   \\\hline
+            Hexagon-transfer &   62.0 & 54.0 & 44.8 & 47.6 & 42.3 & 37.8  \\\hline
 
-        Octagon-baseline &   55.2 & 47.1 & 38.3 & 43.7 & 38.7 & 34.6   \\\hline
-        Octagon-transfer &   57.3 & 49.3 & 40.5 & 46.1 & 41.1 & 36.7  \\\hline
+            Octagon-baseline &   55.2 & 47.1 & 38.3 & 43.7 & 38.7 & 34.6   \\\hline
+            Octagon-transfer &   57.3 & 49.3 & 40.5 & 46.1 & 41.1 & 36.7  \\\hline
 
-      \end{tabular}
-      \caption{\textit{QuickDraw!}: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
-      \label{table:bleu_score_quickdraw_transfer}
-    \end{table}
+          \end{tabular}
+          \caption{\textit{QuickDraw!}: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
+          \label{table:bleu_score_quickdraw_transfer}
+        \end{table}
+
+      \paragraph{End of Sequence analysis}
+        Table \ref{table:quickdraw_eos_transfer} summarize the results on end-of-sequence analysis in case of quickdraw. The benefits of transfer learning are clear.
+        \begin{table}[!htbp]
+          \centering
+          \begin{tabular}{|l|c|c|}
+          \hline
+          Models & Krippendorff coefficient\\ \hline
+          Circle-baseline &  0.591 \\ \hline
+          Circle-transfer &  0.843 \\ \hline
+          Trianlge-baseline & -0.056 \\ \hline
+          Trianlge-transfer & 0.609 \\ \hline
+          Square-baseline &  0.037 \\ \hline
+          Square-transfer &  0.35 \\ \hline
+          Hexagon-baseline &  0.07 \\ \hline
+          Hexagon-transfer &  0.203 \\ \hline
+          Octagon-baseline &  0.073 \\ \hline
+          Octagon-transfer &  0.158 \\ \hline
+
+          \end{tabular}
+          \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the end-of-sequence distributions between the generated letters and the ground truth letters.}
+          \label{table:quickdraw_eos_transfer}
+        \end{table}
+
+      \paragraph{Strokes analysis}
+        Table \ref{table:quickdraw_strokes_transfer} summarize the results on strokes analysis in case of quickdraw. The benefits of transfer learning are clear. We also report the confusion matrix for the strokes, figure \ref{fig:quickdraw_strokes_cnf}. It is notable that the performance of the system in general decreases, as the diversity in the number of strokes increase. But still, transfer learning provides the better results.
+
+        \begin{table}[!htbp]
+          \centering
+          \begin{tabular}{|l|c|c|}
+          \hline
+          Models & Krippendorff coefficient\\ \hline
+          Circle-baseline &  -0.037 \\ \hline
+          Circle-transfer &  0.096 \\ \hline
+          Trianlge-baseline & -0.038 \\ \hline
+          Trianlge-transfer & 0.419 \\ \hline
+          Square-baseline &  0.031 \\ \hline
+          Square-transfer &  0.25 \\ \hline
+          Hexagon-baseline & -0.084 \\ \hline
+          Hexagon-transfer & 0.231 \\ \hline
+          Octagon-baseline & 0.055 \\  \hline
+          Octagon-transfer & 0.184 \\ \hline
+
+          \end{tabular}
+          \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the strokes distributions between the generated letters and the ground truth letters.}
+          \label{table:quickdraw_strokes_transfer}
+        \end{table}
+
     % Strokes conf matrix
     \begin{figure}[!htbp]
       \centering
@@ -329,9 +413,10 @@
           \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_square_transfer_strokes_heatmap.png}
       \end{subfigure}
 
+    \end{figure}
+
     % Strokes conf matrix - continue
-    \end{figure}[!htbp]
-    \begin{figure}\ContinuedFloat
+    \begin{figure}[!htbp]\ContinuedFloat
 
       \begin{subfigure}[tb]{0.45\textwidth}
           \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_hexagon_target_strokes_heatmap.png}
@@ -355,4 +440,7 @@
     \end{figure}
 
 
-\section{Summary}
+\section{Summary and take-away message}
+\par In this chapter, we presented our hypotheses for style transfer learning. We presented our proposed approach, and the proposed experimental protocol in order to investigate these hypotheses. To have better support for our conclusions, we carried out the experiments on two different datasets, \textit{IRONOFF} and \textit{QuickDraw!}, both of them presenting different challenges and behviors: \textit{IRONOFF} has more clear semantics, made by a pen, while in \textit{QuickDraw!} the contributors excerted more freedom on their work, and most of the work is believed to be done by the mouse or a tablet. Also, we chose to perform the study on the worst case scenario, where there is an abundance of data available to the target task. To better understand and compare transfer learning versus the baseline models (models trained only on the target task), we considered multiple performance metrics: the loglikelihood of prediction, the BLEU score, end-of-sequence and strokes analyses for the generated shapes.
+
+\par The results overwhelmingly point to the benefit of transfer learning compare to the baselines on the different proposed metrics, thus providing a strong evidence to our hypotheses.
