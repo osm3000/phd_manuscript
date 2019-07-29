@@ -10,6 +10,7 @@
 
 \par We finally arrive to the core objective of the PhD: how to leverage information of style from one (or more) \Gls{task}/s, in order to bootstrap the learning of a new task?
 
+\clearpage
 
 \section{Introduction and objectives}
   % \begin{itemize}
@@ -74,6 +75,7 @@
   \end{itemize}
 
   \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{dtl2018survey}\sidenote{Other categorization exists, like the one used in \citep{weiss2016survey}. When it comes to deep transfer learning, we believe the one in \citep{dtl2018survey} to be the most relevant.}, by first identifying two main categories of transfer learning:
+  % Either talk about the other types of transfer learning (that I mention here), or completely ignore them all.
   \begin{itemize}
     \item \textit{Instances-based}: in this case, we utilize examples from the source domain into the training of the new target domain, by defining weights on them.
     \item \textit{Mapping-based}: the objective in this case is to project the instances from the two domains into a new manifold, that increases the similarity between the two domains.
@@ -183,28 +185,28 @@
     \paragraph{Loglikelihood of prediction}
       In the prediction mode, the model is tested in a similar manner to the way it was trained: it is given the input from the ground truth, representing the current timestep, and asked to predict the next timestep. This tells us about the quality of the training procedure from one side, and shade light on the confidence of the model in predicting the next timestep.
 
-      The result of 5 times repetitions, for all the different combinations of source/target tasks, are mentioned in figure \ref{fig:ironoff_crossentropy}, and the statistical analysis are reported in table \ref{table:ironoff_crossentropy_pvalue}. We can see that the transfer learning always gives a significant advantage over baseline models.
+      The result of 5 times repetitions, for all the different combinations of source/target tasks, are mentioned in figure \ref{fig:ironoff_crossentropy}. We can see that the transfer learning always gives a significant advantage over baseline models.
       \begin{sidewaysfigure}
         \centering
-          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/uppercase.png}\quad
-          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/lowercase.png}\quad
-          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/digits.png}
-        \caption[\textit{IRONOFF} - log crossentropy of prediction results for different tasks]{\textit{IRONOFF}: log crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task.}
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Uppercase.png}\quad
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Lowercase.png}\quad
+          \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Digits.png}
+        \caption[\textit{IRONOFF} - log crossentropy of prediction results for different tasks]{\textit{IRONOFF}: log crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
         \label{fig:ironoff_crossentropy}
       \end{sidewaysfigure}
 
-      \begin{table}[!htbp]
-        \centering
-        \begin{tabular}{|l|c|c|}
-        \hline
-        Task of comparison & P-Value \\ \hline
-        Uppercase &  0.00076 \\ \hline
-        Lowercase & 0.0017 \\ \hline
-        Digits & 0.00026 \\ \hline
-        \end{tabular}
-        \caption{\textit{IRONOFF}: the statistical significance analysis (p-value) -- using Wilcoxon test -- between transfer learning and baselines on the crossentropy of prediction, for all the tasks, shows that transfer learning gives a clear advantage over the baselines.}
-        \label{table:ironoff_crossentropy_pvalue}
-      \end{table}
+      % \begin{table}[!htbp]
+      %   \centering
+      %   \begin{tabular}{|l|c|c|}
+      %   \hline
+      %   Task of comparison & P-Value \\ \hline
+      %   Uppercase &  0.00076 \\ \hline
+      %   Lowercase & 0.0017 \\ \hline
+      %   Digits & 0.00026 \\ \hline
+      %   \end{tabular}
+      %   \caption{\textit{IRONOFF}: the statistical significance analysis (p-value) -- using Wilcoxon test -- between transfer learning and baselines on the crossentropy of prediction, for all the tasks, shows that transfer learning gives a clear advantage over the baselines.}
+      %   \label{table:ironoff_crossentropy_pvalue}
+      % \end{table}
 
     \paragraph{BLEU score}
       Now we go to the generation part, our main concern in this thesis. As discussed earlier, we use BLEU score to assess the quality of matching segments between the generated and the ground truth letters, in a gradual manner (i.e., we increase the size of the segments to match gradually). Table \ref{table:bleu_score_ironoff_transfer} summarizes the numbers. We see that transfer learning always performs better than the baseline.
@@ -221,16 +223,16 @@
           \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
           Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
           Uppercase-baseline &   66.1 & 46.3 & 27.2 & 62.8 & 49.4 & 37.1 \\\hline
-          Uppercase-transfer &   68.3 & 47.8 & 28.3 & 65.47 & 51.8 & 39.0 \\\hline
+          \textbf{Uppercase-transfer} &   \textbf{68.3} & \textbf{47.8} & \textbf{28.3} & \textbf{65.47} & \textbf{51.8} & \textbf{39.0} \\\hline
 
           Lowercase-baseline &   73.13 & 69.7 & 55.9 & 54.82 & 37.2 & 40.9 \\\hline
-          Lowercase-transfer &   75.54 & 71.17 & 58.0 & 56.0 & 39.4 & 41.9 \\\hline
+          \textbf{Lowercase-transfer} &   \textbf{75.54} & \textbf{71.17} & \textbf{58.0} & \textbf{56.0} & \textbf{39.4} & \textbf{41.9} \\\hline
 
           Digits-baseline &    68.7 & 65.23 & 49.12 & 49.57 & 29.28 & 34.6  \\\hline
-          Digits-transfer &    71.47 & 70.72 & 51.2 & 55.9 & 31.36 & 41.7 \\\hline
+          \textbf{Digits-transfer} &    \textbf{71.47} & \textbf{70.72} & \textbf{51.2} & \textbf{55.9} & \textbf{31.36} & \textbf{41.7} \\\hline
 
         \end{tabular}
-        \caption{IRONOFF: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
+        \caption{\textit{IRONOFF}: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
         \label{table:bleu_score_ironoff_transfer}
       \end{table}
 
@@ -238,15 +240,12 @@
         \centering
         \begin{tabular}{|l|c|c|}
         \hline
-        Models & Krippendorff coefficient\\ \hline
-        Uppercase-baseline & 0.951 \\ \hline
-        Uppercase-transfer &  0.97\\ \hline
-        Lowercase-baseline & 0.957 \\ \hline
-        Lowercase-transfer & 0.996 \\ \hline
-        Digits-baseline & 0.916 \\ \hline
-        Digits-transfer & 0.985 \\ \hline
+        Models & Baseline & Transfer \\ \hline
+        Uppercase & 0.951 &  \textbf{0.97}\\ \hline
+        Lowercase & 0.957 & \textbf{0.996} \\ \hline
+        Digits & 0.916 & \textbf{0.985} \\ \hline
         \end{tabular}
-        \caption{IRONOFF: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between the transfer and baseline, for all tasks.}
+        \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between the transfer and baseline, for all tasks.}
         \label{table:ironoff_eos_transfer}
       \end{table}
 
@@ -254,15 +253,12 @@
         \centering
         \begin{tabular}{|l|c|c|}
         \hline
-        Models & Krippendorff coefficient\\ \hline
-        Uppercase-baseline & 0.379 \\ \hline
-        Uppercase-transfer & 0.247 \\ \hline
-        Lowercase-baseline & 0.558 \\ \hline
-        Lowercase-transfer & 0.65 \\ \hline
-        Digits-baseline & 0.398 \\ \hline
-        Digits-transfer & 0.713 \\ \hline
+        Models & Baseline & Transfer \\ \hline
+        Uppercase & \textbf{0.379} & 0.247 \\ \hline
+        Lowercase & 0.558 & \textbf{0.65} \\ \hline
+        Digits & 0.398  & \textbf{0.713} \\ \hline
         \end{tabular}
-        \caption{IRONOFF: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks.}
+        \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks.}
         \label{table:ironoff_strokes_transfer}
       \end{table}
 
@@ -316,7 +312,7 @@
 
     \subsubsection{Results}
       \paragraph{Loglikelihood of prediction}
-        The results can be seen in figure \ref{fig:quickdraw_crossentropy}, and the statistical significance analysis of the results is in table \ref{table:quickdraw_crossentropy_pvalue}. For all the combinations, there is a clear advantage for using transfer learning over the baseline model. The difference in all cases is statistically significant.
+        The results can be seen in figure \ref{fig:quickdraw_crossentropy}. For all the combinations, there is a clear advantage for using transfer learning over the baseline model. The difference in all cases is statistically significant.
         \begin{sidewaysfigure}
           \centering
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/cir_ce.png}\quad
@@ -324,24 +320,24 @@
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/sq_ce.png}\quad
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/hex_ce.png}\quad
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/oct_ce.png}\quad
-          \caption{\textit{QuickDraw!} - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 30 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task.}
+          \caption{\textit{QuickDraw!} - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 30 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
           \label{fig:quickdraw_crossentropy}
         \end{sidewaysfigure}
 
-        \begin{table}[!htbp]
-          \centering
-          \begin{tabular}{|l|c|c|}
-          \hline
-          Task of comparison & P-Value \\ \hline
-          Circle & 0.0003  \\ \hline
-          Trianlge & 5.15e-10  \\ \hline
-          Square & 9.9e-12  \\ \hline
-          Hexagon & 0.01  \\ \hline
-          Octagon & 1.4e-05  \\ \hline
-          \end{tabular}
-          \caption{\textit{QuickDraw!}: the statistical significance analysis (p-value) -- using Wilcoxon test -- between transfer learning and baselines on the crossentropy of prediction, for all the tasks, shows that transfer learning gives a clear advantage over the baselines.}
-          \label{table:quickdraw_crossentropy_pvalue}
-        \end{table}
+        % \begin{table}[!htbp]
+        %   \centering
+        %   \begin{tabular}{|l|c|c|}
+        %   \hline
+        %   Task of comparison & P-Value \\ \hline
+        %   Circle & 0.0003  \\ \hline
+        %   Trianlge & 5.15e-10  \\ \hline
+        %   Square & 9.9e-12  \\ \hline
+        %   Hexagon & 0.01  \\ \hline
+        %   Octagon & 1.4e-05  \\ \hline
+        %   \end{tabular}
+        %   \caption{\textit{QuickDraw!}: the statistical significance analysis (p-value) -- using Wilcoxon test -- between transfer learning and baselines on the crossentropy of prediction, for all the tasks, shows that transfer learning gives a clear advantage over the baselines.}
+        %   \label{table:quickdraw_crossentropy_pvalue}
+        % \end{table}
 
       \paragraph{BLEU score}
         The bleu score results are summarized in table \ref{table:bleu_score_quickdraw_transfer}. Transfer learning continusly outperforms the baseline models in this case.
@@ -352,20 +348,20 @@
             \hline
             \multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\ \hline
             Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
-            Circle-transfer &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\\hline
-            Circle-baseline &    70.4 & 65.5 & 60.3 & 65.0 & 58.1 & 50.6 \\\hline
+            Circle-baseline &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\\hline
+            \textbf{Circle-transfer} &    \textbf{70.4} & \textbf{65.5} & \textbf{60.3} & \textbf{65.0} & \textbf{58.1} & \textbf{50.6} \\\hline
 
             Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\\hline
-            Trianlge-transfer &  61.3 & 52.4 & 44.1 & 50.6 & 44.8 & 39.8  \\\hline
+            \textbf{Trianlge-transfer} &  \textbf{61.3} & \textbf{52.4} & \textbf{44.1} & \textbf{50.6} & \textbf{44.8} & \textbf{39.8}  \\\hline
 
             Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\\hline
-            Square-transfer &    57.9 & 50.8 & 42.9 & 53.0 & 47.4 & 42.3 \\\hline
+            \textbf{Square-transfer} &    \textbf{57.9} & \textbf{50.8} & \textbf{42.9} & \textbf{53.0} & \textbf{47.4} & \textbf{42.3} \\\hline
 
             Hexagon-baseline &   58.1 & 50.4 & 41.4 & 45.4 & 40.3 & 35.9   \\\hline
-            Hexagon-transfer &   62.0 & 54.0 & 44.8 & 47.6 & 42.3 & 37.8  \\\hline
+            \textbf{Hexagon-transfer} &   \textbf{62.0} & \textbf{54.0} & \textbf{44.8} & \textbf{47.6} & \textbf{42.3} & \textbf{37.8}  \\\hline
 
             Octagon-baseline &   55.2 & 47.1 & 38.3 & 43.7 & 38.7 & 34.6   \\\hline
-            Octagon-transfer &   57.3 & 49.3 & 40.5 & 46.1 & 41.1 & 36.7  \\\hline
+            \textbf{Octagon-transfer} &   \textbf{57.3} & \textbf{49.3} & \textbf{40.5} & \textbf{46.1} & \textbf{41.1} & \textbf{36.7}  \\\hline
 
           \end{tabular}
           \caption{\textit{QuickDraw!}: BLEU score results on the generated letters, for the baseline models (trained on the target task only), and the transfer models (the encoder -- style extractor -- is trained on the source task, while the decoder is trained on the target task). The results show an advantage in using transfer learning.}
@@ -378,17 +374,12 @@
           \centering
           \begin{tabular}{|l|c|c|}
           \hline
-          Models & Krippendorff coefficient\\ \hline
-          Circle-baseline &  0.591 \\ \hline
-          Circle-transfer &  0.843 \\ \hline
-          Trianlge-baseline & -0.056 \\ \hline
-          Trianlge-transfer & 0.609 \\ \hline
-          Square-baseline &  0.037 \\ \hline
-          Square-transfer &  0.35 \\ \hline
-          Hexagon-baseline &  0.07 \\ \hline
-          Hexagon-transfer &  0.203 \\ \hline
-          Octagon-baseline &  0.073 \\ \hline
-          Octagon-transfer &  0.158 \\ \hline
+          Models & Baseline & Transfer \\ \hline
+          Circle &  0.591 & \textbf{0.843} \\ \hline
+          Trianlge & -0.056 & \textbf{0.609} \\ \hline
+          Square &  0.037 &  \textbf{0.35} \\ \hline
+          Hexagon &  0.07 &  \textbf{0.203} \\ \hline
+          Octagon &  0.073 &  \textbf{0.158} \\ \hline
 
           \end{tabular}
           \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the end-of-sequence distributions between the generated letters and the ground truth letters.}
@@ -402,17 +393,12 @@
           \centering
           \begin{tabular}{|l|c|c|}
           \hline
-          Models & Krippendorff coefficient\\ \hline
-          Circle-baseline &  -0.037 \\ \hline
-          Circle-transfer &  0.096 \\ \hline
-          Trianlge-baseline & -0.038 \\ \hline
-          Trianlge-transfer & 0.419 \\ \hline
-          Square-baseline &  0.031 \\ \hline
-          Square-transfer &  0.25 \\ \hline
-          Hexagon-baseline & -0.084 \\ \hline
-          Hexagon-transfer & 0.231 \\ \hline
-          Octagon-baseline & 0.055 \\  \hline
-          Octagon-transfer & 0.184 \\ \hline
+          Models & Baseline & Transfer\\ \hline
+          Circle &  -0.037 &  \textbf{0.096} \\ \hline
+          Trianlge & -0.038 & \textbf{0.419} \\ \hline
+          Square &  0.031 &  \textbf{0.25} \\ \hline
+          Hexagon & -0.084 & \textbf{0.231} \\ \hline
+          Octagon & 0.055 & \textbf{0.184} \\ \hline
 
           \end{tabular}
           \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the strokes distributions between the generated letters and the ground truth letters.}

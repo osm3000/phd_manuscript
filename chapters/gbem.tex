@@ -1,5 +1,5 @@
-\chapter{Generation, benchmarks and evaluation}
-\label{ch:GBEM}
+\chapter{Generation, benchmarks and evaluation}\label{ch:GBEM}
+
 \minitoc% Creating an actual minitoc
 
 \par Since styles are ill-defined, they can not be evaluated explicitly (we can not quantify them in advance). Thus, we need a proxy method in order to implicitly evaluate them. We can do this by using them in order to generate behaviors (i.e., synthesis handwriting traces), and evaluate the quality of those behaviors relative to the target behaviors (i.e., the original letters traces). In other words, to study styles, we would like to use reconstruct the target behaviors using generative models, and given the task and the styles to perform the behavior. We discuss the recent advances in neural generative models: how are they trained? how do we infer from them?...etc. Then we look at paradigm for reconstruct target behaviors, with focus on the usage of neural networks.
@@ -22,6 +22,9 @@
         \item What benchmarks are suitable to compare to?
     \end{itemize}
 \end{mdframed}
+
+\clearpage
+
 \section{Background}\label{sec:gbem_background}
 \subsection{Deep Learning: quick overview}
 % \textbf{\textsc{this part will be modified. focus only on RNN, leave generative models to the next section}}
