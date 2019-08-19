@@ -124,7 +124,7 @@
   \par The EoS analysis can be seen in table \ref{table:EoS_transfer}. Our model achieves a coefficient value of 0.99, compared to 0.5 for the benchmark.
   Thus, the new model clearly outperform the current benchmarks on the transfer task, on both BLEU score and EoS analysis.
 
-  \subsection{Styles per letters}
+  \subsection{Styles per letters} \label{ch:framework_sec:styleperletter}
   \par One of the nice consequences of using our model is that we can have a better look at the styles. We explore the latent space for multiple letters, and see that we can uncover interesting writing styles. A full scale analysis is beyond the scope of this paper. We project the latent space using \textit{Principal Components Analysis} (PCA) \citep{jolliffe2011principal} and t-SNE \citep{maaten2008visualizing}.
 
   \par As a start, we take a look at letter X. Beforehand, we identified a style feature in letter X: some writer draw X clockwise, and some draw it anti-clockwise. We manually annotated the whole dataset for this feature; the result can be seen in figure \ref{fig:x_rotation}. Almost half of the writers draw the letter X clockwise, and the other half draw it anti-clockwise. If our assumption is correct, our model should be able to capture this feature. We project the latent  of the model using PCA on all the letter X, which can be seen in figure \ref{fig:x_bottleneck}. The model latent space clusters almost perfectly based on rotation. Examples for letters from both clusters are in figure \ref{fig:examples_x}.

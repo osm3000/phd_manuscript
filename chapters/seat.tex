@@ -149,7 +149,21 @@
 
   \par In this part, we study these questions on both \textit{IRONOFF} and \textit{QuickDraw!}. Our experimental setup is inspired by the work done in \citep{8686063}. We use a slightly different experimental protocol between the two datasets however. I will discuss the reasoning behind this, and will argue that both setups are good enough to address our questions concerning the transfer of styles.
 
-  \par Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the loglikelihood (crossentropy) on the test data\sidenote{Based on experience, the crossentropy matters when it comes to generation. A difference of around 0.1 in crossentropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
+  \paragraph{What are we transfering?} A typical approach to perform transfer learning in deep learning models is to:
+    \begin{enumerate}
+      \item Train the model on the source task,
+      \item freeze some parts of that model,
+      \item when going to the target task, use the frozen parts in a new model, and train the rest of that new model on the target task
+    \end{enumerate}
+
+    The part that we freeze/transfer in our case is illustrated in figure \ref{fig:transfer_part_illustration}.
+  \begin{sidewaysfigure}
+    \includegraphics[scale=0.95]{./images/sota/transfer_part.jpeg}
+    \caption{An illustration for model we use. The part identified by the grey area -- the style extraction module -- is what we transfer. Since we give the model the task content/identity, the grey part is expected to focus more on the style extraction. During the exposure to the source task, all the different components of the model are being trained. During the exposure to the target task, the grey area is the trained one on the source task, with frozen parameters. The other parts will be trained.}
+    \label{fig:transfer_part_illustration}
+  \end{sidewaysfigure}
+
+  \paragraph{How to evaluate the quality of transfer?} Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the loglikelihood (crossentropy) on the test data\sidenote{Based on experience, the crossentropy matters when it comes to generation. A difference of around 0.1 in crossentropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
 
   \par One of the things we changed from the previous work is that, when analysing \textit{end of sequence}, instead of using Pearson Coefficient, we use Krippendorff-Alpha \citep{krippendorff2011computing}. The reason for this is that it offers a smoother transition between what is good and bad. In Pearson coefficient, if there is a mismatch between the generation and ground truth, it will not matter how big is the mistake (the distance between the generated and the ground truth). With Krippendorff-alpha, we can consider the distance in the analysis, thus providing a softer and more realistic estimation for the correlation.
 
@@ -256,7 +270,7 @@
         Lowercase & 0.558 & \textbf{0.65} \\ %\hline
         Digits & 0.398  & \textbf{0.713} \\ \hline
         \end{tabular}
-        \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks.}
+        \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks. Except for the uppercase case, transfer learning seems to perform well in the lowercase and the digits tasks.}
         \label{table:ironoff_strokes_transfer}
       \end{table}
 
@@ -398,7 +412,7 @@
           Octagon & 0.055 & \textbf{0.184} \\ \hline
 
           \end{tabular}
-          \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the strokes distributions between the generated letters and the ground truth letters.}
+          \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the strokes distributions between the generated letters and the ground truth letters. Transfer learning achieves better results than the baseline on all the different tasks.}
           \label{table:quickdraw_strokes_transfer}
         \end{table}
 
@@ -456,6 +470,27 @@
       \caption{QuickDraw! Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
       \label{fig:quickdraw_strokes_cnf}
     \end{figure}
+
+\section{Are we actually capturing styles?}
+\par In the previous section, we showed that all the metrics indicate the benefits of transfer learning over using the target data only. We argued that this approach captures the styles, and that we are transfering the styles to a new task. But, are really capturing the styles this way?. In section \ref{ch:framework_sec:styleperletter}, we tried to motivate this point, by some exploring the bottleneck of the styles. We showed that looks consistant with what we know beforehand (in case of letter 'X' for example), or that it uncovers things we either did not notice beforehand (like in letters 'C' and 'S'), or uncover new things that we did not anticiapte (in case of letter 'A').
+
+\par Testing for something that is ill-defined, and not always known beforehand, like styles, is quite challenging. To add to the challenge, the methods we used to explore the bottleneck space (PCA and tSNE) are not designed to uncover a 'styles' manifold, so sometimes, basic styles went missing (for example, with this exploration methods, we could not uncover the clockwise/counterclockwise direction in letter 'O' for example, which we know apriori that it exists!).
+
+\par In this section, we want to shade more light on this problem, from a different and quantifiable angle. We will choose one aspect using \textit{QuickDraw!} dataset this time, we manually annotated circles and octagons into clockwise/counterclockwise categories. Then, we build a classifier on top of the styles bottleneck, to measure the quality of the capturing of this style aspect. If we can not see this style visually with PCA and tSNE, then we should be able to measure its impact.
+
+\par We annotated 716 drawings (see table \ref{table:cw_ccw_annotation}). We trained a classifier (RandomForests classifier) on this data directly, randomly separating training and test data, and repeated this 5 times. We did not configure the hyperparameters of that classifier (we want a general figure, not interested in an exact one). We obtained 92.9 ± 6.0 \% on the weighted F1 score. This suggests that this style extraction method does indeed capture this style aspect.
+
+\begin{table}[!htbp]
+  \centering
+  \begin{tabular}{l c c}
+  \hline
+  Task category & Clockwise & CounterClockwise\\ \hline
+  Circle &  339 & 57 \\ \hline
+  Octagon & 115 & 205 \\ \hline
+  \end{tabular}
+  \caption{Results of manual annotation for CW-CCW on 716 drawings (octagon/circles) in \textit{QuickDraw!} dataset. Sometimes the drawing is not clear, so we did not include. The selected examples are the clear ones only. It can be seen that the data is not balanced.\footnote{We normally would not expect that for a circle. We would expect a balanced distribution. However, take into account that we are people are using the mouse for drawing here, so the expected 'pen' dynamics do not always exist.}}
+  \label{table:cw_ccw_annotation}
+\end{table}
 
 
 \section{Summary and take-away message}
