@@ -231,10 +231,10 @@
           \multicolumn{1}{l}{Aspect/Feature} & \multicolumn{3}{c}{ Speed } & \multicolumn{3}{c}{ Freeman }   \\ \hline
           Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
           Uppercase-baseline &   66.1 & 46.3 & 27.2 & 62.8 & 49.4 & 37.1 \\%\hline
-          \textbf{Uppercase-transfer} &   \textbf{68.3} & \textbf{47.8} & \textbf{28.3} & \textbf{65.47} & \textbf{51.8} & \textbf{39.0} \\%\hline
+          \textbf{Uppercase-transfer} &   \textbf{68.3} & \textbf{47.8} & \textbf{28.3} & \textbf{65.47} & \textbf{51.8} & \textbf{39.0} \\\hline
 
           Lowercase-baseline &   73.1 & 69.7 & 55.9 & 54.8 & 37.2 & 40.9 \\%\hline
-          \textbf{Lowercase-transfer} &   \textbf{75.5} & \textbf{71.2} & \textbf{58.0} & \textbf{56.0} & \textbf{39.4} & \textbf{41.9} \\%\hline
+          \textbf{Lowercase-transfer} &   \textbf{75.5} & \textbf{71.2} & \textbf{58.0} & \textbf{56.0} & \textbf{39.4} & \textbf{41.9} \\\hline
 
           Digits-baseline &    68.7 & 65.2 & 49.1 & 49.6 & 29.3 & 34.6  \\%\hline
           \textbf{Digits-transfer} &    \textbf{71.5} & \textbf{70.7} & \textbf{51.2} & \textbf{55.9} & \textbf{31.4} & \textbf{41.7} \\\hline
@@ -355,16 +355,16 @@
             \multicolumn{1}{l}{Aspect/Feature} & \multicolumn{3}{c}{ Speed } & \multicolumn{3}{c}{ Freeman }   \\ \hline
             Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
             Circle-baseline &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\%\hline
-            \textbf{Circle-transfer} &    \textbf{70.4} & \textbf{65.5} & \textbf{60.3} & \textbf{65.0} & \textbf{58.1} & \textbf{50.6} \\%\hline
+            \textbf{Circle-transfer} &    \textbf{70.4} & \textbf{65.5} & \textbf{60.3} & \textbf{65.0} & \textbf{58.1} & \textbf{50.6} \\\hline
 
             Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\%\hline
-            \textbf{Trianlge-transfer} &  \textbf{61.3} & \textbf{52.4} & \textbf{44.1} & \textbf{50.6} & \textbf{44.8} & \textbf{39.8}  \\%\hline
+            \textbf{Trianlge-transfer} &  \textbf{61.3} & \textbf{52.4} & \textbf{44.1} & \textbf{50.6} & \textbf{44.8} & \textbf{39.8}  \\\hline
 
             Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\%\hline
-            \textbf{Square-transfer} &    \textbf{57.9} & \textbf{50.8} & \textbf{42.9} & \textbf{53.0} & \textbf{47.4} & \textbf{42.3} \\%\hline
+            \textbf{Square-transfer} &    \textbf{57.9} & \textbf{50.8} & \textbf{42.9} & \textbf{53.0} & \textbf{47.4} & \textbf{42.3} \\\hline
 
             Hexagon-baseline &   58.1 & 50.4 & 41.4 & 45.4 & 40.3 & 35.9   \\%\hline
-            \textbf{Hexagon-transfer} &   \textbf{62.0} & \textbf{54.0} & \textbf{44.8} & \textbf{47.6} & \textbf{42.3} & \textbf{37.8}  \\%\hline
+            \textbf{Hexagon-transfer} &   \textbf{62.0} & \textbf{54.0} & \textbf{44.8} & \textbf{47.6} & \textbf{42.3} & \textbf{37.8}  \\\hline
 
             Octagon-baseline &   55.2 & 47.1 & 38.3 & 43.7 & 38.7 & 34.6   \\%\hline
             \textbf{Octagon-transfer} &   \textbf{57.3} & \textbf{49.3} & \textbf{40.5} & \textbf{46.1} & \textbf{41.1} & \textbf{36.7}  \\\hline
@@ -393,7 +393,7 @@
         \end{table}
 
       \paragraph{Strokes analysis}
-        Table \ref{table:quickdraw_strokes_transfer} summarize the results on strokes analysis in case of quickdraw. The benefits of transfer learning are clear. We also report the confusion matrix for the strokes, figure \ref{fig:quickdraw_strokes_cnf}. It is notable that the performance of the system in general decreases, as the diversity in the number of strokes increase. But still, transfer learning provides the better results.
+        Table \ref{table:quickdraw_strokes_transfer} summarize the results on strokes analysis in case of quickdraw. The benefits of transfer learning are clear. We also report the confusion matrix for the strokes, figure \ref{fig:quickdraw_strokes_cnf}. It is notable that the performance of the system in general decreases, as the diversity in the number of strokes increases. But still, transfer learning provides the better results.
 
         \begin{table}[!htbp]
           \centering
@@ -479,7 +479,7 @@
   \begin{tabular}{l c c}
   \hline
   Task category & Clockwise & CounterClockwise\\ \hline
-  Circle &  339 & 57 \\ \hline
+  Circle &  339 & 57 \\ %\hline
   Octagon & 115 & 205 \\ \hline
   \end{tabular}
   \caption{Results of manual annotation for CW-CCW on 716 drawings (octagon/circles) in \textit{QuickDraw!} dataset. Sometimes the drawing is not clear, so we did not include. The selected examples are the clear ones only. It can be seen that the data is not balanced.\footnote{We normally would not expect that for a circle. We would expect a balanced distribution. However, take into account that we are people are using the mouse for drawing here, so the expected 'pen' dynamics do not always exist.}}
