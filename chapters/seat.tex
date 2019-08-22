@@ -4,7 +4,7 @@
 \textbf{Missing points}
 \begin{itemize}
   \item Add a diagram explaining transfer Learning
-  \item Add a diagram explaining which part of the model we are transfering, and which one we are retraing (maybe a series of diagrams explaining visually all the steps)
+  \item Add a diagram explaining which part of the model we are transferring, and which one we are retraining (maybe a series of diagrams explaining visually all the steps)
   \item Add examples of the generated letters/shapes
 \end{itemize}
 
@@ -19,14 +19,14 @@
   %     \item The questions of research here: extracting styles from bottleneck, transfer between writers, transfer between tasks
   % \end{itemize}
 
-  \par Before we dive into the technical details, it is important to motivate why do we need to perform this in the first place. A common scenario is that we collect data over time for a particular task. This process can be quite expensive (e.g., collecting data from the robots is a slow and expensive process). Then, a new task of interest emerges. This task has common aspects with the old one. The question here is if we can leverage this common aspects, in order to boostrap the learning the new task.
+  \par Before we dive into the technical details, it is important to motivate why do we need to perform this in the first place. A common scenario is that we collect data over time for a particular task. This process can be quite expensive (e.g., collecting data from the robots is a slow and expensive process). Then, a new task of interest emerges. This task has common aspects with the old one. The question here is if we can leverage this common aspects, in order to bootstrap the learning the new task.
 
-  % For example, in case of handwriting, when trying to write new letters, and need to have the skill of using the pen, and performing micro-actions, like curves and straight lines. In the case of new letters, we need to recombine those mico-actions with new actions, in order to draw the new letters. Another example, in case of humans, is grasping objects. If you learn how to hold a plastic bottle, then you try to hold a glass cup, there are a lot of atomic actions in common, but the forces you apply are different.
+  % For example, in case of handwriting, when trying to write new letters, and need to have the skill of using the pen, and performing micro-actions, like curves and straight lines. In the case of new letters, we need to recombine those micro-actions with new actions, in order to draw the new letters. Another example, in case of humans, is grasping objects. If you learn how to hold a plastic bottle, then you try to hold a glass cup, there are a lot of atomic actions in common, but the forces you apply are different.
 
   \par Examples of transfer learning:
   \begin{itemize}
       \item If you know how to hold a glass cup, with little adjustments, you can learn how to hold a plastic bottle.
-      \item If you know probability and algebra, you can use this knowledge in order to boostrap/accelerate your progress in mastering machine learning.
+      \item If you know probability and algebra, you can use this knowledge in order to bootstrap/accelerate your progress in mastering machine learning.
   \end{itemize}
 
   \par There are plenty of cases where transfer learning is/could be useful, like:
@@ -74,7 +74,7 @@
       \item The source and target tasks are different, $\mathcal{T}_S \neq \mathcal{T}_T$, which means that the objectives are different, $\mathcal{Y_S} \neq \mathcal{Y_T}$, and/or the mapping function (from the feature space to the objectives) are different, $P(Y_S|X_S) \neq P(Y_T|X_T)$.
   \end{itemize}
 
-  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{dtl2018survey}\sidenote{Other categorization exists, like the one used in \citep{weiss2016survey}. When it comes to deep transfer learning, we believe the one in \citep{dtl2018survey} to be the most relevant.}, by first identifying four main categories of transfer learning:
+  \par Many approaches in order to achieve transfer learning has been proposed in the literature. We will discuss the different approaches, and give examples from the literature on each one. We follow the categorization of transfer learning approaches done in \citep{dtl2018survey}\endnote{Other categorization exists, like the one used in \citep{weiss2016survey}. When it comes to deep transfer learning, we believe the one in \citep{dtl2018survey} to be the most relevant.}, by first identifying four main categories of transfer learning:
   % Either talk about the other types of transfer learning (that I mention here), or completely ignore them all.
   \begin{itemize}
     \item \textit{Instances-based}: in this case, we utilize examples from the source domain into the training of the new target domain, by defining weights on them.
@@ -101,7 +101,7 @@
       \caption[Convolution Neural Networks filters shape]{Visualization of the first convolution layer of a trained AlexNet. Note the basic shape of filters that resemble to Gabor filters widely used in image processing for decades \citep{fogel1989gabor,jain1991unsupervised}. It is possible to see that those same filters will be useful in other computer vision or image-related tasks.}
       \label{fig:AlexNet_filters}
     \end{figure}
-
+vdsw  2321 5345 fvf
     % \par It is interesting to note that those filters can be also seen as a representation for the skills we want to extract. In our case, we will need to combine both deep convolution network with a recurrent neural network (like in \citep{s16010115,pinheiro2014recurrent,huang2016deep}).
     \par Examples on transfer learning in case of network-based transfer are:
     \begin{itemize}
@@ -109,15 +109,15 @@
 
       Experiments are done on 12 different sources and target domain pairs. The data used reviews for different products (4 different products). The performance metric used in this case is the classification error rate when using a classifier trained on the source task only, minus the classification error rate of a classifier trained on the target task only. A SVM classifier trained on the source domain is used as a baseline, and a comparison with other transfer methods \citep{blitzer2006domain,li2008multi,pan2010cross}. All these methods performs better than the baseline, and \citep{glorot2011domain} peforms better than all of them.
 
-      \item \textit{Underwater Acoustics}: \citep{malfante2018use} compares the use of deep transfer learning to manual features \citep{malfante2016automatic,malfante2018machine}, in order to recognize the sounds of fish underwater. Interestingly, the deep learning models are trained on ImageNet \citep{imagenet_cvpr09} dataset (which is completely unrelated to acoustics), then used in order to extract features from the spectrogram of the underwater recordings. The assumption here is the the filters learned with deep learning are basic and generic enough, to be used in other domains, thus, deep learning can provide a natural correction for $P(X_S)$, to make it close to $P(X_T)$. Without any finetuning, the deep learning achieves quite a high perfomance, although less than the state of the art, suggesting that a further investment in this direction is worth the time.
+      \item \textit{Underwater Acoustics}: \citep{malfante2018use} compares the use of deep transfer learning to manual features \citep{malfante2016automatic,malfante2018machine}, in order to recognize the sounds of fish underwater. Interestingly, the deep learning models are trained on ImageNet \citep{imagenet_cvpr09} dataset (which is completely unrelated to acoustics), then used in order to extract features from the spectrogram of the underwater recordings. The assumption here is the the filters learned with deep learning are basic and generic enough, to be used in other domains, thus, deep learning can provide a natural correction for $P(X_S)$, to make it close to $P(X_T)$. Without any fine-tuning, the deep learning achieves quite a high performance, although less than the state of the art, suggesting that a further investment in this direction is worth the time.
 
-      \item \textit{Speech modeling}: \citep{xu2014cross} studies the idea of transfering the speech knowledge learned from one language to another using deep neural networks. In particular, the study the transfer between Mandarin and English (in both ways). Their hypothesis is that when modeling the speech in a language, there is a part in the model that is language independent. Their work was to find this part, and use it to bootstrap the learning of a new language (in case of neural networks, this can be rephrased as trying to find the good part in the neural network that is language independent).
+      \item \textit{Speech to speech translation}: \citep{xu2014cross} studies the idea of transferring the speech knowledge learned from one language to another using deep neural networks. In particular, the study the transfer between Mandarin and English (in both ways). Their hypothesis is that when modeling the speech in a language, there is a part in the model that is language independent. Their work was to find this part, and use it to bootstrap the learning of a new language (in case of neural networks, this can be rephrased as trying to find the good part in the neural network that is language independent).
 
       They compared their proposed transfer approach to a baseline model (a deep learning model trained on the target task only), and compare the different the usage of different layers of a deep neural network trained on the source task (in order to determine the best part, or the language independent part). They report multiple performance metrics: segmental SNR (SSNR), log-spectral distortion (LSD), and perceptual evaluation of speech quality (PESQ). They find that, given insufficient data on the target task (which is one of the motivations to perform transfer learning), this transfer scheme works better than the baseline.
 
-      \item \textit{Image classification}: \citep{oquab2014learning} investigated the usage of a convolution neural network (CNN) trained on ImageNet \citep{imagenet_cvpr09} (where the object of interest is centered in the image), to extract low-level and mid-level features, that can transfer well to more complex dataset, PASCAL VOC \citep{everingham2010pascal} (where there are several objects of interest in the image), and is smaller than ImageNet. They use the \textit{average precision} as their peformance metric, and they show that the transfer is better than training a model from scratch on this target dataset.
+      \item \textit{Image classification}: \citep{oquab2014learning} investigated the usage of a convolution neural network (CNN) trained on ImageNet \citep{imagenet_cvpr09} (where the object of interest is centered in the image), to extract low-level and mid-level features, that can transfer well to more complex dataset, PASCAL VOC \citep{everingham2010pascal} (where there are several objects of interest in the image), and is smaller than ImageNet. They use the \textit{average precision} as their performance metric, and they show that the transfer is better than training a model from scratch on this target dataset.
 
-      \item \textit{Styles of speech synthesis}: \citep{wang2018style} discusses the problem of transfering the styles between different speakers, in the task of speech synthesis. Traditionally, the oucome of speech synthesis systems is the same style. One of the challenges is to capture the richness of style of different speakers on some training data, and transfer this style to new text. In their work, they propose an embedding approach called \textit{Global Style Tokens}, in order to extract the styles from the different speakers during the training phase. They then show that they can use these tokens as extra information to the speech synthesis system, to bias/affect the style of the outcome.
+      \item \textit{Styles of speech synthesis}: \citep{wang2018style} discusses the problem of transferring the styles between different speakers, in the task of speech synthesis. Traditionally, the oucome of speech synthesis systems is the same style. One of the challenges is to capture the richness of style of different speakers on some training data, and transfer this style to new text. In their work, they propose an embedding approach called \textit{Global Style Tokens}, in order to extract the styles from the different speakers during the training phase. They then show that they can use these tokens as extra information to the speech synthesis system, to bias/affect the style of the outcome.
       They compare this to a baseline model, called \textit{TACOTRON} \citep{wang2017tacotron}, without these GST addition. They use \textit{Mean Opinion Score} (MOS) performance metric -- a subjective metric to assess the quality of experience experienced --. They conclude that transfer learning using GST outperforms the baseline model.
 
     \end{itemize}
@@ -157,7 +157,7 @@
     \label{fig:transfer_part_illustration}
   \end{sidewaysfigure}
 
-  \paragraph{How to evaluate the quality of transfer?} Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the loglikelihood (crossentropy) on the test data\sidenote{Based on experience, the crossentropy matters when it comes to generation. A difference of around 0.1 in crossentropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
+  \paragraph{How to evaluate the quality of transfer?} Concerning the performance metrics, we decided to use multiple metrics to determine the effect of transfer learning, and compare it to the baseline (no transfer). While the usage of a single metric offers more convenience for decision making (i.e., which model to choose), our goal is have a better understanding for the transfer of style. To achieve this, we would like to shade light on the outcome from different angles, by using multiple metrics. We first evaluate the quality of the model in prediction by looking at the log-likelihood on the test data\sidenote{Based on experience, the cross-entropy matters when it comes to generation. A difference of around 0.1 in cross-entropy between two models gives different generation quality.}. We then evaluate the quality of generation using our previously proposed metrics (the BLEU score and EOS analysis). We compare perform the generated strokes count, and include it in the comparison.
 
   \par One of the things we changed from the previous work is that, when analysing \textit{end of sequence}, instead of using Pearson Coefficient, we use Krippendorff-Alpha \citep{krippendorff2011computing}. The reason for this is that it offers a smoother transition between what is good and bad. In Pearson coefficient, if there is a mismatch between the generation and ground truth, it will not matter how big is the mistake (the distance between the generated and the ground truth). With Krippendorff-alpha, we can take into account the distance between the generated and the target symbols, thus providing a softer and more realistic estimation for the correlation.
 
@@ -166,7 +166,8 @@
   \par One important choice to make is to decide the amount of data to be used in the target task. Normally, the whole point from transfer learning is to address the insufficient data available for the target task. However, since we do not have a particular scenario to solve (we are mainly interested in that 'what if this happens' question), there is no clear criteria to decide the amount of data. If we select very few points, we may be biased towards giving transfer learning an advantage, while also sacrificing having generally bad results (even if transfer learning proved to be better than baseline on our performance metrics). It is important that the overall behavior of the system is acceptable (generating shapes with acceptable quality). To get around this design problem, we decided to use the entire data available to the target task, thus, testing the 'worst case scenario' for transfer learning (where the baseline has plenty of data, and it is used to train the whole model, compared to training only half the model in case of transfer learning). This will be the case for both \textit{IRONOFF} and \textit{QuickDraw!} datasets.
 
   \subsection{IRONOFF}
-    \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\sidenote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
+    % \par In case of handwriting letters, we define the task by the higher category it belongs to. So we have 3 tasks: uppercase, lowercase and digits\sidenote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
+    \par In case of handwriting letters, we distinguish between three tasks: uppercase, lowercase and digits\sidenote{I do not see a problem of working on the lower categories (A, a, B, b, ...., 7, 8, 9). However, it would have consumed a lot of computational time test on all possible combinations of source/target tasks.}.
     \par We explore the idea of transfer learning on all possible combinations of tasks:
     \begin{itemize}
       \item From uppercase and lowercase to digits,
@@ -177,7 +178,7 @@
     \subsubsection{Experimental setup}
       \par Figure \ref{fig:ironoff_protocol} details the protocol we used for this experiment. For each source/target task combination, we first perform hyperparameter search for the network for both the source and the target tasks. The best performing hyperparameters gives use the source and the target models. Using these models:
       \begin{itemize}
-        \item We use the source model to extract the encoder module (aka, the style extraction module). We then add it to a new model, freeze it (it will not be part of training), and train the new model on the target task. We also search for the best hyperparameters for this new model. We call this model the 'transfer model'. We retrain this transfer model 5 times with different random weights each time, and report the stats on the crossentropy of the test data for these repetitions.
+        \item We use the source model to extract the encoder module (aka, the style extraction module). We then add it to a new model, freeze it (it will not be part of training), and train the new model on the target task. We also search for the best hyperparameters for this new model. We call this model the 'transfer model'. We retrain this transfer model 5 times with different random weights each time, and report the stats on the cross-entropy of the test data for these repetitions.
         \item We retrain the target model 5 time as well.
         \item Then, we use the best performing transfer and targets models for generating the target tasks, and report the stats of the different generation metrics.
       \end{itemize}
@@ -191,7 +192,7 @@
 
     \subsubsection{Results}
     \paragraph{Loglikelihood of prediction}
-      In the prediction mode, the model is tested in a similar manner to the way it was trained: it is given the input from the ground truth, representing the current timestep, and asked to predict the next timestep. This tells us about the quality of the training procedure from one side, and shade light on the confidence of the model in predicting the next timestep.
+      In the prediction mode, the model is tested in a similar manner to the way it was trained: it is given the input from the ground truth, representing the current time step, and asked to predict the next time step. This tells us about the quality of the training procedure from one side, and shade light on the confidence of the model in predicting the next time step.
 
       The result of 5 times repetitions, for all the different combinations of source/target tasks, are mentioned in figure \ref{fig:ironoff_crossentropy}. We can see that the transfer learning always gives a significant advantage over baseline models.
       \begin{sidewaysfigure}
@@ -199,7 +200,7 @@
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Uppercase.png}\quad
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Lowercase.png}\quad
           \includegraphics[width=0.48\textwidth]{images/sota/ironoff_results/Digits.png}
-        \caption[\textit{IRONOFF} - log crossentropy of prediction results for different tasks]{\textit{IRONOFF}: log crossentropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
+        \caption[\textit{IRONOFF} - log cross-entropy of prediction results for different tasks]{\textit{IRONOFF}: log cross-entropy of prediction of test dataset for different combinations of source/target tasks, with 5 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
         \label{fig:ironoff_crossentropy}
       \end{sidewaysfigure}
 
@@ -247,10 +248,10 @@
       \begin{table}[!htbp]
         \centering
         \begin{tabular}{l c c} \hline
-        Models & Baseline & Transfer \\ \hline
-        Uppercase & 0.951 &  \textbf{0.97}\\ %\hline
-        Lowercase & 0.957 & \textbf{0.996} \\ %\hline
-        Digits & 0.916 & \textbf{0.985} \\ \hline
+        Task/Model & Baseline & Transfer \\ \hline
+        Uppercase & 0.95 &  \textbf{0.97}\\ %\hline
+        Lowercase & 0.96 & \textbf{1.0} \\ %\hline
+        Digits & 0.92 & \textbf{0.99} \\ \hline
         \end{tabular}
         \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the End-Of-Sequence (EoS) distributions between the transfer and baseline, for all tasks.}
         \label{table:ironoff_eos_transfer}
@@ -259,10 +260,10 @@
       \begin{table}[!htbp]
         \centering
         \begin{tabular}{l c c} \hline
-        Models & Baseline & Transfer \\ \hline
-        Uppercase & \textbf{0.379} & 0.247 \\ %\hline
-        Lowercase & 0.558 & \textbf{0.65} \\ %\hline
-        Digits & 0.398  & \textbf{0.713} \\ \hline
+        Task/Model & Baseline & Transfer \\ \hline
+        Uppercase & \textbf{0.38} & 0.25 \\ %\hline
+        Lowercase & 0.56 & \textbf{0.65} \\ %\hline
+        Digits & 0.4  & \textbf{0.71} \\ \hline
         \end{tabular}
         \caption{\textit{IRONOFF}: Krippendorff correlation coefficients for the strokes distributions between the transfer and baseline, for all tasks. Except for the uppercase case, transfer learning seems to perform well in the lowercase and the digits tasks.}
         \label{table:ironoff_strokes_transfer}
@@ -326,7 +327,7 @@
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/sq_ce.png}\quad
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/hex_ce.png}\quad
             \includegraphics[width=0.31\textwidth]{images/sota/quickdraw_results/oct_ce.png}\quad
-          \caption{\textit{QuickDraw!} - crossentropy of prediction of test dataset for different combinations of source/target tasks, with 30 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
+          \caption{\textit{QuickDraw!}: cross-entropy of prediction of test dataset for different combinations of source/target tasks, with 30 repetitions. We can see that, in all possible source/target task combinations, the transfer learning gives better advantage than just learning from scratch on the target task. The stars indicate the statistical significance level (1 for $<0.05$, 2 for $<0.01$ and 3 for $<0.001$).}
           \label{fig:quickdraw_crossentropy}
         \end{sidewaysfigure}
 
@@ -336,7 +337,7 @@
         %   \hline
         %   Task of comparison & P-Value \\ \hline
         %   Circle & 0.0003  \\ \hline
-        %   Trianlge & 5.15e-10  \\ \hline
+        %   Triangle & 5.15e-10  \\ \hline
         %   Square & 9.9e-12  \\ \hline
         %   Hexagon & 0.01  \\ \hline
         %   Octagon & 1.4e-05  \\ \hline
@@ -346,7 +347,7 @@
         % \end{table}
 
       \paragraph{BLEU score}
-        The bleu score results are summarized in table \ref{table:bleu_score_quickdraw_transfer}. Transfer learning outperforms the baseline models in this case.
+        The BLEU score results are summarized in table \ref{table:bleu_score_quickdraw_transfer}. Transfer learning outperforms the baseline models in this case.
 
         \begin{table}[!htbp]
           \centering
@@ -357,8 +358,8 @@
             Circle-baseline &    59.0 & 54.5 & 49.6 & 60.0 & 54.7 & 48.9 \\%\hline
             \textbf{Circle-transfer} &    \textbf{70.4} & \textbf{65.5} & \textbf{60.3} & \textbf{65.0} & \textbf{58.1} & \textbf{50.6} \\\hline
 
-            Trianlge-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\%\hline
-            \textbf{Trianlge-transfer} &  \textbf{61.3} & \textbf{52.4} & \textbf{44.1} & \textbf{50.6} & \textbf{44.8} & \textbf{39.8}  \\\hline
+            Triangle-baseline &  47.3 & 40.0 & 32.6 & 33.2 & 28.2 & 24.0  \\%\hline
+            \textbf{Triangle-transfer} &  \textbf{61.3} & \textbf{52.4} & \textbf{44.1} & \textbf{50.6} & \textbf{44.8} & \textbf{39.8}  \\\hline
 
             Square-baseline &    46.8 & 40.1 & 32.7 & 44.0 & 39.1 & 34.9  \\%\hline
             \textbf{Square-transfer} &    \textbf{57.9} & \textbf{50.8} & \textbf{42.9} & \textbf{53.0} & \textbf{47.4} & \textbf{42.3} \\\hline
@@ -380,12 +381,12 @@
           \centering
           \begin{tabular}{l c c} \hline
 
-          Models & Baseline & Transfer \\ \hline
-          Circle &  0.591 & \textbf{0.843} \\ %\hline
-          Trianlge & -0.056 & \textbf{0.609} \\ %\hline
-          Square &  0.037 &  \textbf{0.35} \\ %\hline
-          Hexagon &  0.07 &  \textbf{0.203} \\ %\hline
-          Octagon &  0.073 &  \textbf{0.158} \\ \hline
+          Task/Model & Baseline & Transfer \\ \hline
+          Circle &  0.6 & \textbf{0.84} \\ %\hline
+          Triangle & -0.05 & \textbf{0.61} \\ %\hline
+          Square &  0.04 &  \textbf{0.35} \\ %\hline
+          Hexagon &  0.07 &  \textbf{0.2} \\ %\hline
+          Octagon &  0.07 &  \textbf{0.16} \\ \hline
 
           \end{tabular}
           \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the end-of-sequence distributions between the generated letters and the ground truth letters.}
@@ -393,17 +394,17 @@
         \end{table}
 
       \paragraph{Strokes analysis}
-        Table \ref{table:quickdraw_strokes_transfer} summarize the results on strokes analysis in case of quickdraw. The benefits of transfer learning are clear. We also report the confusion matrix for the strokes, figure \ref{fig:quickdraw_strokes_cnf}. It is notable that the performance of the system in general decreases, as the diversity in the number of strokes increases. But still, transfer learning provides the better results.
+        Table \ref{table:quickdraw_strokes_transfer} summarize the results on strokes analysis in case of \textit{QuickDraw!}. The benefits of transfer learning are clear. We also report the confusion matrix for the strokes, figure \ref{fig:quickdraw_strokes_cnf}. It is notable that the performance of the system in general decreases, as the diversity in the number of strokes increases. But still, transfer learning provides the better results.
 
         \begin{table}[!htbp]
           \centering
           \begin{tabular}{l c c} \hline
-          Models & Baseline & Transfer\\ \hline
-          Circle &  -0.037 &  \textbf{0.096} \\ %\hline
-          Trianlge & -0.038 & \textbf{0.419} \\ %\hline
-          Square &  0.031 &  \textbf{0.25} \\ %\hline
-          Hexagon & -0.084 & \textbf{0.231} \\ %\hline
-          Octagon & 0.055 & \textbf{0.184} \\ \hline
+          Task/Model & Baseline & Transfer\\ \hline
+          Circle &  -0.04 &  \textbf{0.1} \\ %\hline
+          Triangle & -0.04 & \textbf{0.42} \\ %\hline
+          Square &  0.03 &  \textbf{0.25} \\ %\hline
+          Hexagon & -0.08 & \textbf{0.23} \\ %\hline
+          Octagon & 0.06 & \textbf{0.18} \\ \hline
 
           \end{tabular}
           \caption{\textit{QuickDraw!}: Krippendorff correlation coefficients for the strokes distributions between the generated letters and the ground truth letters. Transfer learning achieves better results than the baseline on all the different tasks.}
@@ -461,24 +462,33 @@
           \includegraphics[width=\textwidth]{images/sota/quickdraw_results/quickdraw_octagon_transfer_strokes_heatmap.png}
       \end{subfigure}
 
-      \caption{QuickDraw! Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
+      \caption{\textit{QuickDraw!} Confusion matrix for strokes for both baseline and transfer modes, on the different tasks.}
       \label{fig:quickdraw_strokes_cnf}
     \end{figure}
 
-\section{Are we actually capturing styles?}
-\par In the previous section, we showed that all the metrics indicate the benefits of transfer learning over using the target data only. We argued that this approach captures the styles, and that we are transfering the styles to a new task. But, are really capturing the styles this way?. In section \ref{ch:framework_sec:styleperletter}, we tried to motivate this point, by some exploring the bottleneck of the styles. We showed that looks consistant with what we know beforehand (in case of letter 'X' for example), or that it uncovers things we either did not notice beforehand (like in letters 'C' and 'S'), or uncover new things that we did not anticiapte (in case of letter 'A').
+\subsection{A word of caution about confusion matrix}
+\par In the previous two experiment, we presented the confusion matrix for the strokes. However, it is important to understand what these numbers actually mean. In a normal classification problem, the confusion matrix gives important information about the precision and recall of the classification. When comparing two algorithms -- for example --, the usage of the values of confusion matrix is an acceptable approach to consider. However, this is not the case when dealing with the generative aspects of machine learning. Bear in mind the asymmetry between the training of the model (using the log-likelihood of prediction) and the usage of the model (by sampling from the model), thus, a one-to-one comparison between what is generated and the ground truth is not possible or meaningful. A logical consequence for this is that we can not use such a method to compare two models together (i.e., compare transfer learning and the baseline). What we would like to achieve with generative model is to \textit{capture} the distribution of the ground truth, thus, for a meaningful comparison, we want to compare the distribution of the generation relative to the distribution of the ground truth. That is a core challenge in the this PhD: to provide tools to capture the distribution, to facilitate the comparison and evaluation of different models/methods.
 
-\par Testing for something that is ill-defined, and not always known beforehand, like styles, is quite challenging. To add to the challenge, the methods we used to explore the bottleneck space (PCA and tSNE) are not designed to uncover a 'styles' manifold, so sometimes, basic styles went missing (for example, with this exploration methods, we could not uncover the clockwise/counterclockwise direction in letter 'O' for example, which we know apriori that it exists!).
+\par One way to look at the confusion matrix is the general trends in the matrix, like:
+\begin{itemize}
+  \item The deviation around the diagonal: as the shapes gets more complicated, and as the number strokes increases, we expect that the deviation will increase.
+  \item Looking for systematic errors (e.g., the number of strokes for a square is always one instead of being three or four): this could help diagnosing problems with the models design, data processing \dots etc.
+\end{itemize}
+
+\section{Are we actually capturing styles?}
+\par In the previous section, we showed that all the metrics indicate the benefits of transfer learning over using the target data only. We argued that this approach captures the styles, and that we are transferring the styles to a new task. But, are really capturing the styles this way?. In section \ref{ch:framework_sec:styleperletter}, we tried to motivate this point, by some exploring the bottleneck of the styles. We showed that looks consistent with what we know beforehand (in case of letter 'X' for example), or that it uncovers things we either did not notice beforehand (like in letters 'C' and 'S'), or uncover new things that we did not anticipate (in case of letter 'A').
+
+\par Testing for something that is ill-defined, and not always known beforehand, like styles, is quite challenging. To add to the challenge, the methods we used to explore the bottleneck space (PCA and tSNE) are not designed to uncover a 'styles' manifold, so sometimes, basic styles went missing (for example, with this exploration methods, we could not uncover the clockwise/counterclockwise direction in letter 'O' for example, which we know a priori that it exists!).
 
 \par In this section, we want to shade more light on this problem, from a different and quantifiable angle. We will choose one aspect using \textit{QuickDraw!} dataset this time, we manually annotated circles and octagons into clockwise/counterclockwise categories. Then, we build a classifier on top of the styles bottleneck, to measure the quality of the capturing of this style aspect. If we can not see this style visually with PCA and tSNE, then we should be able to measure its impact.
 
-\par We annotated 716 drawings (see table \ref{table:cw_ccw_annotation}). We trained a classifier (RandomForests classifier) on this data directly, randomly separating training and test data, and repeated this 5 times. We did not configure the hyperparameters of that classifier (we want a general figure, not interested in an exact one). We obtained 92.9 ± 6.0 \% on the weighted F1 score. This suggests that this style extraction method does indeed capture this style aspect.
+\par We annotated 716 drawings (see table \ref{table:cw_ccw_annotation}). We trained a classifier (\textit{Random forests} classifier) on this data directly, randomly separating training and test data, and repeated this 5 times. We did not configure the hyper-parameters of that classifier (we want a general figure, not interested in an exact one). We obtained 92.9 ± 6.0 \% on the weighted F1 score. This suggests that this style extraction method does indeed capture this style aspect.
 
 \begin{table}[!htbp]
   \centering
   \begin{tabular}{l c c}
   \hline
-  Task category & Clockwise & CounterClockwise\\ \hline
+  Task/Direction & Clockwise (CW) & Counter-clockwise (CCW)\\ \hline
   Circle &  339 & 57 \\ %\hline
   Octagon & 115 & 205 \\ \hline
   \end{tabular}
@@ -488,6 +498,6 @@
 
 
 \section{Summary and take-away message}
-\par In this chapter, we presented our hypotheses for style transfer learning. We presented our proposed approach, and the proposed experimental protocol in order to investigate these hypotheses. To have better support for our conclusions, we carried out the experiments on two different datasets, \textit{IRONOFF} and \textit{QuickDraw!}, both of them presenting different challenges and behviors: \textit{IRONOFF} has more clear semantics, made by a pen, while in \textit{QuickDraw!} the contributors excerted more freedom on their work, and most of the work is believed to be done by the mouse or a tablet. Also, we chose to perform the study on the worst case scenario, where there is an abundance of data available to the target task. To better understand and compare transfer learning versus the baseline models (models trained only on the target task), we considered multiple performance metrics: the loglikelihood of prediction, the BLEU score, end-of-sequence and strokes analyses for the generated shapes.
+\par In this chapter, we presented our hypotheses for style transfer learning. We presented our proposed approach, and the proposed experimental protocol in order to investigate these hypotheses. To have better support for our conclusions, we carried out the experiments on two different datasets, \textit{IRONOFF} and \textit{QuickDraw!}, both of them presenting different challenges and behaviors: \textit{IRONOFF} has more clear semantics, made by a pen, while in \textit{QuickDraw!} the contributors excerted more freedom on their work, and most of the work is believed to be done by the mouse or maybe a tablet (using a finger or a pen). Also, we chose to perform the study on the worst case scenario, where there is an abundance of data available to the target task. To better understand and compare transfer learning versus the baseline models (models trained only on the target task), we considered multiple performance metrics: the log-likelihood of prediction, the BLEU score, end-of-sequence and strokes analyses for the generated shapes.
 
 \par The results overwhelmingly point to the benefit of transfer learning compare to the baselines on the different proposed metrics, thus providing a strong evidence to our hypotheses.
