@@ -475,7 +475,7 @@
   \item Looking for systematic errors (e.g., the number of strokes for a square is always one instead of being three or four): this could help diagnosing problems with the models design, data processing \dots etc.
 \end{itemize}
 
-\section{Are we actually capturing styles?}
+\section{Are we actually capturing styles?} \label{ch:seat_sec:rf}
 \par In the previous section, we showed that all the metrics indicate the benefits of transfer learning over using the target data only. We argued that this approach captures the styles, and that we are transferring the styles to a new task. But, are really capturing the styles this way?. In section \ref{ch:framework_sec:styleperletter}, we tried to motivate this point, by some exploring the bottleneck of the styles. We showed that looks consistent with what we know beforehand (in case of letter 'X' for example), or that it uncovers things we either did not notice beforehand (like in letters 'C' and 'S'), or uncover new things that we did not anticipate (in case of letter 'A').
 
 \par Testing for something that is ill-defined, and not always known beforehand, like styles, is quite challenging. To add to the challenge, the methods we used to explore the bottleneck space (PCA and tSNE) are not designed to uncover a 'styles' manifold, so sometimes, basic styles went missing (for example, with this exploration methods, we could not uncover the clockwise/counterclockwise direction in letter 'O' for example, which we know a priori that it exists!).

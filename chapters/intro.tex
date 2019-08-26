@@ -109,34 +109,63 @@
 
 \par Transfer learning is thus a field of machine learning, concerned with developing algorithms and procedures, to enable the transfer of knowledge between different tasks. So many techniques are available for transfer learning, but there is always a common assumption, that the transfer has the potential of success if the tasks are related (i.e., if there is common knowledge between the tasks), otherwise, a transfer learning can at best lead to no improvement, or even reduce the performance of the new model \citep{weiss2016survey}.
 
-\par Why do we need transfer learning? We do not always have the advantage of large datasets on the tasks that we want. In many cases, the acquisition and/or the annotation of large dataset can be prohibitively expensive. A simple relevant example here is HRI: collecting large dataset on each scenario we want to learn is simply unfeasible, due to the huge time it takes, and the limitations/cost of the hardware. Thus, we need to be able to transfer the knowledge from the task where we have large amount of data, to a relevant task where we do not have this advantage (figure \ref{fig:illustrate_TL}).
+\par Why do we need transfer learning? We do not always have the advantage of large datasets on the tasks that we want. In many cases, the acquisition and/or the annotation of large dataset can be prohibitively expensive. A simple relevant example here is human-robot interaction: collecting large dataset on each scenario we want to learn is simply unfeasible, due to the huge time it takes, and the limitations/cost of the robot hardware. Thus, we need to be able to transfer the knowledge from the task where we have large amount of data, to a relevant task where we do not have this advantage (figure \ref{fig:illustrate_TL}).
 
-\par What we want to achieve in this thesis is to transfer the styles between different tasks. We hypthosize that, when the tasks
+\par What we want to achieve in this thesis is to transfer the styles between different tasks. We hypothesize that, when the tasks are relevant (but different tasks, with different contents), that humans share leverage styles between the different tasks. In case of handwriting for example, we can reuse the strokes that we learn in the uppercase letters in order to learn the lowercase letters and digits. We will test this hypothesis in details in chapter \ref{ch:seat}.
 
-\begin{figure}
+\begin{figure}[!htbp]
+  \centering
   \includegraphics[scale=0.8]{./images/introduction/transfer_learning_illustration.jpeg}
   \caption{Illustration for a practical case of using transfer learning, where we have insufficient data on the new task, and we want to leverage the knowledge learned from another relevant task in order to learn the new task\endnote{Source of this image is \url{https://medium.com/data-science-101/transfer-learning-57ce3b98650}}.}
   \label{fig:illustrate_TL}
 \end{figure}
+
 \section{If we want transfer learning, why extracting styles?}
-  \par interpretability is important for trust and debugging (use the arguments from the book)
+  \par It is important not to forget our mission while being consumed by the shiny light of machine learning. It is easy to fall into the trap of 'getting the extra 0.1\% accuracy', figure \ref{fig:current_ml_comic}. Extracting styles enables us to have an idea of what the model actually learned (i.e., it makes the model more interpretable). But why do we need interpretability? Many reasons:
+  \begin{itemize}
+    \item Debugging: Neural networks are notoriously known for being black box models. Extracting styles gives us some indication on what the system learned, and whether it learned relevant information.
+    \item Discovery of new things: in the era of big data, trying to reason on the data directly is no longer feasible. Instead, a good approach is to reason on a model the fits these data (i.e., the model compresses the data into fewer dimensions). We would like to use this model to reason and discover new things about the data. After all, \textbf{the goal of science} is to gain knowledge about the world, and an understanding of how it works.
+    \item Understanding why?: in some cases (e.g., in case of unexpected events), it is human curiosity to understand the reasoning behind the different decisions. We would like to get insight on why the model led to that particular decision.
+    \item Developing safety measures: in many applications (like when dealing with the robots), it is important to be sure that the robot is a 100\% safe for the human. Understanding what the model learned can give us insight on the shortcomings of the model, allowing us to fix and improve it.
+    \item Social acceptance: humans always tries to attribute beliefs, intentions, personality traits and desires to different objects \citep{heider1944experimental}. An interpretable machine will reinforce these sensations in humans.
+    \item Improve social interactions: when the agent using the robot can explain itself and its perception of the world, it creates a common understanding between it and the human. This allows the humans to build a mental model for what the robot is actually trying to do, thus, building trust between humans and the robot.
+  \end{itemize}
+
+  \par For further details, we strongly recommend the excellent book \citep{molnar2019} on the topic of machine learning interpretability.
+
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[scale=0.5]{images/introduction/current_ml_tradition.png}
+    \caption{Source: \url{https://xkcd.com/}}
+    \label{fig:current_ml_comic}
+  \end{figure}
 
 
 \section{Contributions of this PhD}
 \par In this manuscript, we discuss the different contribution of this PhD, addressing different aspects of the styles:
 \begin{enumerate}
-  \item
+  \item Propose a manner of thinking about styles: traditionally, a lot of work has been done in order to manually extract and annotate styles, and deal with styles in terms of predictability (using the extracting styles in a regression/classification problem). In this PhD, we propose to implicitly evaluate styles by observing the generative aspects of the model (letting the model generates behaviors, and trying to evaluate the distance between these behaviors and the target/ground truth ones). This is discussed in \ref{ch:GBEM}.
+  \item Propose and build benchmarks and evaluation metrics, and ground those metrics, in order to compare and evaluate future style extraction methods, chapter \ref{ch:GBEM}.
+  \item Propose a generic framework to study styles, using conditioned-autoencoder. We evaluate this framework in its basic form against the benchmarks. We further validate this framework by extracting verbose styles from it, including ones we did not know they exist before. This is discussed in chapter \ref{ch:framework}.
+  \item Last, we address the problem of style transfer. We show how to use our proposed framework in order to transfer styles. We perform extensive experiments in a lot of combinations of tasks, on two different datasets. We also enhance and expand on the evaluation metrics we use in order to quantify the quality of transfer. This is discussed in chapter \ref{ch:seat}.
 \end{enumerate}
-Some informal contributions are: \textbf{not sure about this section}
-\begin{enumerate}
-  \item Definition of styles??
-\end{enumerate}
+% Some informal contributions are: \textbf{not sure about this section}
+% \begin{enumerate}
+%   \item Definition of styles??
+% \end{enumerate}
 
-\section{An overview of the manuscript}
-\par The main contribution of the PhD is a thinking framework to study and observe styles, in the temporal case, using neural networks, while the task is defined beforehand. Through implementation, benchmarks and evaluation, and analysis of the networks performance (and sometimes its behavior), we seek to provide support to ground this framework, and our hypotheses about it.
-
-\par The most general elements/components has been used in our study, in order not to couple the effect of more advanced/complicated items with our conclusions. This leaves a big room for further improvements and exploration as well.
-
-\par Using machine learning as tool enables us to process large amount of data.
+% \section{An overview of the manuscript}
+% \par The main contribution of the PhD is a thinking framework to study and observe styles, in the temporal case, using neural networks, while the task is defined beforehand. Through implementation, benchmarks and evaluation, and analysis of the networks performance (and sometimes its behavior), we seek to provide support to ground this framework, and our hypotheses about it.
+%
+% \par The most general elements/components has been used in our study, in order not to couple the effect of more advanced/complicated items with our conclusions. This leaves a big room for further improvements and exploration as well.
+%
+% \par Using machine learning as tool enables us to process large amount of data.
 
 \section{Thesis outlines}
+\par We start in chapter \ref{ch:dataset} by explaining the datasets used in this PhD, and explore their different characteristics, and the preprocessing performed on them. In chapter \ref{ch:GBEM}, we discuss first the different aspect of deep learning that we are using in this PhD. We then move to discuss the different benchmarks and evaluation metrics we propose, and how can we ground them.
+
+\par Once this step is done, is paves the way to discuss our proposed framework to study styles in chapter \ref{ch:framework}. We start first by presenting the relevant literature, then move on to the experimental part, where we show the performance of the proposed framework relative to the benchmarks. We conclude this chapter by a section on style extraction, where we shade some light on what the model actually learned.
+
+\par With the elements in place, we can explore the topic of style transfer, in chapter \ref{ch:seat}. As usual, we study with literature over transfer learning, followed by the proposed experiments in order address our hypotheses. We perform a wide range of experiments, to solidify our conclusions about style transfer. We also discuss another possibility to interpret what the model actually learned in section \ref{ch:seat_sec:rf}.
+
+\par We conclude the manuscript by a general discussion over this thesis (chapter \ref{ch:discussion}), the difficulties it faced, and the possible future research directions based on the results. We believe that this thesis answered multiple questions, but it also created more questions and research interests to investigate further. We then make a short summary and conclusions about the work done in this thesis in chapter \ref{ch:closing_remarks}.
