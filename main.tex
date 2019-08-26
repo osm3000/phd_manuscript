@@ -87,6 +87,7 @@
 \usepackage{eso-pic} % Required for specifying an image background in the title page
 
 \usepackage{minitoc} % to create a small table of content in the begining of each chapter
+\usepackage{wrapfig} % to wrap figures in text
 
 \definecolor{rosepale}{rgb}{1.0, 0.7, 1.0}
 \definecolor{rougepale}{rgb}{1.0, 0.4, 0.4}
@@ -110,13 +111,24 @@
 
 % \setcitestyle{square}
 
-\renewcommand{\headrulewidth}{2pt}
-\renewcommand{\footrulewidth}{1pt}
+
+\newcommand{\changefont}{% To be used to change the font size of the headers
+    \fontsize{9}{11}\selectfont
+}
+
+
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0pt}
 \pagestyle{fancy} % to configure the header and the footer
 \fancyhf{}
-\fancyhead[CE,CO]{\rightmark}
-\fancyhead[LE,RO]{\thepage}
-\fancyfoot[CE,CO]{Deep learning methods for style extraction and transfer}
+% \fancyhead[CE,CO]{\changefont \slshape \rightmark}
+% \fancyhead[LE,RO]{\changefont \thepage}
+% \fancyfoot[CE,CO]{Deep learning methods for style extraction and transfer}
+\fancyhead[LE]{\changefont \slshape \rightmark} %section
+\fancyhead[RE]{\changefont \thepage}
+\fancyhead[RO]{\changefont \slshape \leftmark} % chapter
+\fancyhead[LO]{\changefont \thepage}
+\renewcommand*{\sectionmarkformat}{} % to remove the section number in the headers
 
 % See this page for info about the fancy formats
 % https://www.overleaf.com/learn/latex/Headers_and_footers
@@ -160,6 +172,8 @@
 \part{Introduction and Problem Description}
 % \chapterimage{./images/chapter_images/black_hole_interstellar.jpeg}
 \input{chapters/intro.tex}
+\theendnotes
+\setcounter{endnote}{0}
 
 \Gls{task}
 % \theendnotes
