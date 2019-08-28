@@ -2,7 +2,7 @@
 
 \minitoc% Creating an actual minitoc
 
-\par Since styles are ill-defined, they can not be evaluated explicitly (we can not quantify them in advance). Thus, we need a proxy method in order to implicitly evaluate them. We can do this by using them in order to generate behaviors (i.e., synthesis handwriting traces), and evaluate the quality of those behaviors relative to the target behaviors (i.e., the original letters traces). In other words, to study styles, we would like to use reconstruct the target behaviors using generative models, and given the task and the styles to perform the behavior. We discuss the recent advances in neural generative models: how are they trained? how do we infer from them?...etc. Then we look at paradigm for reconstruct target behaviors, with focus on the usage of neural networks.
+\par Since styles are ill-defined, they can not be evaluated explicitly (we can not quantify them in advance). Thus, we need a proxy method in order to implicitly evaluate them. We can do this by using them in order to generate behaviors (i.e., synthesis handwriting traces), and evaluate the quality of those behaviors relative to the target behaviors (i.e., the original letters traces). In other words, to study styles, we would like to use reconstruct the target behaviors using generative models, and given the task and the styles to perform the behavior. We discuss the recent advances in neural generative models: how are they trained? how do we infer from them?. Then we look at paradigm for reconstruct target behaviors, with focus on the usage of neural networks.
 
 \par After we generate the behaviors, we need to evaluate them in a manner that evaluates the styles. This is still an open research question, and a complicated one as well. It also goes hand-in-hand with the choices made in generative models. We discuss the used evaluation metrics across different domains (e.g., text, speech and handwriting evaluation). We also discuss the difficulties associated with finding the suitable evaluation metric.
 
@@ -35,8 +35,8 @@
 
 \par Deep learning is a subset of machine learning~\citep{lecun2015deep,Goodfellow-et-al-2016}, mainly applicable on neural networks. These set of techniques perform remarkably well nowadays on a wide range of tasks and benchmarks (for example, in image recognition~\citep{krizhevsky2012imagenet,simonyan2014very,he2016deep}, speech synthesis~\citep{oord2016wavenet}, image segmentation, handwriting recognition, image captioning~\citep{DBLP:journals/corr/VinyalsTBE14,karpathy2015deep}, language translation\citep{sutskever2014sequence}), even outperforming humans in some of them (GO game~\citep{silver2016mastering}).
 
-\GB{I would distinguish between recognition tasks (that discard irrelevant variability) and generation/prediction tasks (that have to deal with output variability)}
-\OSM{07/06: Noted. Will update it.}
+% \GB{I would distinguish between recognition tasks (that discard irrelevant variability) and generation/prediction tasks (that have to deal with output variability)}
+% \OSM{07/06: Noted. Will update it.}
 
 % Before deep learning, in order to use machine learning algorithms were good to find patterns, given good features. This task, referred to as \textit{feature engineering}, was quite challenging in many applications (like identifying objects in images for example \textbf{PUT SOME REFERENCES HERE}), and require specific skills related to the domain of interest.
 
@@ -51,7 +51,7 @@ The advantage of deep learning techniques is that it overcome (to a big extent) 
 \subsection{A word about sequential data} \label{sec:seq_data}
 \par Sequential data appears in a lot of our daily life, for example: text, speech, the weather status,...etc. In a more formal manner, a sequential data example is formed of tokens, and can be represented as $x_1, x_2, ..., x_N$, where $x_n$ is one token, and $N$ is the total length of this sequential data point.
 
-\par Let's take a more concrete example: text. We have multiple sentences in a given text. We can consider each sentence as a data point/example. If we consider an example sentence: \textit{the cat is eating the food}, and we define our tokens to be the words\sidenote{There is no rule here for how we define the tokens. We can, for example, define the letters to be our tokens. In the case of text, it is a tradeoff: considering words as tokens allow the model to be more fluent, but it also means that the learning space is very large (sometimes the number of unique words to predict at each time step is in the order of tens of thousands). If we consider letters as tokens however, it make the model job more tractable (all the letters, symbols, digits, can be in the order of tens), but it leads to less quality for the model.}. In this case, $x_1=the$, $x_2=cat, \dots\ etc$.
+\par Let's take a more concrete example: text. We have multiple sentences in a given text. We can consider each sentence as a data point/example. If we consider an example sentence: \textit{the cat is eating the food}, and we define our tokens to be the words\footnote{There is no rule here for how we define the tokens. We can, for example, define the letters to be our tokens. In the case of text, it is a tradeoff: considering words as tokens allow the model to be more fluent, but it also means that the learning space is very large (sometimes the number of unique words to predict at each time step is in the order of tens of thousands). If we consider letters as tokens however, it make the model job more tractable (all the letters, symbols, digits, can be in the order of tens), but it leads to less quality for the model.}. In this case, $x_1=the$, $x_2=cat, \dots\ etc$.
 
 \par What is common between all the sequential data (and what also distinguish them from non-sequential data points) is that each token is dependent on the previous token/s. In general, when we want to model sequential data, we in essence want to learn the following probability distribution:
 \begin{equation}
@@ -60,14 +60,14 @@ The advantage of deep learning techniques is that it overcome (to a big extent) 
 \end{equation}
 
 \par In order to model such a distribution using neural networks, we can either:
-\setlist{nolistsep}\begin{enumerate}[noitemsep]
+\begin{enumerate}
     \item Adding a \textit{state variable} in order to factorize the problem. In this case, we introduce an intermediate state variable, $h$, which model the dependency on the previous tokens. Our objective in this case will be
     \begin{equation}
         p(h_n) = p(h_{n-1}, x_{n})
         \label{eq:rnn_factorization}
     \end{equation}
     This can be done using \textit{Recurrent Neural Networks} (RNN), which will be explained later in detail (section \ref{sec:RNN}). In this case, the network is looping over the tokens one-by-one, updating the state variable each time.
-    \item Use the whole sequential point (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation \ref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in (\citep{oord2016wavenet,gehring2017convolutional}), using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
+    \item Use the whole sequential data (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation \ref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in (\citep{oord2016wavenet,gehring2017convolutional}), using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
 \end{enumerate}
 
 \par There is no one solution that fits all here, it simply depends on the problem and the constraints on the solution. In case of variable-length sequential data, the first approach is the one to go for. In the case of fixed-length sequential data, the second approach should be considered (easier to train the model, faster to optimize, faster to infer from).
@@ -78,7 +78,7 @@ As mentioned briefly in the previous section (\ref{sec:seq_data}), \textit{Recur
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{images/gbem/basic_rnn.png}
-    \caption{A demonstration of how RNN works: the network is applied on each token in the input ($x_1, x_2, ..., x_t$), while update the hidden state variable every time ($h_0, h_1, ..., h_t$). The output at each step is a function of the hidden state variable (not demonstrated here). Source of the image is (\citep{howrnnworks}).}
+    \caption{A demonstration of how RNN works: the network is applied on each token in the input ($x_1, x_2, ..., x_t$), while update the hidden state variable every time ($h_0, h_1, ..., h_t$). The output at each step is a function of the hidden state variable (not demonstrated here). Source of the image is \citep{howrnnworks}.}
     \label{fig:basic_rnn_model}
 \end{figure}
 
@@ -106,18 +106,18 @@ As mentioned briefly in the previous section (\ref{sec:seq_data}), \textit{Recur
     Loss = \frac{1}{T \times N} \sum_{n}^{N} \sum_{t}^{T} \left ( y_{n, t} - \hat{y_{n, t}}\right )^2
     \label{eq:loss_fn_mse}
 \end{equation}
-where $T$ is the length of the of the sequence, and the $N$ is the number of sequential data points available, and $\hat{y_{n, t}}$ is predicted output by the model, while $\hat{y_{n, t}}$ is the ground truth output.
+where $T$ is the length of the sequence, and the $N$ is the number of sequential data points available, and $\hat{y_{n, t}}$ is predicted output by the model, while $\hat{y_{n, t}}$ is the ground truth output.
 
 \par Given this formalization, the objective is to find the set of weights and biases of the network, that will minimize the chosen loss function. We will explore the optimization algorithms in section \ref{subsec:optimization}.
 
 \subsection{Optimization Algorithms} \label{subsec:optimization}
-\par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converges to a better solution, and less tweaking is required in order to achieve a good performance. All these methods are derivatives of gradient descent optimization, defined as\citep{gradientdescent}:
+\par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converges to a better solution, and less tweaking is required in order to achieve a good performance. All these methods are derivatives of gradient descent optimization, defined as \citep{gradientdescent}:
 
 \begin{quote}
     Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function. To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point.
 \end{quote}
 
-\par If the function to be optimized is convex(\citep{convexfn}) -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure \ref{fig:grad_descent}.
+\par If the function to be optimized is convex \citep{convexfn} -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure \ref{fig:grad_descent}.
 
 \begin{figure}
     \centering
@@ -143,8 +143,8 @@ where $\theta$ refers to the parameters we want to optimize, $t,t+1$ refers to t
 
 Before we dive into the different optimization methods currently used, it is important first to stress on an important characteristic of all modern deep neural networks, which are (\citep{Goodfellow-et-al-2016}):
 \setlist{nolistsep}\begin{itemize}[noitemsep]
-    \item \textbf{Differentiability} All the components of the neural networks (activation function, loss objective, regularization, ...etc) are differentiable components. This issue is not about mandatory by theory, but by convenience: good optimizers exist that can use this feature in order to optimize the network faster, while being able to scale with appropriately with the given number of data points and the number of parameters to be optimized.
-    \item \textbf{Non-convexity} While the neural network is built of convex parts, the composition of those parts together is not convex. The reasoning for this particular point is out of the scope of this document. We refer you to the excellent book (\citep{Goodfellow-et-al-2016}) for more details --. While this seems to be a disadvantage, it is actually a powerful advantage of the neural network. Neural networks are \textit{universal approximator}, meaning that they can approximate/learn any function. A convex function can not approximate non-convex function, but the other way around works (\citep{lecture_nn_optimization}).
+    \item \textbf{Differentiability}: All the components of the neural networks (activation function, loss objective, regularization, ...etc) are differentiable components. This issue is not about mandatory by theory, but by convenience: good optimizers exist that can use this feature in order to optimize the network faster, while being able to scale with appropriately with the given number of data points and the number of parameters to be optimized.
+    \item \textbf{Non-convexity}: While the neural network is built of convex parts, the composition of those parts together is not convex. The reasoning for this particular point is out of the scope of this document. We refer you to the excellent book (\citep{Goodfellow-et-al-2016}) for more details --. While this seems to be a disadvantage, it is actually a powerful advantage of the neural network. Neural networks are \textit{universal approximator}, meaning that they can approximate/learn any function. A convex function can not approximate non-convex function, but the other way around works (\citep{lecture_nn_optimization}).
 
     Using gradient descent optimization methods in this case leads to convergence to local optima points. The initial conditions of the network (the initial random parameters, and the strategy of their selection) and the optimization strategy and parameters (learning rate, decay factor,...etc) will play an important rule to determine the convergence characteristics (speed of convergence, and local optima) of the neural network.
 \end{itemize}
@@ -177,7 +177,7 @@ Talk about Vanilla RNN (and what is their problem), LSTMs (and the intuition beh
     \label{fig:text_gen}
 \end{figure}
 
-During the inference mode, the objective is to generate the most likely sequence. i.e., we want to solve the following problem
+During the inference mode, the objective is to generate the most likely sequence. We want to solve the following problem
 
 \begin{equation}
     \begin{split}
@@ -189,14 +189,14 @@ During the inference mode, the objective is to generate the most likely sequence
 
 % \par Unfortunately, this problem is not tractable, as it scales badly with the number of options (i.e, dimensions) per time step, and the number of time steps required. Multiple methods are being used currently to find an approximate solution to this problem \GB{I would order from the simplest to the most complex}: beam search, temperature sampling, and greedy selection.
 % \paragraph{Beam Search} \GB{Describe: selection of N best candidates at each time step of the forward pass given the past and perform a back-pass picking up the best solution}
-% \paragraph{Temperature Sampling} \GB{Sample the distribution up to a certain threshold} Since the output of the network is discrete, we use a $SoftMax$ function in order to model this distribution\sidenote{The concept of temperature sampling is not limited to the discrete distributions only. You can use it to sample from a \textit{Gaussian Mixture Model} (GMM) for example. In that case, higher temperatures smooth the difference in the weights between the different Gaussian distributions during the sampling process.}.
+% \paragraph{Temperature Sampling} \GB{Sample the distribution up to a certain threshold} Since the output of the network is discrete, we use a $SoftMax$ function in order to model this distribution\footnote{The concept of temperature sampling is not limited to the discrete distributions only. You can use it to sample from a \textit{Gaussian Mixture Model} (GMM) for example. In that case, higher temperatures smooth the difference in the weights between the different Gaussian distributions during the sampling process.}.
 % \paragraph{Greedy Selection} is a special case of temperature sampling, $T = 0$. In other words, for every time-step, we sample value with the highest probability (e.g., like in the training paradigm). The advantage of this scheme is that it is deterministic and computationally cheap, thus easy to reproduce. The disadvantage on the other side is, like other greedy algorithms, it is sub-optimal, thus yielding worse results.
 
 \par This problem, however, is not tractable, as it scales badly with the number of options (i.e, dimensions) per time step, and the number of time steps required. One simple way is to perform \textit{greedy sampling}, where, at each time step, we select the most likely token. This, however, leads to repetitive and predictable patterns (\citep{chollet2017book}).
 
-\par A better way will be to to use \textit{stochastic sampling}, by leveraging the fact that at each step, we have a probability distribution over all possible tokens. This allows more diversity in the generated tokens, and also allow unlikely tokens to be sampled some of the time.
+\par A better way will be to use \textit{stochastic sampling}, by leveraging the fact that at each step, we have a probability distribution over all possible tokens. This allows more diversity in the generated tokens, and also allow unlikely tokens to be sampled some of the time.
 
-\par But what if we want to control the level of randomness in the sampling process? having such control will allow us to explore different ways to infer from the model, in order to determine the most satisfying way. This control can be done using \textit{temperature sampling}. The idea is to reshape the probability distribution over he different token. On one extreme, very high temperature (going to infinity) will flatten the distribution, making the distribution equivalent to \textit{uniform distribution}. On the other extreme, a temperature of zero will be mount to greedy sampling. This is illustrated in figure \ref{fig:temperature_sampling}.
+\par But what if we want to control the level of randomness in the sampling process? Having such control will allow us to explore different ways to infer from the model, in order to determine the most satisfying way. This control can be done using \textit{temperature sampling}. The idea is to reshape the probability distribution over the different token. On one extreme, very high temperature (going to infinity) will flatten the distribution, making the distribution equivalent to \textit{uniform distribution}. On the other extreme, a temperature of zero will be mount to greedy sampling. This is illustrated in figure \ref{fig:temperature_sampling}.
 
 \begin{sidewaysfigure}[!htbp]
     \centering
@@ -230,15 +230,15 @@ There are multiple ways to bias the model, all targeting the same thing: initial
 \begin{figure}
     \centering
     \begin{subfigure}[b]{\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/conditioning_model/first_timestep.jpeg}
-        \caption{Initializing using the first time-step}
-        \label{subfig:first_timestep}
+      \includegraphics[width=\textwidth]{images/gbem/conditioning_model/hidden_state.jpeg}
+      \caption{Initializing the hidden state}
+      \label{subfig:hidden_state}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/conditioning_model/hidden_state.jpeg}
-        \caption{Initializing the hidden state}
-        \label{subfig:hidden_state}
+        \includegraphics[width=\textwidth]{images/gbem/conditioning_model/first_timestep.jpeg}
+        \caption{Initializing using the first time-step}
+        \label{subfig:first_timestep}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{\textwidth}
@@ -264,7 +264,7 @@ There are multiple ways to bias the model, all targeting the same thing: initial
 \section{Putting all of that together}
 \par In the previous section, we explored multiple building blocks for the work to come, like recurrent neural networks (architectures, training, inference and conditioning). We also discussed the issue of evaluation the output of generative models, discussing three aspects: evaluation in case of text (image captioning, translation, and text generation in general), speech synthesis, and the dangers of using another model (oracle model) in order to evaluate the generation quality.
 
-\par In this section, I discuss how did we put all these elements together, decisions we made, and the experimental setup we used, in order to address the following three questions:
+\par In this section, I discuss how to put all these elements together, the decisions made, and the experimental setup used, in order to address the following three questions:
 \setlist{nolistsep}\begin{itemize}[noitemsep]
     \item How to generate handwritten letters using deep learning framework?
     \item How to evaluate the generated traces?
@@ -288,7 +288,7 @@ Score_{N} = \min{(0, 1 - \frac{L_{R}}{L_{G}})} \prod^{N}_{n=1}BLEU_{n}
 where: $G$ is all the generated sequences, $N$ is the total number of N-grams we want to consider. $Count_{Clipped}$ is clipped N-grams count (if the number of N-grams in the generate sequence is larger than the reference sequence, the count is limited to the number in the reference sequence only), $L_R$ is the length of the reference sequence, $L_G$ is the length of the generated sequence.
 The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short generated sequences (shorter than the reference sequence), which will deceptively achieve high scores.
 
-\par In order to get into the intuition of using such a metric in evaluating the quality of handwriting generation, we can imagine that we are comparing segments of a generated trace to segments in the ground truth letter, by asking the following question: does the segment in the generated trace exist (anywhere) in the original trace? The shorter segments represent \textit{adequacy} (i.e., does the generated trace use the same elementary moves like the ground truth trace). The longer segments represents \textit{fluency} of drawing (i.e., how good the drawing is)\sidenote{This last interpretation of short and long segments is adapted from the \citep{papineni2002bleu}, which uses them for text translation evaluation.}. See figure \ref{fig:bleu_score}.
+\par In order to get into the intuition of using such a metric in evaluating the quality of handwriting generation, we can imagine that we are comparing segments of a generated trace to segments in the ground truth letter, by asking the following question: does the segment in the generated trace exist (anywhere) in the original trace? The shorter segments represent \textit{adequacy} (i.e., does the generated trace use the same elementary moves like the ground truth trace). The longer segments represents \textit{fluency} of drawing (i.e., how good the drawing is)\footnote{This last interpretation of short and long segments is adapted from the \citep{papineni2002bleu}, which uses them for text translation evaluation.}. See figure \ref{fig:bleu_score}.
 
 \begin{figure}[!htbp]
     \centering
@@ -343,7 +343,7 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
     \label{fig:architectures}
 \end{figure}
 
-\subsection{Model used}
+\subsection{Model proposed}
 In order to answer the questions mentioned earlier, we use conditioned-GRU model, demonstrated in figure \ref{fig:dtl_model}. Using this model, we compare different style approached discussed in section \ref{subsec:ground_metrics}, and use the generation results from that model in order to ground the proposed evaluation metrics, discussed in section \ref{subsec:eval_metrics}.
 \begin{figure}[!htbp]
     \centering
@@ -364,7 +364,8 @@ In order to answer the questions mentioned earlier, we use conditioned-GRU model
 \end{figure}
 
 \subsection{Results}
-\par We train our different model and generate the traces from them as explained earlier. In this section, we compare the different models using the evaluation metrics discussed before. We  observe the consistency of the reported metrics with the prior information about the cardinal power of the different methods, equation \ref{eq:cardinal_power}. This is how we ground our metrics
+\par We train our different models and generate the traces from them as explained earlier. In this section, we compare the different models using the evaluation metrics discussed before. We  observe the consistency of the reported metrics with the prior information about the cardinal power of the different methods, equation \ref{eq:cardinal_power}. This is how we ground our metrics.
+
 \subsubsection{BLEU score}
 \par The final results using the BLEU score can be seen in table \ref{table:1}. The results vary when measuring BLEU-1. But, as we increase the number of grams, BLEU-2 and BLEU-3, to measure the similarity between larger segments of the traces, we can observe:
 \begin{itemize}
@@ -382,8 +383,8 @@ In order to answer the questions mentioned earlier, we use conditioned-GRU model
 Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
 Letter identity          & 49.7 & 37.3 & 24.2          & 47.4 & 36.6  & 26.8               \\\hline
 Image classifier     & 50.9 & 38.2 & 24.6          & 48.5 & 37.9 & 28.1             \\\hline
-Image autoencoder    & 51.9 & 37.9 & 23.1          & 46.4 & 35.0  & 24.5             \\\hline
-Letter + Writer identities & 51.5 & 41.4 & 25.1          & 56.7 & 39.4  & 28.3             \\\hline
+Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.5             \\\hline
+\textbf{Letter + Writer identities} & 51.5 & \textbf{41.4} & \textbf{25.1}          & \textbf{56.7} & \textbf{39.4}  & \textbf{28.3}             \\\hline
 \end{tabular}
 \caption{Comparing different approaches for style extraction using clipped n-grams}
 \label{table:1}
@@ -424,7 +425,7 @@ Models & Pearson coefficient & p-value \\ \hline
 Letter bias & 0.38 & 0.84 \\ \hline
 Image classifier & 0.32 & 0.62\\ \hline
 Image autoencoder & 0.25 & 0.29 \\ \hline
-Letter + Writer bias & 0.55 & 0.04\\ \hline
+\textbf{Letter + Writer bias} & \textbf{0.55} & \textbf{0.04}\\ \hline
 \end{tabular}
 \caption{Pearson correlation coefficients and associated p-values for the EOS distributions of the different style biases.}
 
