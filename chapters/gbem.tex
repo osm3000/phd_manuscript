@@ -15,8 +15,7 @@
         Questions addressed in this chapter
     \end{center}
 
-    \setlist{nolistsep}
-    \begin{itemize}[noitemsep]
+    \begin{itemize}
         \item How to generate handwritten letters using deep learning framework?
         \item How to evaluate the generated traces?
         \item What benchmarks are suitable to compare to?
@@ -26,7 +25,8 @@
 \clearpage
 
 \section{Background}\label{sec:gbem_background}
-\subsection{Deep Learning: quick overview}
+\par We start by introducing the different basis in the literature for our work. Most of this work uses deep learning and generative models. How and why deep learning emerged in the last few years is quite important to keep in mind, since it is the starting point for any successful usage of deep learning. We then explore a particular aspect of deep learning: generative models. In particular, we focus on the domain of sequential data, where the problem gets more challenging. A direct consequence for using generative models is the challenge of evaluating what is generated. Generation, after all, is an artistic aspect, unlike well defined machines learning tasks like regression and classification. We try to make sense of what exists in the literature, and try to deduce what would be a good criteria for new evaluation metrics for a generative task.
+% \subsection{Deep Learning: quick overview}
 % \textbf{\textsc{this part will be modified. focus only on RNN, leave generative models to the next section}}
 % \setlist{nolistsep}\begin{itemize}[noitemsep]
 %     \item Talk about deep learning and its current uses in general
@@ -44,11 +44,11 @@
 
 The advantage of deep learning techniques is that it overcome (to a big extent) the need for the daunting task of feature engineering. Instead, it tries to learn, from the raw data, hierarchy of features, that are optimal in order to solve the task in hand (i.e., it performs \textit{automated feature engineering}). In our work for example, we did not need to do any kind of temporal feature extraction.
 
-\par A proper discussion into the basics of deep learning is out of the scope of this document (and has been done properly in many books and tutorial available online). We refer you to the excellent book \citep{Goodfellow-et-al-2016} for more theoretical treatment of deep learning, and to \citep{chollet2017book,geron2017hands} for a more practical aspect.
+\par A detailed discussion into the basics of deep learning is out of the scope of this document (and has been done properly in many books and tutorial available online). We refer you to the excellent book \citep{Goodfellow-et-al-2016} for more theoretical treatment of deep learning, and to \citep{chollet2017book,geron2017hands} for a more practical aspect.
 % GB: not fan:
 %\textbf{Write about the history of deep learning, and how did it become the way it is now - algorithmic\citep{srivastava2014dropout}, hardware, data, software frameworks and language... -}
 
-\subsection{A word about sequential data} \label{sec:seq_data}
+\subsection{Sequential data} \label{sec:seq_data}
 \par Sequential data appears in a lot of our daily life, for example: text, speech, the weather status,...etc. In a more formal manner, a sequential data example is formed of tokens, and can be represented as $x_1, x_2, ..., x_N$, where $x_n$ is one token, and $N$ is the total length of this sequential data point.
 
 \par Let's take a more concrete example: text. We have multiple sentences in a given text. We can consider each sentence as a data point/example. If we consider an example sentence: \textit{the cat is eating the food}, and we define our tokens to be the words\footnote{There is no rule here for how we define the tokens. We can, for example, define the letters to be our tokens. In the case of text, it is a tradeoff: considering words as tokens allow the model to be more fluent, but it also means that the learning space is very large (sometimes the number of unique words to predict at each time step is in the order of tens of thousands). If we consider letters as tokens however, it make the model job more tractable (all the letters, symbols, digits, can be in the order of tens), but it leads to less quality for the model.}. In this case, $x_1=the$, $x_2=cat, \dots\ etc$.
@@ -67,12 +67,12 @@ The advantage of deep learning techniques is that it overcome (to a big extent) 
         \label{eq:rnn_factorization}
     \end{equation}
     This can be done using \textit{Recurrent Neural Networks} (RNN), which will be explained later in detail (section \ref{sec:RNN}). In this case, the network is looping over the tokens one-by-one, updating the state variable each time.
-    \item Use the whole sequential data (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation \ref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in (\citep{oord2016wavenet,gehring2017convolutional}), using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
+    \item Use the whole sequential data (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation \ref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in \citep{oord2016wavenet,gehring2017convolutional}, using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
 \end{enumerate}
 
 \par There is no one solution that fits all here, it simply depends on the problem and the constraints on the solution. In case of variable-length sequential data, the first approach is the one to go for. In the case of fixed-length sequential data, the second approach should be considered (easier to train the model, faster to optimize, faster to infer from).
 
-\subsection{Recurrent Neural Networks and Sequence Generation} \label{sec:RNN}
+\subsection{Recurrent Neural Networks and Sequence Modeling} \label{sec:RNN}
 As mentioned briefly in the previous section (\ref{sec:seq_data}), \textit{Recurrent Neural Networks} (RNN) is a type of neural networks, that can handle sequential aspect in data. In its simplest format, it is a simple feed-forward network, applied on each token in the sequential data point, while carrying the information about the previous tokens using a latent variable $h$, commonly referred to as \textit{the hidden state variable}. This is demonstrated in figure \ref{fig:basic_rnn_model}.
 
 \begin{figure}
@@ -83,7 +83,7 @@ As mentioned briefly in the previous section (\ref{sec:seq_data}), \textit{Recur
 \end{figure}
 
 \par To describe it in a more formal manner, let's first assume the following:
-\setlist{nolistsep}\begin{itemize}[noitemsep]
+\begin{itemize}
     \item The input $x$ is first processed by a set of weights, $W_{ih}$, and bias $b_{ih}$.
     \item From each step to the other, the hidden state $h$ is processed via a set weights, $W_{hh}$, and bias $b_{hh}$.
     \item Last, the output is given by processing the hidden state $h$ via another set of weights, $W_{ho}$, and bias $b_{ho}$.
@@ -141,31 +141,32 @@ where $\theta$ refers to the parameters we want to optimize, $t,t+1$ refers to t
     \label{fig:grad_descent_inuitive}
 \end{figure}
 
-Before we dive into the different optimization methods currently used, it is important first to stress on an important characteristic of all modern deep neural networks, which are (\citep{Goodfellow-et-al-2016}):
-\setlist{nolistsep}\begin{itemize}[noitemsep]
+Before we dive into the different optimization methods currently used, it is important first to stress on an important characteristic of all modern deep neural networks, which are \citep{Goodfellow-et-al-2016}:
+\begin{itemize}
     \item \textbf{Differentiability}: All the components of the neural networks (activation function, loss objective, regularization, ...etc) are differentiable components. This issue is not about mandatory by theory, but by convenience: good optimizers exist that can use this feature in order to optimize the network faster, while being able to scale with appropriately with the given number of data points and the number of parameters to be optimized.
-    \item \textbf{Non-convexity}: While the neural network is built of convex parts, the composition of those parts together is not convex. The reasoning for this particular point is out of the scope of this document. We refer you to the excellent book (\citep{Goodfellow-et-al-2016}) for more details --. While this seems to be a disadvantage, it is actually a powerful advantage of the neural network. Neural networks are \textit{universal approximator}, meaning that they can approximate/learn any function. A convex function can not approximate non-convex function, but the other way around works (\citep{lecture_nn_optimization}).
+    \item \textbf{Non-convexity}: While the neural network is built of convex parts, the composition of those parts together is not convex. The reasoning for this particular point is out of the scope of this document. We refer you to the excellent book \citep{Goodfellow-et-al-2016} for more details --. While this seems to be a disadvantage, it is actually a powerful advantage of the neural network. Neural networks are \textit{universal approximator}, meaning that they can approximate/learn any function. A convex function can not approximate non-convex function, but the other way around works \citep{lecture_nn_optimization}.
 
     Using gradient descent optimization methods in this case leads to convergence to local optima points. The initial conditions of the network (the initial random parameters, and the strategy of their selection) and the optimization strategy and parameters (learning rate, decay factor,...etc) will play an important rule to determine the convergence characteristics (speed of convergence, and local optima) of the neural network.
 \end{itemize}
 
-\subsubsection{Mini-batch optimization}
-\par One important aspect of the success of deep learning is the availability of large amount of data. To optimize a deep neural network (can be the order of millions of parameters) using large amount of data (can be in the order of millions of data examples) using gradient descent, is not physically feasible. We do not have the hardware capability to process all of these data in the same time.
+% \subsubsection{Mini-batch optimization}
+\par Another important aspect of the success of deep learning is the availability of large amount of data. To optimize a deep neural network (can be the order of millions of parameters) using large amount of data (can be in the order of millions of data examples) using gradient descent, is not physically feasible. We do not have the hardware capability to process all of these data in the same time.
 
-\par To get around this issue, \textit{mini-batch} optimization is used: instead of performing gradient descent based on the information from the whole data, we divide the data into chunks (mini-batches). For each mini-batch, we calculate the loss and the gradient, and update the parameters, and then move on the next batch. The gradient descent in this case is called \textit{Stochastic Gradient Descent}, SGD, (\citep{robbins1951stochastic}), following the same equation \ref{eq:grad_descent}, but applied to only a mini-batch at a time, instead of the whole data (batch).
+\par To get around this issue, \textit{mini-batch} optimization is used: instead of performing gradient descent based on the information from the whole data, we divide the data into chunks (mini-batches). For each mini-batch, we calculate the loss and the gradient, and update the parameters, and then move on the next batch. The gradient descent in this case is called \textit{Stochastic Gradient Descent}, SGD, \citep{robbins1951stochastic}, following the same equation \ref{eq:grad_descent}, but applied to only a mini-batch at a time, instead of the whole data (batch).
 
-\par Many advances built on top of SGD helped in advancing deep learning, like combining SGD with momentum (\citep{rumelhart1988learning}), RMSProp algorithm (\citep{hinton2012neural}) and Adam algorithm (\citep{kingma2014adam}).
+\par Many advances built on top of SGD helped in advancing deep learning, like combining SGD with momentum \citep{rumelhart1988learning}, RMSProp algorithm \citep{hinton2012neural} and Adam algorithm \citep{kingma2014adam}.
 
-\subsection{Architectures}
-\OSM{INCOMPLETE PART}
-
-In section \ref{sec:RNN}, we discussed the idea behind the basic RNN and its operation. Then, in section \ref{subsec:optimization}, we how we can optimize the parameters of a neural network in general.
-
-\par One important aspect of RNN is the ability to keep the information over many time-steps. This is an issue however with basic RNN networks. This can happen with a better choice of the architecture, that allow to keep the memory, which also learning to select what is not necessary to keep (what we can forget). This problem is called \textit{vanishing gradient}.
-
-A formal discussion for \textit{vanishing gradient} is extensively and better treated in many excellent resources. To get an intuition for it, let's re-phrase what gradient descent optimization is actually doing: the network parameters are evaluated over the data, giving us an error value (the evaluation of the loss function). Using this error value, we move/update the parameters of the network in a direction that minimizes the future error. We keep repeating these steps till we no further improvement is observed (or we exhausted our computational budget). In RNN,
-
-Talk about Vanilla RNN (and what is their problem), LSTMs (and the intuition behind then in solving the problems), and then GRUs (simpler than LSTMs -- fewer parameters --, yet perform similar)
+%TODO: Not sure if I should keep and expand this part, or no.
+% \subsection{Architectures}
+% \OSM{INCOMPLETE PART}
+%
+% In section \ref{sec:RNN}, we discussed the idea behind the basic RNN and its operation. Then, in section \ref{subsec:optimization}, we how we can optimize the parameters of a neural network in general.
+%
+% \par One important aspect of RNN is the ability to keep the information over many time-steps. This is an issue however with basic RNN networks. This can happen with a better choice of the architecture, that allow to keep the memory, which also learning to select what is not necessary to keep (what we can forget). This problem is called \textit{vanishing gradient}.
+%
+% A formal discussion for \textit{vanishing gradient} is extensively and better treated in many excellent resources. To get an intuition for it, let's re-phrase what gradient descent optimization is actually doing: the network parameters are evaluated over the data, giving us an error value (the evaluation of the loss function). Using this error value, we move/update the parameters of the network in a direction that minimizes the future error. We keep repeating these steps till we no further improvement is observed (or we exhausted our computational budget). In RNN,
+%
+% Talk about Vanilla RNN (and what is their problem), LSTMs (and the intuition behind then in solving the problems), and then GRUs (simpler than LSTMs -- fewer parameters --, yet perform similar)
 
 \subsection{Inference: How to generate sequences from the network?}
 \par There exists several approaches in order to generate information from the networks. In the case of recurrent neural networks, this is a sequential process (one step at a time, till we generate the whole sequence), as illustrated in figure \ref{fig:text_gen}.
@@ -192,7 +193,7 @@ During the inference mode, the objective is to generate the most likely sequence
 % \paragraph{Temperature Sampling} \GB{Sample the distribution up to a certain threshold} Since the output of the network is discrete, we use a $SoftMax$ function in order to model this distribution\footnote{The concept of temperature sampling is not limited to the discrete distributions only. You can use it to sample from a \textit{Gaussian Mixture Model} (GMM) for example. In that case, higher temperatures smooth the difference in the weights between the different Gaussian distributions during the sampling process.}.
 % \paragraph{Greedy Selection} is a special case of temperature sampling, $T = 0$. In other words, for every time-step, we sample value with the highest probability (e.g., like in the training paradigm). The advantage of this scheme is that it is deterministic and computationally cheap, thus easy to reproduce. The disadvantage on the other side is, like other greedy algorithms, it is sub-optimal, thus yielding worse results.
 
-\par This problem, however, is not tractable, as it scales badly with the number of options (i.e, dimensions) per time step, and the number of time steps required. One simple way is to perform \textit{greedy sampling}, where, at each time step, we select the most likely token. This, however, leads to repetitive and predictable patterns (\citep{chollet2017book}).
+\par This problem, however, is not tractable, as it scales badly with the number of options (i.e, dimensions) per time step, and the number of time steps required. One simple way is to perform \textit{greedy sampling}, where, at each time step, we select the most likely token. This, however, leads to repetitive and predictable patterns \citep{chollet2017book}.
 
 \par A better way will be to use \textit{stochastic sampling}, by leveraging the fact that at each step, we have a probability distribution over all possible tokens. This allows more diversity in the generated tokens, and also allow unlikely tokens to be sampled some of the time.
 
@@ -205,27 +206,28 @@ During the inference mode, the objective is to generate the most likely sequence
     \label{fig:temperature_sampling}
 \end{sidewaysfigure}
 
+\par An important advantage for temperature sampling is its simplicity, ease of implementation, and ability to generate diverse outputs. However, this also create a challenge when we want to focus on issues like repeatability and reproducibility.
 
 \subsection{How to introduce prior to the model? (conditioning the model)}
 \par When training a RNN network, we initialize the first hidden state with zeros. This way, we are informing the model that we are not making any prior assumptions about that particular sequence, and that all sequences in the data have the same 'no prior assumption' condition.
 
 \par However, what if you want to add some prior knowledge about the sequence to the model? There are two reasons why we may want to do that:
-\setlist{nolistsep}\begin{itemize}[noitemsep]
+\begin{itemize}
     \item Increase accuracy: In case we are doing some classic pattern recognition task (classification, regression), having extra useful information will definitely help increasing the model final performance.
     \item Act as a command: In case of generative model -- during the generative mode -- we need a way to \textit{trigger} the model in order to start generating a sequence in a particular context. For example, we want to tell the model to generate letter 'A'.  Initializing the model with this value allow it to start generating letter A.
 \end{itemize}
 
 There are multiple ways to bias the model, all targeting the same thing: initializing the hidden state of the model. Some work in the literature combines multiple of these approaches in the same setup. To the best of my knowledge, there is no one place which all these methods are discussed together.
 
-\paragraph{Initialize the first hidden state directly} This is a common approach, used image captioning (\citep{karpathy2015deep}), machine translation, and sequence-to-sequence autoencoders. This is illustrated in figure \ref{subfig:hidden_state}.
+\paragraph{Initialize the first hidden state directly} This is a common approach, used image captioning \citep{karpathy2015deep}, machine translation, and sequence-to-sequence autoencoders. This is illustrated in figure \ref{subfig:hidden_state}.
 
-\paragraph{Using the first time-step} This method was used in the work done in (\citep{vinyals2015show}), in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. This is similar to have a word at $X_{-1}$. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure \ref{subfig:first_timestep}.
+\paragraph{Using the first time-step} This method was used in the work done in \citep{vinyals2015show}, in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. This is similar to have a word at $X_{-1}$. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure \ref{subfig:first_timestep}.
 
 \paragraph{Using context sequence -- multiple time-steps --} In this approach, the model is provided with some time-steps from the ground truth, in give it a context. At the end of the these given time-steps, the hidden state is initialized with information about what to be done. A use case for this scenario -- for example -- is when training a language model on multiple authors. When asking the model to generate, you can provide some sentences from the author you want, so the model can follow on this.
 
 \paragraph{Concatenating input time-steps with the condition} In the work done by \citep{ha2017neural}, although not mentioned explicitly, the dataset used -- the \textit{QuickDraw} dataset, discussed earlier -- is quite complicated -- they choose different tasks than us --. It is hard to make the model remember the information about such a complex task over a long time span. Thus, the authors use a mix of \textit{initializing the first hidden state} and \textit{concatenating with the first time-step} in order to make it easier for the model to remember the task. This is illustrated in figure \ref{subfig:cat_timestep}.
 
-\paragraph{Concatenating the hidden state with the condition} This approach is more popular now, since it allows the use of \textit{attention mechanisms} (\citep{NIPS2010_4089,denil2012learning}). Examples for this in image captioning (\citep{xu2015show}), speech synthesis (\citep{wang2017tacotron}).
+\paragraph{Concatenating the hidden state with the condition} This approach is more popular now, since it allows the use of \textit{attention mechanisms} \citep{NIPS2010_4089,denil2012learning}. Examples for this in image captioning \citep{xu2015show}, speech synthesis \citep{wang2017tacotron}.
 
 \begin{figure}
     \centering
@@ -251,30 +253,60 @@ There are multiple ways to bias the model, all targeting the same thing: initial
 \end{figure}
 
 \subsection{How to evaluate the quality of generation?}\label{sec:eval_metrics}
-\OSM{INCOMPLETE SUB-SECTION}
+  % \OSM{INCOMPLETE SUB-SECTION}
+  %
+  % \textbf{NOTE: Explore this problem in speech and statistical machine translation/text generation.}
+  % \begin{itemize}
+  %     \item divide into sections: static and temporal data
+  %     \item text, speech evaluation
+  %     \item using an oracle model (the error concatenation problem, and the adversarial attack).
+  % \end{itemize}
+  % \par The problem of evaluating the quality of the generation/synthesis process is a challenging task in the domain of generative models.
+  \par The objective evaluation of a generative model is a challenging task, since there is no consensus for objective evaluation metrics. We can not simply make strict comparisons between the generated data and the ground truth, since, as we saw earlier in the inference section, there is asymmetry between the training and the generation task. While a subjective evaluation can be a workaround to this problem, it is quite slow, expensive and hinders the development of new models and approaches. The need for objective evaluation that are consistent with the relevant subjective evaluation is thus a necessity.
 
-\textbf{NOTE: Explore this problem in speech and statistical machine translation/text generation.}
-\setlist{nolistsep}\begin{itemize}[noitemsep]
-    \item divide into sections: static and temporal data
-    \item text, speech evaluation
-    \item using an oracle model (the error concatenation problem, and the adversarial attack).
-\end{itemize}
-\par The problem of evaluating the quality of the generation/synthesis process is a challenging task in the domain of generative models.
+  \par Let's see how this problem is approached in different domains:
+  % In many cases, a subjective evaluation is performed to overcome this problem. For handwriting of Chinese letters, \cite{DBLP:journals/corr/abs-1801-08624} proposed two metrics:
+  \begin{description}
+    \item [Text] Evaluating text is an essential task to assess the quality of generation in many applications, like image captioning, language translation and language modeling. An example for an objective text evaluation metric is \textit{BLEU score} \citep{papineni2002bleu}, which stands for \textit{bilingual evaluation understudy}, it is a well known metric to evaluate text generation applications, like image captioning \citep{karpathy2015deep,vinyals2015show} and machine translation \citep{Sutskever:2014:SSL:2969033.2969173}. It tries to capture the human evaluation criteria for the quality of the generated text. It compares individual generated segments -- the size of the segments is a parameter to set -- to see if they exist in the ground truth. It does not focus on the location of that segment, just the fact if it exists or not. The small segments -- letters or words -- are used in order to measure the \textit{adequacy} of the generation, while the longer segments are used to measure the \textit{fluency} of the generation. Usually, the metrics is reported on segments from one to four words, to give and overall idea about the quality of the system.
+
+    Other objective metrics were developed and commonly used, such as \textit{METEOR} \citep{denkowski:lavie:meteor-wmt:2014} and \textit{Word Error Rate} \citep{klakow2002testing}.
+
+    \item [Speech synthesis] We are not aware of commonly used objective metrics in this area. A commonly used subjective criteria is Mean opinion score (MOS), which is the average of individuals' opinions on the quality of the system. \textit{Blizzard Challenge} \citep{blizzard} is an annual competition in speech synthesis, to encourage the development of better speech synthesizers. The evaluation is much more detailed that MOS, by trying to assess multiple criteria for speech, like intelligibility, naturalness and the efficiency of the speech in a given domain.
+
+    \item [Handwriting of offline Chinese letters] \cite{DBLP:journals/corr/abs-1801-08624} proposed two metrics to evaluate the quality of their generated letters: content accuracy and style discrepancy. For the first metrics, they train an \textit{evaluator} model on the ground truth data, and use it to recognize the letters produced by their generator. For the second metric, they follow an approach developed in \cite{DBLP:journals/corr/GatysEB15a} -- where the authors studied the problem of image style transfer --, by measuring the correlation between different filter activations (in convolution neural network) at one layer -- which represents the style representation --
+  \end{description}
+
+  \par I would like to phrase the objective from these metrics here as \textit{the desire to capture the distance between the generated and the ground truth distribution}. It is not important if some individual mistakes happens in the generated sequence, what matters is to capture the essence of the ground truth distribution.
+
+  \par That being said, for complex distribution, capturing the distribution, or even measuring the distance between two distributions, is not always a tractable task. As noted in the speech synthesis point, sometimes it is better and more practical to consider multiple criteria in the same time in order to better understand and evaluate the behavior of the system. This point will later reflect our decisions concerning the evaluation  criteria for our work.
+
+  % \begin{description}
+  %     \item[Content accuracy]: They train an \textit{evaluator} model on the ground truth data, and use it to recognize the letters produced by their generator. This approach however faces important problems: the model is trained with ground truth data, and this results in error in the classification, $E_{eval-ref}$. We call the error of the generator $E_{gen}$. When the evaluator is exposed to the data coming from the generator, a new source/distribution of errors is now coming from the generator, which the evaluator have never been exposed to before, leading to a change in the evaluator error behavior. We call this new error $E_{eval-gen}$. Thus, there are no guarantee that the result of the evaluator is faithful in this case. It is also not possible to deduce $E_{gen}$ from just knowing $E_{eval-ref}$ and $E_{eval-gen}$, since the model performance in this case is unknown.
+  %     \item[Style discrepancy]: In \cite{DBLP:journals/corr/GatysEB15a}, the authors performed image style transfer: take an image, and transform it to the style of an artist. In order to evaluate the quality of the transfer, they measured the correlation between different filter activations (in convolution neural network) at one layer -- which represents the style representation --. While this metric is interesting to explore, it is not directly applicable to our case, since it assumes the use of convolution neural network.
+  % \end{description}
+  %
+  % \par \cite{mohammed2018DTL} also addressed the problem of evaluation of handwriting generation. They used the \textit{BLEU score} \cite{papineni2002bleu} (a metric widely used in text translation and image captioning) and the \textit{End of Sequence} (EoS) analysis. They showed that these metrics correlate with the quality of the generated letter.
+  %
+  % \par The BLEU score is global: all frames of the generated sequence contribute to the final score. The BLEU score is used to compare segments of generated traces with the ground truth. Depending on the number of \textit{grams} chosen, the BLEU score can compare larger segments, thus giving us different levels of granularity to assess the quality of the generated samples.
+
+  % The EoS is a simple yet important style feature. Some letters take longer (i.e. written using many strokes, like H or E) to write than other letters (e.g with one stroke like O or C). It is also an idiosyncratic feature of the writer: writers have different writing speeds, depending on age, education or cognitive/peripheral disorders. We used these metrics in our work as well as a letter-specific metric (applicable only to a subset of the data): the average angular momentum of the letter X will be discussed in detail in the section~\ref{sec:evaluation} below.
+
+  % \par The EoS is a simple yet important style feature. Some letters take longer (e.g., written using many strokes, like H or E) to write than other letters (e.g., written with one stroke like O or C). It is also an idiosyncratic feature of the writer: writers have different writing speeds, depending on age, education or cognitive/peripheral disorders.
 
 \section{Putting all of that together}
 \par In the previous section, we explored multiple building blocks for the work to come, like recurrent neural networks (architectures, training, inference and conditioning). We also discussed the issue of evaluation the output of generative models, discussing three aspects: evaluation in case of text (image captioning, translation, and text generation in general), speech synthesis, and the dangers of using another model (oracle model) in order to evaluate the generation quality.
 
 \par In this section, I discuss how to put all these elements together, the decisions made, and the experimental setup used, in order to address the following three questions:
-\setlist{nolistsep}\begin{itemize}[noitemsep]
+\begin{itemize}
     \item How to generate handwritten letters using deep learning framework?
     \item How to evaluate the generated traces?
     \item What benchmarks are suitable to compare to?
 \end{itemize}
 
 \subsection{Our proposed evaluation metrics}\label{subsec:eval_metrics}
-\par As discussed earlier, evaluation is a challenging problem when using generative models. We want metrics to capture the distance between the generated and the ground truth distributions. Following the work done in (\citep{mohammed2018handwriting}), we use the same two evaluation metrics in our model: \textit{BLEU-score} (\citep{papineni2002bleu}) and \textit{End-of-Sequence}.
+\par As discussed earlier, evaluation is a challenging problem when using generative models. We want metrics to capture the distance between the generated and the ground truth distributions. We propose using the following metrics:
 
-\paragraph{BLEU score} It stands for \textit{bilingual evaluation understudy}, it is a well known metric to evaluate text generation applications, like image captioning \citep{karpathy2015deep,vinyals2015show} and machine translation \citep{Sutskever:2014:SSL:2969033.2969173}. Since we discretized the letter drawings, this fits nicely within our work. The general intuition is the following: if we take a segment from the generated letter, did this segment happen in the ground truth letter? We keep doing this for segments of increasing length (the length of the segment here is the number of grams used in the BLEU score). For our work, we report the results on segments from 1 to 3 time steps.
+\paragraph{BLEU score} As mentioned earlier, BLEU score is used in the evaluation of text generation. Since we discretized the letter drawings, this fits nicely within our work. The general intuition is the following: if we take a segment from the generated letter, did this segment happen in the ground truth letter? We keep doing this for segments of increasing length (the length of the segment here is the number of grams used in the BLEU score). For our work, we report the results on segments from 1 to 3 time steps.
 
 Each part of the letter has two parallel segments: freeman codes and speed, thus, we report the BLEU score for both of them.
 The equation to compute the BLEU score is the following:
@@ -312,7 +344,7 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
 
 \subsection{How to ground the metrics?}\label{subsec:ground_metrics}
 \par We assess multiple methods to condition our handwritten letter generator, and evaluate their ability to capture of writing styles. We know their cardinal order of the power of these methods (depends on the kind of information available to each method). Knowing this information beforehand, we can use it to ground our performance metrics. The methods are:
-\begin{description}[noitemsep]
+\begin{description}
     \item[Letter identity] the letter id only is used as bias. No style information is thus included. The model will try to average over the different example for the same letter. We consider this as a lower baseline.
     \item[Letter + Writer identities] the letter id and writer id are used as a bias. Thus, the model has an explicit access information about the writer. This method is expected to perform the best. This model will also serve as a upper baseline.
 % \end{description}
@@ -344,7 +376,7 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
 \end{figure}
 
 \subsection{Model proposed}
-In order to answer the questions mentioned earlier, we use conditioned-GRU model, demonstrated in figure \ref{fig:dtl_model}. Using this model, we compare different style approached discussed in section \ref{subsec:ground_metrics}, and use the generation results from that model in order to ground the proposed evaluation metrics, discussed in section \ref{subsec:eval_metrics}.
+We use a type of RNN called Gated-Recurrent Network (GRU) \citep{chung2014empirical}, which is known for having a better memory ability than basic RNN, thus, making it suitable choice for long sequence. Our model is a conditioned-GRU model, demonstrated in figure \ref{fig:dtl_model}. Using this model, we compare different style approached discussed in section \ref{subsec:ground_metrics}, and use the generation results from that model in order to ground the proposed evaluation metrics, discussed in section \ref{subsec:eval_metrics}.
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{\textwidth}
@@ -704,13 +736,17 @@ Image autoencoder & 0.25 & 0.29 \\ \hline
         \caption{Z}
     \end{subfigure}
 
-    \caption{Examples of generated letters. The blue \textit{x} mark is the starting point. These ones are generated using the letter + Writer bias. The general quality of this quite acceptable.}\label{fig:letters_examples_gbem}
+    \caption{Examples of generated letters. The blue \textit{x} mark is the starting point. These ones are generated using the letter + Writer bias. The general quality of this quite acceptable.}
+    \label{fig:letters_examples_gbem}
 \end{sidewaysfigure}
 
 
 \section{Summary}
-\textbf{TODO}
-% \par In this chapter, we sit the foundations for the work done in the PhD. I first discussed the different areas in the state-of-the-art that  we We addressed three points:
-% \begin{itemize}
-%     \item How to generate traces using deep learning
-% \end{itemize}
+
+\par In this chapter, we sit the foundations for the work done in the PhD. I first discussed the relevant areas in the state-of-the-art concerning recurrent neural networks, optimization, inference/generation and evaluation of generation. I then detailed how we combine these elements in order to address the questions in this thesis. We addressed three points:
+\begin{itemize}
+    \item How to generate traces using deep generative models?: we proposed to use a conditioned-GRU model. I explained the process behind training, optimizing and choosing hyper-parameters for this model, and showed some of the generated letters.
+    \item How to evaluate the quality of the generated letters?: we proposed two evaluation criteria, BLEU score metric -- inspired by its usage in evaluating text quality -- and End-of-Sequence quality, as a way to capture some aspects of the distribution, and a feasible way to measure the distance between two distributions.
+    \item We proposed multiple benchmarks for future evaluation of style extraction models, and to ground the proposed evaluation metrics as well.
+\end{itemize}
+Now that we have our benchmarks and evaluation metrics, it is time to go for the next step...
