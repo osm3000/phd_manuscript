@@ -1,17 +1,16 @@
 \chapter{Framework} \label{ch:framework}
 \minitoc% Creating an actual minitoc
 
-\par In the previous chapter, we set the foundations of studying styles, which is the work done in the PhD. We explored our choices for generative models and the evaluation metrics, and how to ground them. We also had a discussion about lower- and upper-bound benchmarks. These foundations are necessary in order to have baselines to compare to, and performance aspects (i.e., metrics) use for this comparison. \OSM{write a note about the fairness of selecting the baselines, and the reasoning behind them.}
+\par In the previous chapter, we set the foundations of studying styles, which is the work done in the PhD. We explored our choices for generative models and the evaluation metrics, and how to ground them. We also had a discussion about lower- and upper-bound benchmarks. These foundations are necessary in order to have baselines to compare to, and performance aspects (i.e., metrics) use for this comparison. %\OSM{write a note about the fairness of selecting the baselines, and the reasoning behind them.}
 
-\par In this chapter, we build on these foundations, by proposing the use of conditional temporal auto-encoder framework in order to study and extract styles, in the context of sequences (i.e., a time aspect exists in the data). We take advantage from the fact that the content is well known in our dataset (i.e., the identity of the letters in IRONOFF, and the identity of the shapes in QuickDraw!).
+\par In this chapter, we build on these foundations, by proposing the use of conditional temporal auto-encoder framework in order to study and extract styles, in the context of sequences (i.e., a time aspect exists in the data). We take advantage from the fact that the content is well known in our dataset (i.e., the identity of the letters in \textit{IRONOFF}, and the identity of the shapes in \textit{QuickDraw!}).
 
 \begin{mdframed}[backgroundcolor=blue!20]
     \begin{center}
         Questions addressed in this chapter
     \end{center}
 
-    \setlist{nolistsep}
-    \begin{itemize}[noitemsep]
+    \begin{itemize}
         \item What possible framework to study styles? and why?
         \item How does this framework performance compare to the benchmarks?
         \item What kind of styles we can extract from this framework? and how do we extract them?
@@ -21,16 +20,39 @@
 \clearpage
 
 \section{Background}
-  \subsection{Auto-encoders}\label{sec:autoencoder}
-  \setlist{nolistsep}\begin{itemize}[noitemsep]
+  \subsection{What is an Auto-encoder?}\label{sec:autoencoder}
+  \begin{itemize}
       \item General intro about auto-encoders
       \item Applications of static auto-encoder in image Reconstruction
       \item Temporal auto-encoder
       \item different ways to bias temporal encoders
   \end{itemize}
 
-  \subsection{Objectives}
-  \subsection{Static and Temporal auto-encoder}
+  \par In one sentence, auto-encoders \citep{hinton2006reducing} is identity-capturing framework, that allow the emergence of interesting behaviors. To expand on this, the objective of the auto-encoder is to capture/learning the distribution of the input data (identity-capturing). An auto-encoder consists mainly of three parts (see figure \ref{fig:autoenc}):
+  \begin{enumerate}
+    \item Encoder: it takes the input data, and project it into a manifold (the bottleneck).
+    \item Bottleneck code/learned representation: this is the representation learned by the encoder. In the basic form, this just the output of some linear/non-linear activations. However, a lot of the literature exists on how to organize and shape the bottleneck, in order to allow the emergence of interesting information about the data.
+    \item Decoder: it takes the learned representation, and reconstruct the original input from it.
+  \end{enumerate}
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.8]{images/framework/autoencoder.png}
+    \caption{A demonstration for the main components of an auto-encoder, used on image compression: an encoder takes the image, transfer it via a set of transformations into a bottleneck code, which is a compressed representation for that image. The decoder then takes this bottleneck code, and apply a series of transformations on it, in order to reconstruct the original input image.}
+    \label{fig:autoenc}
+  \end{figure}
+
+
+  \par There are many reasons for using auto-encoders, like:
+  \begin{itemize}
+    \item Data compression: by converting a high dimensional input into a smaller manifold, the auto-encoder can be considered a step in a pipeline of machine learning/data analysis operations, where it provides a more manageable format of the original data, as in \citep{ha2018world}.
+    \item Exploring the data via bottleneck behavior: with a compact representation of the high-dimensional input, it is interesting to explore the different characteristics of the data with traditional tools, like visualization and clustering.
+  \end{itemize}
+
+  \par The idea of compressing data is not new. Techniques like \textit{Principal Components Analysis} (PCA) \citep{jolliffe2011principal} do exist in order to project the data into smaller dimensions. But they are usually restricted by several assumptions. In case of PCA, it assumes linearity and orthogonality in the dimensions of variation in the data. Neural networks enables us to get around this issue, by leveraging nonlinearity and multiple layers, this giving us a more flexible approach to find dimensions of variation in the data.
+
+  \subsection{Sequence auto-encoder}
+    The first architecture proposed for sequence auto-encoder was proposed in \citep{cho2014learning,sutskever2014sequence}.The idea is to use RNN 
 
 \section{Putting it all together}
   \subsection{Letter generation with style preservation}
