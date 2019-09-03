@@ -87,6 +87,8 @@
     \item The encoder will learn a bottleneck, that is a compressed information about the sequence style. This can allow us to explore this bottleneck via traditional techniques (PCA, tSNE, clustering, classification of the bottleneck...etc), thus, getting more insight about what the model actually learned
   \end{itemize}
 
+  \par In this following subsections, I will present the exact model architecture we used. I will then discuss the quality of the generated lettered, using the evaluation metrics we discussed in the previous chapter. Then, we will briefly take a look at our first attempt to tackle transfer learning\footnote{More details on transfer learning in the next chapter}. We then end with the style extraction part, where we explore what knowledge/information about the styles our model has extracted.
+
   \subsection{Model architecture}
      \par The model architecture is illustrated in figure \ref{fig:model_arch}. The input/output frames of the model are detailed in figure \ref{fig:input_shape}. The trace of the letter is first fed to encoder module. The final hidden state of that module summarizes the letter. In order to allow this module to focus on learning the style embedding, we complement this last hidden state with the one-hot encoding of the letter identity, and use a projection of them as the bias input to the generator. The encoder thus is free from the need to learn the letter identity, and can focus learning the style information that enables the generator to better approximate the ground truth tracings.
 
@@ -574,3 +576,14 @@
       \caption{Examples of generated letters. The blue mark is the starting point. The traces in green is the ground truth, and the red is the generated ones by our model.}
       \label{fig:letters_examples_2}
   \end{sidewaysfigure}
+
+  \section{Summary}
+  \par In this chapter, we discussed the way we chose in order to study styles, by using the auto-encoder framework. We hypothesized that we can study styles implicitly by looking at how they contribute to the reconstruction/generation of the letters. We looked at the state-of-the-art concerning auto-encoders, the sequence-to-sequence case, and why we may choose to condition an auto-encoder.
+  \par I then presented our work, addressing the following points:
+  \begin{itemize}
+    \item What possible framework to study styles? and how to validate it?: we test the auto-encoder framework relative the benchmarks we proposed in the previous chapter, in order to determine if it is actually a valid framework to study styles. We find that an auto-encoder outperforms the benchmarks in all evaluation metrics, suggesting that this is a good approach.
+    \item What kind of styles we can extract from this framework? and how do we extract them?: given the good performance results of the auto-encoder, we wanted to have further confirmation that our model is actual learning relevant style information from one side, and if we can learn something new about styles. We explored the model bottleneck for different letters, showing a strong evidence that the model is quite useful in the study of styles.
+    \item Can we transfer the styles over different writers? We hypothesis that there is a limited number of styles in general -- if we have enough writers in our training data, we will generalize well to new writers --. We test this hypothesis by hiding a number of writers from the training data, and compare a model trained on the other writers (transfer model) versus a model trained only on those writers (baseline model). We see clearly the transfer model outperforms the baseline, thus giving good evidence for our hypothesis.
+  \end{itemize}
+
+  We thus are ready for the next chapter, where we dive more into the world of transfer learning...
