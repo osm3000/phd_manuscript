@@ -96,7 +96,7 @@
 
     \begin{figure}[htbp!]
       \centering
-      \includegraphics[scale=0.7]{images/framework/input_shape.jpeg}
+      \includegraphics[scale=0.9]{images/framework/input_shape.jpeg}
       \caption{Input sequence to our model. The first time step contains the information necessary to condition/bias our model. In case of the encoder, this first time step (the bias) is not included.}
       \label{fig:input_shape}
     \end{figure}
@@ -105,13 +105,13 @@
         \centering
         \begin{subfigure}{1.0\textwidth}
             \centering
-            \includegraphics[scale=0.6]{images/framework/training_mode.png}
+            \includegraphics[scale=0.7]{images/framework/training_mode.png}
             \caption{Training mode\label{fig:training_mode}}
         \end{subfigure}
         % \vfill
         \begin{subfigure}{1.0\textwidth}
             \centering
-            \includegraphics[scale=0.6]{images/framework/inference_mode.png}
+            \includegraphics[scale=0.7]{images/framework/inference_mode.png}
             \caption{Inference mode\label{fig:inf_mode}}
         \end{subfigure}
         \caption{Schematic diagram of the model we used. During the training time \ref{fig:training_mode}, the input to the model is always the ground truth. During the inference time \ref{fig:inf_mode} however, the input to the decoder (generator) part at each time step is its own predication in the previous time step.}

@@ -208,7 +208,7 @@ During the inference mode, the objective is to generate the most likely sequence
 
 \par A clear advantage for temperature sampling is its simplicity, ease of implementation, and ability to generate diverse outputs. However, this also create a challenge when we want to focus on issues like repeatability and reproducibility.
 
-\par Another important thing to notice is that the training/optimization part is not the same as the generation part. Usually in machine learning, there is a symmetry between the training and testing procedures. However, in generation, we are suddenly letting the model generate long sequences, and use it output from the current step as the input to the next step. The model is not trained to see its own output in the input. It is trained to see always the ground truth in the input. Overtime, there is an accumulation of errors that build up, leading to the degradation in the quality of generation \citep{DBLP:journals/corr/RanzatoCAZ15}. This discrepancy between the training and generation will have consequences in the evaluation process, as we will see shortly.
+\par Another important thing to notice is that the training/optimization part is not the same as the generation part. Usually in machine learning, there is a symmetry between the training and testing procedures. However, in generation, we are suddenly letting the model generate long sequences, and use it output from the current step as the input to the next step. The model is not trained to see its own output in the input. It is trained to see always the ground truth in the input. This method is called \textit{Teacher Forcing} \citep{Williams:1989:LAC:1351124.1351135,Goodfellow-et-al-2016}. During the generation, overtime, there is an accumulation of errors that build up, leading to the degradation in the quality of generation \citep{DBLP:journals/corr/RanzatoCAZ15}. This discrepancy between the training and generation will have consequences in the evaluation process, as we will see shortly.
 
 \subsection{How to introduce prior to the model? (conditioning the model)}
 \par When training a RNN network, we initialize the first hidden state with zeros. This way, we are informing the model that we are not making any prior assumptions about that particular sequence, and that all sequences in the data have the same 'no prior assumption' condition.
@@ -428,14 +428,14 @@ Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.
     \centering
     \begin{subfigure}[b]{0.6\textwidth}
         \includegraphics[width=\textwidth]{images/gbem/AutoEnc_Vis_tsne.png}
-        \caption{}
+        \caption{Bottleneck of the auto-encoder}
         \label{fig:autoenc_latent}
     \end{subfigure}
     % ~
     \quad
     \begin{subfigure}[b]{0.6\textwidth}
         \includegraphics[width=\textwidth]{images/gbem/Classifier_Vis_tsne.png}
-        \caption{}
+        \caption{Bottleneck of the classifier}
         \label{fig:classifier_latent}
     \end{subfigure}
     % \caption{Shape of the autoencoder latent space. Left: each color represent one letter. Right: labeling for some of the letters, to illustrate proximity.}
