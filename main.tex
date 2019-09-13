@@ -52,8 +52,12 @@
 \usepackage{subcaption} % added by omar
 \usepackage{cleveref}
 % \captionsetup[figure]{name={Figure.}}
-\captionsetup[figure]{labelfont=normalfont, textfont={normalfont}}
-\captionsetup[subfigure]{labelformat=simple, labelsep=period, textfont=normalfont}
+\captionsetup[figure]{labelfont=normalfont, labelsep=parens, textfont={normalfont}}
+\captionsetup[subfigure]{labelformat=simple, labelsep=parens, textfont=normalfont}
+% \captionsetup[subfigure]{labelformat=simple}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+% \captionsetup[subfigure]{labelformat=simple}
+% \captionsetup[subfigure]{labelformat=simple, textfont=normalfont}
 \renewcommand{\thetable}{\arabic{table}}
 % \renewcommand{\thefigure}{\arabic{table}}
 \renewcommand{\thesubfigure}{\arabic{subfigure}}
@@ -88,6 +92,8 @@
 
 \usepackage{minitoc} % to create a small table of content in the begining of each chapter
 \usepackage{wrapfig} % to wrap figures in text
+
+\usepackage{prettyref} % better reference format
 
 \definecolor{rosepale}{rgb}{1.0, 0.7, 1.0}
 \definecolor{rougepale}{rgb}{1.0, 0.4, 0.4}
@@ -136,18 +142,18 @@
 % \makepagenote % to enable pagenotes
 
 % Generates the index
-\usepackage{makeidx}
-\makeindex
+% \usepackage{makeidx}
+% \makeindex
 
 % in order to create a glossaries
-\usepackage{glossaries}
-\makeglossaries
+% \usepackage{glossaries}
+% \makeglossaries
 
-\newglossaryentry{task}
-{
-    name=task,
-    description={In this manuscript, a task is used to describe executing set of actions, in order to achieve an objective. We will refer to the objective as the \textbf{content} of the task. To achieve an objective, usually there are multiple possible ways (multiple possible sets of actions) that allows us to achieve that objective. Each set of actions in this case is called a \textbf{style}.}
-}
+% \newglossaryentry{task}
+% {
+%     name=task,
+%     description={In this manuscript, a task is used to describe executing set of actions, in order to achieve an objective. We will refer to the objective as the \textbf{content} of the task. To achieve an objective, usually there are multiple possible ways (multiple possible sets of actions) that allows us to achieve that objective. Each set of actions in this case is called a \textbf{style}.}
+% }
 
 % \newglossaryentry{boostrap}
 % {
@@ -157,7 +163,7 @@
 
 \title{Deep learning methods for style extraction and transfer}
 \author{Omar Mohammed}
-\date{Date unknown, somewhere far far in another galaxy, long time ago}
+\date{}
 \begin{document}
 
 \maketitle
@@ -175,7 +181,6 @@
 % \theendnotes
 % \setcounter{endnote}{0}
 
-\Gls{task}
 % \theendnotes
 % \setcounter{endnote}{0}
 
@@ -215,10 +220,6 @@
 \input{chapters/list_of_publications.tex}
 % \setcounter{endnote}{0}
 % \theendnotes
-
-\printglossaries
-
-\printindex
 
 \bibliographystyle{apalike} % I need to solve this style problem with the bibliography
 % \bibliography{bibliography}

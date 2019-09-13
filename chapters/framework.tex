@@ -20,7 +20,7 @@
 \clearpage
 
 \section{Background}
-  \subsection{What is an Auto-encoder?}\label{sec:autoencoder}
+  \subsection{What is an auto-encoder?}\label{sec:autoencoder}
   % \begin{itemize}
   %     \item General intro about auto-encoders
   %     \item Applications of static auto-encoder in image Reconstruction
@@ -28,7 +28,7 @@
   %     \item different ways to bias temporal encoders
   % \end{itemize}
 
-  \par Auto-encoders \citep{hinton2006reducing} is identity-capturing framework, that allow the emergence of interesting behaviors. To expand on this, the objective of the auto-encoder is to capture/learning the distribution of the input data (identity-capturing). An auto-encoder consists mainly of three parts (see figure \ref{fig:autoenc}):
+  \par Auto-encoders~\citep{hinton2006reducing} is identity-capturing framework, that allow the emergence of interesting behaviors. To expand on this, the objective of the auto-encoder is to capture/learning the distribution of the input data (identity-capturing). An auto-encoder consists mainly of three parts (see figure~\ref{fig:autoenc}):
   \begin{enumerate}
     \item Encoder: it takes the input data, and project it into a manifold (the bottleneck).
     \item Bottleneck code/learned representation: this is the representation learned by the encoder. In the basic form, this just the output of some linear/non-linear activations. However, a lot of the literature exists on how to organize and shape the bottleneck, in order to allow the emergence of interesting information about the data.
@@ -45,21 +45,21 @@
 
   \par There are many reasons for using auto-encoders, to name a few:
   \begin{description}
-    \item [Dimensionality Reduction] It is one of the main motivations to study auto-encoders. By mapping a high-dimensional data into a smaller low-dimension space, we can better explore the data, or use it as a step in a pipeline of machine learning/data analysis operations, where it provides a more manageable format of the original data, as in \citep{ha2018world}. It can also be used in classification system \citep{Goodfellow-et-al-2016}.
+    \item [Dimensionality Reduction] It is one of the main motivations to study auto-encoders. By mapping a high-dimensional data into a smaller low-dimension space, we can better explore the data, or use it as a step in a pipeline of machine learning/data analysis operations, where it provides a more manageable format of the original data, as in~\citep{ha2018world}. It can also be used in classification system~\citep{Goodfellow-et-al-2016}.
 
-    \item [Information Retrieval] The kind of search used in information retrieval is quite efficient in low-dimensional space. In \citep{salakhutdinov2009semantic}, auto-encoder is trained to produce low-dimensional binary code, which can be then used in queries (by returning the entities that have the same binary code).
+    \item [Information Retrieval] The kind of search used in information retrieval is quite efficient in low-dimensional space. In~\citep{salakhutdinov2009semantic}, auto-encoder is trained to produce low-dimensional binary code, which can be then used in queries (by returning the entities that have the same binary code).
 
-    \item [Anomaly Detection] Multiple works have explored the use of auto-encoders in order to perform anomaly detection \citep{sakurada2014anomaly,an2015variational,ribeiro2018study}. The main hypothesis is that the auto-encoder will learn the most salient features in the data. Thus, when faced with an anomaly, a significant degradation in the quality of reconstruction will be noticed. The reconstruction error can be used in this case as an indicator if the input data point is an anomaly or not.
+    \item [Anomaly Detection] Multiple works have explored the use of auto-encoders in order to perform anomaly detection~\citep{sakurada2014anomaly,an2015variational,ribeiro2018study}. The main hypothesis is that the auto-encoder will learn the most salient features in the data. Thus, when faced with an anomaly, a significant degradation in the quality of reconstruction will be noticed. The reconstruction error can be used in this case as an indicator if the input data point is an anomaly or not.
 
-    \item [Image De-noising] Multiple works have explored the use of auto-encoder in order to de-noise images \citep{cho2013boltzmann,cho2013simple,gondara2016medical}. The applications of image de-noising are diverse, from post-processing of digital images, to more sensitive areas like medical images.
+    \item [Image De-noising] Multiple works have explored the use of auto-encoder in order to de-noise images~\citep{cho2013boltzmann,cho2013simple,gondara2016medical}. The applications of image de-noising are diverse, from post-processing of digital images, to more sensitive areas like medical images.
 
     % \item [Exploring the data via bottleneck behavior]: with a compact representation of the high-dimensional input, it is interesting to explore the different characteristics of the data with traditional tools, like visualization and clustering.
   \end{description}
 
-  \par The idea of compressing data is not new. Techniques like \textit{Principal Components Analysis} (PCA) \citep{jolliffe2011principal} do exist in order to project the data into smaller dimensions. But they are usually restricted by several assumptions. In case of PCA, it assumes linearity and orthogonality in the dimensions of variation in the data. Neural networks enables us to get around this issue, by leveraging nonlinearity and multiple layers, this giving us a more flexible approach to find dimensions of variation in the data.
+  \par The idea of compressing data is not new. Techniques like \textit{Principal Components Analysis} (PCA)~\citep{jolliffe2011principal} do exist in order to project the data into smaller dimensions. But they are usually restricted by several assumptions. In case of PCA, it assumes linearity and orthogonality in the dimensions of variation in the data. Neural networks enables us to get around this issue, by leveraging nonlinearity and multiple layers, this giving us a more flexible approach to find dimensions of variation in the data.
 
   \subsection{Sequence auto-encoder}
-    It a special case of auto-encoder, where we RNN is used in order to compress a sequence into a fixed size bottleneck code. The sequence itself could have a varied size. The first architecture proposed for sequence auto-encoder was proposed in \citep{cho2014learning,sutskever2014sequence}, with statistical machine translation as the main application. They use RNN encoder and decoder parts, and consider that the last hidden state of the RNN encoder to be the summary/compression of the sequence. The RNN decoder uses this bottleneck in order to reconstruct the whole original sequence (see figure \ref{fig:seq2seq}).
+    It a special case of auto-encoder, where RNN is used in order to compress a sequence into a fixed size bottleneck code. The sequence itself could have a varied size. The first architecture proposed for sequence auto-encoder was proposed in~\citep{cho2014learning,sutskever2014sequence}, with statistical machine translation as the main application. They use RNN encoder and decoder parts, and consider that the last hidden state of the RNN encoder to be the summary/compression of the sequence. The RNN decoder uses this bottleneck in order to reconstruct the whole original sequence (see figure~\ref{fig:seq2seq}).
 
     \begin{figure}
       \centering
@@ -70,15 +70,15 @@
 
     \par There many applications where a sequence-to-sequence model is used, for example:
     \begin{description}
-      \item [Machine translation] \citep{sutskever2014sequence} used sequence-to-sequence architecture in order to develop a machine translation system that surpassed the published results to that moment. The first sequence is the language of origin, and the second sequence is the target language.
-      \item [Speech synthesis] Speech synthesis also benefited from a sequence-to-sequence architecture, like the work done in in \citep{oord2016wavenet,wang2017tacotron}, achieving currently the state-of-the-art results. Another common approach for sequence-to-sequence learning is to use convolution network instead of RNN for the encoder and/or the decoder, like the work done in \citep{ping2017deep}. A convolution network is generally faster than RNN and parallelize better, thus making it a lucrative approach. The underlying assumptions are the same however.
-      \item [Video captioning] Another application that benefited from sequence-to-sequence architecture is generating text (sequence of words/letters) that describe a video (sequence of frames), as nicely summarized in \citep{aafaq2018video}. In this case, the encoder -- dealing with the video part -- is usual a convolution neural network (because of its excellent ability to capture spatial features), while the encoder -- dealing with the text part -- is usually a RNN.
+      \item [Machine translation]~\citep{sutskever2014sequence} used sequence-to-sequence architecture in order to develop a machine translation system that surpassed the published results to that moment. The first sequence is the language of origin, and the second sequence is the target language.
+      \item [Speech synthesis] Speech synthesis also benefited from a sequence-to-sequence architecture, like the work done in in~\citep{oord2016wavenet,wang2017tacotron}, achieving currently the state-of-the-art results. Another common approach for sequence-to-sequence learning is to use convolution network instead of RNN for the encoder and/or the decoder, like the work done in~\citep{ping2017deep}. A convolution network is generally faster than RNN and parallelize better, thus making it a lucrative approach. The underlying assumptions are the same however.
+      \item [Video captioning] Another application that benefited from sequence-to-sequence architecture is generating text (sequence of words/letters) that describe a video (sequence of frames), as nicely summarized in~\citep{aafaq2018video}. In this case, the encoder -- dealing with the video part -- is usual a convolution neural network (because of its excellent ability to capture spatial features), while the encoder -- dealing with the text part -- is usually a RNN.
     \end{description}
 
   \subsection{Conditioned auto-encoder}
     \par In the examples mentioned before, we focused on unconditional auto-encoder, where in the decoder only have the information given to it from the encoder part. A conditioned auto-encoder is when we concatenate extra information to the output of the encoder, and feed it to the decoder\footnote{The word 'conditioned' is used when a neural network has information from about the task. So a decoder is a conditioned network on the encoder information. We distinguish here in the terminology between 'unconditioned auto-encoder', where the decoder is not conditioned on anything else except the encoder, and 'conditioned auto-encoder' where the decoder has access to extra information other than the encoder.}. Why conditioning an auto-encoder? it frees the encoder from learning the condition information -- since this information is given for free -- , allowing it to focus on other parts.
 
-    \par An example of this is the work done in \citep{van2017neural}, where they used an auto-encoder to compress audio, and condition the decoder on the speaker-id. This led the encoder to factor out speaker-specific information in the learned bottleneck, thus, learning speaker-independent information\footnote{Simple explanation and demonstration for that paper can be found in \url{https://avdnoord.github.io/homepage/vqvae/}}.
+    \par An example of this is the work done in~\citep{van2017neural}, where they used an auto-encoder to compress audio, and condition the decoder on the speaker-id. This led the encoder to factor out speaker-specific information in the learned bottleneck, thus, learning speaker-independent information\footnote{Simple explanation and demonstration for that paper can be found in \url{https://avdnoord.github.io/homepage/vqvae/}}.
 
 \section{Putting it all together}
   \par In order to address the research questions stated at the beginning of the chapter, we chose to adopt the concept of conditioned auto-encoder as our framework to explore styles in handwriting, for the potential following benefits -- discussed in the previous section --:
@@ -90,7 +90,7 @@
   \par In this following subsections, I will present the exact model architecture we used. I will then discuss the quality of the generated lettered, using the evaluation metrics we discussed in the previous chapter. Then, we will briefly take a look at our first attempt to tackle transfer learning\footnote{More details on transfer learning in the next chapter}. We then end with the style extraction part, where we explore what knowledge/information about the styles our model has extracted.
 
   \subsection{Model architecture}
-     \par The model architecture is illustrated in figure \ref{fig:model_arch}. The input/output frames of the model are detailed in figure \ref{fig:input_shape}. The trace of the letter is first fed to encoder module. The final hidden state of that module summarizes the letter. In order to allow this module to focus on learning the style embedding, we complement this last hidden state with the one-hot encoding of the letter identity, and use a projection of them as the bias input to the generator. The encoder thus is free from the need to learn the letter identity, and can focus learning the style information that enables the generator to better approximate the ground truth tracings.
+     \par The model architecture is illustrated in figure~\ref{fig:model_arch}. The input/output frames of the model are detailed in figure~\ref{fig:input_shape}. The trace of the letter is first fed to encoder module. The final hidden state of that module summarizes the letter. In order to allow this module to focus on learning the style embedding, we complement this last hidden state with the one-hot encoding of the letter identity, and use a projection of them as the bias input to the generator. The encoder thus is free from the need to learn the letter identity, and can focus learning the style information that enables the generator to better approximate the ground truth tracings.
 
     \par In the decoder, we follow the framework proposed by \cite{vinyals2015show} in order to bias the model -- as in the previous chapter -- : we create an extra time step at the beginning, which has the information we want to bias the model with. In this case, this time step is the projection of the encoder last hidden state and the letter encoder. This has a much lower dimension than encoder hidden state. This further encourage the model to learn only necessary style information, as suggested in \cite{DBLP:journals/corr/abs-1803-09047}.
 
@@ -114,16 +114,16 @@
             \includegraphics[scale=0.7]{images/framework/inference_mode.png}
             \caption{Inference mode\label{fig:inf_mode}}
         \end{subfigure}
-        \caption{Schematic diagram of the model we used. During the training time \ref{fig:training_mode}, the input to the model is always the ground truth. During the inference time \ref{fig:inf_mode} however, the input to the decoder (generator) part at each time step is its own predication in the previous time step.}
+        \caption{Schematic diagram of the model we used. During the training time~\ref{fig:training_mode}, the input to the model is always the ground truth. During the inference time~\ref{fig:inf_mode} however, the input to the decoder (generator) part at each time step is its own predication in the previous time step.}
         \label{fig:model_arch}
     \end{figure}
 
 
   \subsection{Letter generation with style preservation}
   \par The objective here to compare the quality of the generated letters to the state-of-the-art benchmarks. As mentioned earlier, we compare using the BLEU score metric and the EoS analysis.
-  The BLEU score results can be seen in table \ref{table:bleu_gen}, and the results for EoS analysis results are in table \ref{table:EoS_gen}. We can see that the BLEU-3 score results of our model achieves 32.3\% accuracy in Speed feature and 38.7\% accuracy in Freeman feature, compared to 25.1\% and 28.3\% accuracy using the benchmark model on both features respectively.
+  The BLEU score results can be seen in table~\ref{table:bleu_gen}, and the results for EoS analysis results are in table~\ref{table:EoS_gen}. We can see that the BLEU-3 score results of our model achieves 32.3\% accuracy in Speed feature and 38.7\% accuracy in Freeman feature, compared to 25.1\% and 28.3\% accuracy using the benchmark model on both features respectively.
   \par The same goes for the EoS analysis. In comparing the Person Coefficient, our model achieves 0.99 score compared to 0.55 for the benchmark model (the highest score is 1.0). This is a support that our model capture the style of handwriting better than the benchmark.
-  \par Examples for the generated letters can be found in figure \ref{fig:letters_examples}.
+  \par Examples for the generated letters can be found in figure~\ref{fig:letters_examples}.
 
 
   \begin{table}[!htbp]
@@ -206,20 +206,20 @@
 
   \par In order to test this hypothesis, we expose our model to 30 writers that have not been seen before. We compare our model performance on these writers with a model is biased by the writer and letter identities (the benchmark model). The latter model was not constrained from seeing those writers (thus, the reported results of the comparison overestimates the actual performance of that model).
 
-  \par The BLEU scores can be seen in table \ref{table:bleu_transfer}. Our model achieves on BLEU-3 score 32.2\% and 42.1\% accuracy on the Speed and Freeman code features, compared to 25.3\% and 27.7\% on the benchmark model for the same features respectively.
-  \par The EoS analysis can be seen in table \ref{table:EoS_transfer}. Our model achieves a coefficient value of 0.99, compared to 0.5 for the benchmark.
+  \par The BLEU scores can be seen in table~\ref{table:bleu_transfer}. Our model achieves on BLEU-3 score 32.2\% and 42.1\% accuracy on the Speed and Freeman code features, compared to 25.3\% and 27.7\% on the benchmark model for the same features respectively.
+  \par The EoS analysis can be seen in table~\ref{table:EoS_transfer}. Our model achieves a coefficient value of 0.99, compared to 0.5 for the benchmark.
   Thus, the new model clearly outperform the current benchmarks on the transfer task, on both BLEU score and EoS analysis.
 
   \subsection{Styles per letters} \label{ch:framework_sec:styleperletter}
-  \par One of the nice consequences of using our model is that we can have a better look at the styles. We explore the latent space for multiple letters, and see that we can uncover interesting writing styles. A full scale analysis is beyond the scope of this paper. We project the latent space using \textit{Principal Components Analysis} (PCA) \citep{jolliffe2011principal} and t-SNE \citep{maaten2008visualizing}.
+  \par One of the nice consequences of using our model is that we can have a better look at the styles. We explore the latent space for multiple letters, and see that we can uncover interesting writing styles. A full scale analysis is beyond the scope of this paper. We project the latent space using \textit{Principal Components Analysis} (PCA)~\citep{jolliffe2011principal} and t-SNE~\citep{maaten2008visualizing}.
 
-  \par As a start, we take a look at letter X. Beforehand, we identified a style feature in letter X: some writer draw X clockwise, and some draw it anti-clockwise. We manually annotated the whole dataset for this feature; the result can be seen in figure \ref{fig:x_rotation}. Almost half of the writers draw the letter X clockwise, and the other half draw it anti-clockwise. If our assumption is correct, our model should be able to capture this feature. We project the latent  of the model using PCA on all the letter X, which can be seen in figure \ref{fig:x_bottleneck}. The model latent space clusters almost perfectly based on rotation. Examples for letters from both clusters are in figure \ref{fig:examples_x}.
+  \par As a start, we take a look at letter X. Beforehand, we identified a style feature in letter X: some writer draw X clockwise, and some draw it anti-clockwise. We manually annotated the whole dataset for this feature; the result can be seen in figure~\ref{fig:x_rotation}. Almost half of the writers draw the letter X clockwise, and the other half draw it anti-clockwise. If our assumption is correct, our model should be able to capture this feature. We project the latent  of the model using PCA on all the letter X, which can be seen in figure~\ref{fig:x_bottleneck}. The model latent space clusters almost perfectly based on rotation. Examples for letters from both clusters are in figure~\ref{fig:examples_x}.
 
-  \par Encouraged by the results on letter X, we explored more letters. For letter C, we can see the latent space project in figure \ref{fig:c_letter}. It can be seen that there are at least two main clusters. Examples from this cluster in the red ellipse are in figure \ref{fig:examples_c}. The indicated cluster represents the Edwardian handwriting style. The rest of the writers (in the big cluster) have a very similar style (this is expected, since the drawing of the letter C is quite simple).
+  \par Encouraged by the results on letter X, we explored more letters. For letter C, we can see the latent space project in figure~\ref{fig:c_letter}. It can be seen that there are at least two main clusters. Examples from this cluster in the red ellipse are in figure~\ref{fig:examples_c}. The indicated cluster represents the Edwardian handwriting style. The rest of the writers (in the big cluster) have a very similar style (this is expected, since the drawing of the letter C is quite simple).
 
-  \par For letter A, our model latent space create two main clusters, figure \ref{fig:a_bottleneck}. We give examples from those two in figure \ref{fig:examples_a}, where we can see clear difference in the style. Some people start drawing the letter from down-left, other writers start from the top of letter A, move down, then continue drawing of the letter.
+  \par For letter A, our model latent space create two main clusters, figure~\ref{fig:a_bottleneck}. We give examples from those two in figure~\ref{fig:examples_a}, where we can see clear difference in the style. Some people start drawing the letter from down-left, other writers start from the top of letter A, move down, then continue drawing of the letter.
 
-  \par Another example is for letter S bottleneck, figure \ref{fig:s_bottleneck}. There are three resulting clusters which we investigated. The indicated cluster (in red) is clearly different from the other two clusters (not indicated). Examples can be seen in figure \ref{fig:examples_s}. The indicated cluster is again for people with Edwardian handwriting style. We did not find a clear difference between the other two clusters though, but this is an expected outcome of using t-SNE (since it does not have the clear objective of clustering styles).
+  \par Another example is for letter S bottleneck, figure~\ref{fig:s_bottleneck}. There are three resulting clusters which we investigated. The indicated cluster (in red) is clearly different from the other two clusters (not indicated). Examples can be seen in figure~\ref{fig:examples_s}. The indicated cluster is again for people with Edwardian handwriting style. We did not find a clear difference between the other two clusters though, but this is an expected outcome of using t-SNE (since it does not have the clear objective of clustering styles).
 
   \par These examples show is that we can use our model to extract verbose style information.
   \begin{figure}[htbp!]
