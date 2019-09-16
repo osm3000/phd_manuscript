@@ -1,15 +1,16 @@
-\chapter{Discussion} \label{ch:discussion}
-% \minitoc% Creating an actual minitoc
+\chapter{Prespective and future work} \label{ch:discussion}
+\minitoc% Creating an actual minitoc
 
-This chapter will be a free discussion about what i had done, shortcomings of this work, difficulties in the PhD, and potential areas of development.
+This chapter will be a free discussion about what I had done, lessons learned, shortcomings of this work, difficulties in the PhD, and potential areas of development.
 
 Science should always be about honesty, humility and respect, and not just flashy results and wide conclusions. Science can always make use of learning from setbacks -- something that is almost missing in the scientific literature --. I will do my best in this chapter to highlight the other side of good results.
 
-Maybe one day someone -- maybe a PhD student -- will decide to follow on this work. It is important for me that they do not repeat the same mistakes. Instead, everything should be ready for them in order to make new mistakes. That is how we move forward...
+Maybe one day someone -- maybe a PhD student -- will decide to follow on this work. It is important for me that they do not repeat the same mistakes. Instead, everything should be ready for them in order to make new mistakes. That is how we move forward. After all, we our objective in this PhD is transfer learning between different tasks. It is now time to transfer learning between two different colleagues.
 
 \clearpage
 
 \section{Challenges}
+\par In this section, I will discuss the challenges faced during the PhD -- from my personal perspective --, in the hope that I will learn from it for the future, and to illuminate the path for others as well.
 
 \subsection{Choice of how to tackle the topic?}
 \par The usage of deep learning in this topic has not been the first or clear option from the beginning. As I mentioned earlier, the objective of the project was to develop components for human-robot interaction domain. In a first glance, deep learning and human-robot interaction do not really mix well. The problem is simply the availability of data.
@@ -31,15 +32,20 @@ Maybe one day someone -- maybe a PhD student -- will decide to follow on this wo
 \subsection{Lack of Benchmarks, evaluation metrics}
 Getting around these issues was quite a dilemma, for many reasons:
 
-\begin{itemize}
+  \begin{itemize}
     \item I do not believe it is a healthy practice to pick up the benchmarks to use. This choice can be easily biased, and it could be argued that the benchmarks are chosen to be weak enough in order to show progress). In our case, it was mandatory to do so nonetheless, and we tried as much as possible to be fair in making these choices.
-    \item In engineering, it is a good practice to have different teams for design and verification of the product. If one team do both, the validation process tend to be biased (i.e., the team is looking for confirmation of their design, not the problems in it). By analogy, I think this a pitfall of us developing the metrics and using them. What if we are mainly looking at the metrics that confirms our hypothesis? It is hard to rule out this possibility.
-\end{itemize}
+    \item In engineering, it is the right practice to have different teams for design and test of the product. If one team do both, the testing process tend to be biased (i.e., even with the best intention, the team is looking for confirmation of their design, not the problems in it). By analogy, I think this a pitfall of us developing the metrics, the benchmarks, and using them. What if we are mainly looking at the metrics that confirms our hypothesis? It is hard to rule out this possibility.
+  \end{itemize}
 
-We tried our best to avoid this when selecting the metrics, and by using multiple metrics to evaluate our hypothesis.
+We tried our best to avoid this when selecting the metrics, and by using multiple metrics to evaluate our hypothesis. However, an independent investigation in this issue will provide is favorable.
+
 
 \subsection{Deep learning: theory, hardware and software frameworks}
-\par
+\par Several excellent frameworks -- like \textit{Keras}~\citep{chollet2015keras}, \textit{PyTorch}~\citep{paszke2017automatic} and \textit{TensorFlow}~\citep{tensorflow2015-whitepaper} -- do exist at the moment in order to provide friendly APIs for deep learning, with many online tutorials. This gives the impression that you can just jump in the topic, train a neural network, and now you can harness the power of deep learning. However, in my experience, the quick gains of this approach will be lost soon in the face of the first problem. Even for someone experienced with traditional machine learning, deep learning poses an extra challenge: it can be computationally expensive. More thinking is needed about what to do and what not to do.
+
+\par It is important to understand the fundamental of statistical learning theory~\citep{hastie01statisticallearning}, machine learning and deep learning before engaging in an endeavor that uses deep learning. This particular strategy was a key factor in any progress done during my PhD. There are plenty of excellent online courses, free books and many resources, that provide a gradual and methodological approach, which a learner can use in order to achieve this.
+
+\par Another thing to highlight here is the hardware needs. Having access a GPU is a necessity in order to learn, experiment and develop using deep learning. Recently, interesting cloud-based solutions -- like \textit{Colab}\footnote{https://colab.research.google.com/}, which is free -- provide quick access to hardware suitable for deep learning. Some other solutions that I used -- like \textit{Amazon AWS}, which is not free -- does exist, with the advantage of being easily configured and scalable, and with a support from the research institution, could provide a good replacement for buying and maintaining expensive hardware in-house. The bottom line is: it is important to keep in mind the hardware available, otherwise, the whole process will be hindered.
 
 \section{Limitations of the current work}
 In this section, I discuss what I consider shortcomings for some of the methods used in this work.
@@ -62,9 +68,9 @@ But what is a good projection criteria in this case? should we let the organizat
 
 Ideally, we expect that the output of the encoder has little to none information about the task identity. However, careful testing shows that this is not the case. There is a considerable leak of information about the task identity into the encoder.
 
-\textbf{PUT THE RESULTS OF OUR TESTING HERE. TRY IF POSSIBLE TO COMPARE WITH A NORMAL AUTOENCODER.}
+% \textbf{PUT THE RESULTS OF OUR TESTING HERE. TRY IF POSSIBLE TO COMPARE WITH A NORMAL AUTOENCODER.}
 
-I don't have an explanation at the moment for the reason behind this phenomena. My intuition\footnote{I did not have the time to perform rigorous testing for this idea unfortunately.} is that on aspect of the problem lies in the task description. The assumption that a harsh one-hot encoding of the task is sufficient to describe the task correctly is flawed in my opinion.
+I do not have an explanation at the moment for the reason behind this phenomena. My intuition\footnote{I did not have the time to perform rigorous testing for this idea unfortunately.} is that on aspect of the problem lies in the task description. The assumption that a harsh one-hot encoding of the task is sufficient to describe the task correctly is flawed in my opinion.
 
 An analogy for this can been drawn from clustering (hard clustering VS fuzzy clustering). Hard clustering, similar to one-hot encoding, does provide us with which this task is, but nothing about how this task relates to other tasks (i.e., proximity/similarity to other task), which is what fuzzy clustering do.
 
