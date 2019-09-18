@@ -37,7 +37,7 @@
   \end{figure}
 
 \section{How to test this?}
-  \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier (on the softmax outcome of the classifier). The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}.
+  \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier (on the softmax outcome of the classifier\footnote{The classifier outcome is the highest value of the softmax for one of the outcomes. Thus, the objective of the generator is to generate an image that maximize the softmax value for the desired decision.}). The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}.
 
   Different algorithms had been tested, starting from logistic regression, kNN\footnote{In this case, I reduced the images size from 64x64 to 8x8, in order to reduce the computational time and memory needed.}(5 neighbors), neural networks (1 hidden layer, 5 neurons) and random forests (30 estimators).
 
@@ -69,6 +69,8 @@
     \caption{The accuracy of the different classifiers used. The models perform well on the MNIST data.}
     \label{tbl:classifier_performance}
   \end{table}
+
+  \textbf{TO BE COMPLETED WITH THE RESULTS AND THE KNN ANALYSIS}
 
 \section{What is the lesson learned?}
   \par Even if the model (oracle) is doing extremely well on the ground-truth distribution, it is should not be used naively as a replacement for the ground truth, in order to evaluate other models (like a generator). The generator can easily learn how to deceives the oracle in order to maximize the final performance numbers, without any consideration for what these numbers implies. I believe that this is an interesting direction in research though, with a lot of potential, by developing some safeguards to protect the model from being deceived, reporting the model confidence about the current input, or having some estimation for the model error once we change the distribution.
