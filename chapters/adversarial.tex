@@ -37,7 +37,9 @@
   \end{figure}
 
 \section{How to test this?}
-  \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier. The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}. Different algorithms had been tested, starting from logistic regression, kNN, neural networks and random forests.
+  \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier (on the softmax outcome of the classifier). The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}.
+
+  Different algorithms had been tested, starting from logistic regression, kNN\footnote{In this case, I reduced the images size from 64x64 to 8x8, in order to reduce the computational time and memory needed.}(5 neighbors), neural networks (1 hidden layer, 5 neurons) and random forests (30 estimators).
 
   \begin{figure}
     \centering
@@ -52,6 +54,21 @@
     \caption{The setup of the experiment to understand the effect of using an oracle as the guidance for training a generator. The oracles were trained on MNIST dataset in order to classify the digits, and the generator is optimized based on what the oracle output. The generator objective is to generate images for different digits.}
     \label{fig:adversarial_exp_setup}
   \end{figure}
+
+  \par I report the accuracy performance of these classifiers on the training and test data in table~\ref{tbl:classifier_performance}. It can be seen that the models seems to perform quite well on the task, thus, these models seem as good candidates to be oracles in order to train a generator.
+
+  \begin{table}
+    \centering
+    \begin{tabular}{l c c} \hline
+      Classifier & Train & Test \\ \hline
+      Logistic Regression & 92.7 &  92 \\ %\hline
+      kNN & 99 & 96.1 \\ %\hline
+      Random Forests & 99 & 96.57 \\ %\hline
+      Neural networks & 98.57 & 97.1 \\ \hline
+    \end{tabular}
+    \caption{The accuracy of the different classifiers used. The models perform well on the MNIST data.}
+    \label{tbl:classifier_performance}
+  \end{table}
 
 \section{What is the lesson learned?}
   \par Even if the model (oracle) is doing extremely well on the ground-truth distribution, it is should not be used naively as a replacement for the ground truth, in order to evaluate other models (like a generator). The generator can easily learn how to deceives the oracle in order to maximize the final performance numbers, without any consideration for what these numbers implies. I believe that this is an interesting direction in research though, with a lot of potential, by developing some safeguards to protect the model from being deceived, reporting the model confidence about the current input, or having some estimation for the model error once we change the distribution.
