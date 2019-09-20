@@ -127,7 +127,7 @@ Basic information about \textit{IRONOFF} dataset as a whole:
 
 \par In order to focus on the styles aspect, we decided to focus on 5 categories: circle, triangle, square, hexagon and octagon. Our reasoning is that the more complex the task gets (cats for example), it is harder to have a subjective opinion about the styles, and hard to give insights about the results. This is not a limitation on the methods we are proposing though.
 
-\par We sampled 20K samples from each task to perform exploratory analysis on them. In terms of strokes (see figure~\ref{fig:quickdraw_strokes}), we can see that there is a large variance surrounding the mean of each category. This trend continues when we look at the drawing time (see figure~\ref{fig:quickdraw_drawing_time}) and the pausing time (see figure~\ref{fig:quickdraw_pausing_time}). In the sample we analyzed, there are players from around 160 countries, figure~\ref{fig:quickdraw_countries}. This is one indication to the increasing complexity \textit{QuickDraw!} dataset presents in compare of \textit{IRONOFF} dataset. \textbf{Put the country distribution in the dataset.}
+\par We sampled 20K samples from each task to perform exploratory analysis on them. In terms of strokes (see figure~\ref{fig:quickdraw_strokes}), we can see that there is a large variance surrounding the mean of each category. This trend continues when we look at the drawing time (see figure~\ref{fig:quickdraw_drawing_time}) and the pausing time (see figure~\ref{fig:quickdraw_pausing_time}). In the sample we analyzed, there are players from around 160 countries, figure~\ref{fig:quickdraw_countries}. This is one indication to the increasing complexity \textit{QuickDraw!} dataset presents in compare of \textit{IRONOFF} dataset.
 
 \par Not all examples are recognizable during the game though. In many cases, the players do not draw the required shape, or draw something quite complicated. The results of the recognition can be seen in figure~\ref{fig:recognition}, with the relation between number of strokes and length of the drawing. We can conclude that, for the selected categories, the more complex the drawing is (more length or more strokes), the less likely it is to become a recognizable drawing.
 
@@ -242,7 +242,7 @@ Basic information about \textit{IRONOFF} dataset as a whole:
 
 
 \section{Data representation}\label{sec:data_representation}
-  \textbf{This section should be more general, discussing both pre-processing and represenation in the same time. Otherwise, we can discuss only the representation, and move the pre-processing steps to the appendix (which makes sense). Also, there is the pre-processing part Gerard performed on QuickDraw, which should be discussed.}
+  % \textbf{This section should be more general, discussing both pre-processing and represenation in the same time. Otherwise, we can discuss only the representation, and move the pre-processing steps to the appendix (which makes sense). Also, there is the pre-processing part Gerard performed on QuickDraw, which should be discussed.}
 
   The choices of data representation is a key factor in the success or failure of the machine learning based approaches. This choice, however, is also entangled with the task to be done (in this case, the study of styles).
 
@@ -312,6 +312,9 @@ Basic information about \textit{IRONOFF} dataset as a whole:
     \caption{Example for freeman code representation for 8 directions. Each direction is given a unique number.}
     \label{fig:freeman_dir}
     \end{figure}
+
+  \subsection{\textit{QuickDraw!} strokes preprocessing}
+    \par As mentioned earlier,
 
 \section{Summary}
   \par In this chapter, we explored two datasets: Cursive Handwriting dataset, \textit{IRONOFF} and sketch drawing dataset \textit{QuickDraw!}. Each of these datasets contains several tasks/categories (the letters/digits in case of \textit{IRONOFF}, and the shapes in case of \textit{QuickDraw!}), and we can explore the styles around each of those tasks. We explored basic information about each task (number of strokes, drawing time, and the pausing time).

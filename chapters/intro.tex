@@ -121,9 +121,11 @@
 \begin{figure}[!htbp]
   \centering
   \boxed{\includegraphics[scale=0.8]{./images/introduction/transfer_learning_illustration.jpeg}}
-  \caption{Illustration for a practical case of using transfer learning, where we have insufficient data on the new task, and we want to leverage the knowledge learned from another relevant task in order to learn the new task\footnote{Source of this image is \url{https://medium.com/data-science-101/transfer-learning-57ce3b98650}}.}
+  % \caption[Transfer Learning Illustration]{Illustration for a practical case of using transfer learning, where we have insufficient data on the new task, and we want to leverage the knowledge learned from another relevant task in order to learn the new task\footnote{Source of this image is \url{https://medium.com/data-science-101/transfer-learning-57ce3b98650}}.}
+  \caption{Illustration for a practical case of using transfer learning, where we have insufficient data on the new task, and we want to leverage the knowledge learned from another relevant task in order to learn the new task. Source of this image is~\citep{transimage}.}
   \label{fig:illustrate_TL}
 \end{figure}
+% \footnotetext{}
 
 \section{If we want transfer learning, why extracting styles?}
   \par It is important not to forget our mission while being consumed by the shiny light of machine learning. It is easy to fall into the trap of "getting the extra 0.1\% accuracy", figure \ref{fig:current_ml_comic}. Extracting styles enables us to have an idea of what the model actually learned (i.e., it makes the model more interpretable). But why do we need interpretability? Many reasons:
