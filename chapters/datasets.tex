@@ -127,7 +127,7 @@ Basic information about \textit{IRONOFF} dataset as a whole:
 
 \par In order to focus on the styles aspect, we decided to focus on 5 categories: circle, triangle, square, hexagon and octagon. Our reasoning is that the more complex the task gets (cats for example), it is harder to have a subjective opinion about the styles, and hard to give insights about the results. This is not a limitation on the methods we are proposing though.
 
-\par We sampled 20K samples from each task to perform exploratory analysis on them. In terms of strokes (see figure~\ref{fig:quickdraw_strokes}), we can see that there is a large variance surrounding the mean of each category. This trend continues when we look at the drawing time (see figure~\ref{fig:quickdraw_drawing_time}) and the pausing time (see figure~\ref{fig:quickdraw_pausing_time}). In the sample we analyzed, there are players from around 160 countries, figure~\ref{fig:quickdraw_countries}. This is one indication to the increasing complexity \textit{QuickDraw!} dataset presents in compare of \textit{IRONOFF} dataset.
+\par We sampled 20K samples from each task to perform exploratory analysis on them. In terms of strokes (see figure~\ref{fig:quickdraw_strokes}), we can see that there is a large variance surrounding the mean of each category. This trend continues when we look at the drawing time (see figure~\ref{fig:quickdraw_drawing_time}) and the pausing time (see figure~\ref{fig:quickdraw_pausing_time}). In the sample we analyzed, there are players from around 160 countries, figure~\ref{fig:quickdraw_countries} -- mostly from US and Great Britain --. This is one indication to the increasing complexity \textit{QuickDraw!} dataset presents in compare of \textit{IRONOFF} dataset.
 
 \par Not all examples are recognizable during the game though. In many cases, the players do not draw the required shape, or draw something quite complicated. The results of the recognition can be seen in figure~\ref{fig:recognition}, with the relation between number of strokes and length of the drawing. We can conclude that, for the selected categories, the more complex the drawing is (more length or more strokes), the less likely it is to become a recognizable drawing.
 
@@ -240,6 +240,15 @@ Basic information about \textit{IRONOFF} dataset as a whole:
 
 % A standard scaling process is applied on the X and Y traces, and then the feature extraction step is applied (discussed in detail in section~\ref{sec:data_representation}).
 
+\subsection{Comparison between \textit{QuickDraw!} and \textit{IRONOFF}}
+\par Since participants in both data sets use different methods in order to perform the drawing/writing, it is interesting to investigate this aspect. Figure~\ref{fig:ironoff_quickdraw_connection} shows a comparison between the drawing time for the different round shapes in both datasets -- letters \textit{O}, \textit{o} and digit \textit{0} in \textit{IRONOFF}, and the circle in \textit{QuickDraw!} --. We can see that the drawing speed \textit{IRONOFF} is much faster than \textit{QuickDraw!}. The average for \textit{IRONOFF} is 270ms, compared to 900ms for \textit{QuickDraw!}. Also, the variance in \textit{QuickDraw!} is much larger than \textit{IRONOFF}. We believe this is a result from the drawing tools used -- a mouse, or a finger on a tablet in case \textit{QuickDraw!}, and a pen in case of \textit{IRONOFF} --. Also, a mastery of the drawing tool has an important effect on the speed; it reduces the anticipation time, allowing faster performance.
+
+\begin{sidewaysfigure}[!htbp]
+    \centering
+    \includegraphics[scale=0.6]{images/dataset/cmp_rond.png}
+    \caption{A comparison between the drawing time of different round shapes in both \textit{QuickDraw!} and \textit{IRONOFF}. We can see that, the average drawing time in case of \textit{IRONOFF} (270ms) is much lower than for \textit{QuickDraw!} (900ms). Also, the variance in the distribution is much higher in case of \textit{QuickDraw!}. This probably a result from the different drawing tools used in both datasets -- a mouse, or a finger on a tablet in case \textit{QuickDraw!}, and a pen in case of \textit{IRONOFF} --, and also from the mastery level of the different tools -- usually people are more comfortable using the pen than the mouse in drawing --.}
+    \label{fig:ironoff_quickdraw_connection}
+\end{sidewaysfigure}
 
 \section{Data representation}\label{sec:data_representation}
   % \textbf{This section should be more general, discussing both pre-processing and represenation in the same time. Otherwise, we can discuss only the representation, and move the pre-processing steps to the appendix (which makes sense). Also, there is the pre-processing part Gerard performed on QuickDraw, which should be discussed.}
@@ -313,8 +322,11 @@ Basic information about \textit{IRONOFF} dataset as a whole:
     \label{fig:freeman_dir}
     \end{figure}
 
-  \subsection{\textit{QuickDraw!} strokes preprocessing}
-    \par As mentioned earlier,
+    \subsection{\textit{QuickDraw!} strokes preprocessing}
+    \par \textbf{Ask G\'erard to proof read this part -- not very sure about it}
+    \par As mentioned earlier, \textit{QuickDraw!} drawings was done mainly using the mouse, which leads to different characteristics than \textit{IRONOFF}, mainly in terms of strokes. As shown in the exploratory analysis of the strokes distribution, the participants usually perform the drawings in fewer strokes than expects. This creates a problem for us in the machine learning part, as the strokes are very sparse, and hard to learn. The work done in~\citep{ha2017neural} report the same issue. Early experiments on our side on the machine learning part showed great difficulty in learning the proper strokes.
+
+    \par In order to get around this issue, we processed the strokes, depending on the shape, in order to generate more balanced distribution of strokes. After some exploration, we first identify that the problem is that the participants do not release the stroke, instead, they wait or slow instead of performing a stroke. We monitor the time used during the drawing, and search for this 'waiting' period during the drawing. We identify this waiting period as a stroke. This process helped us having a better distribution, thus, enhancing the performance of our machine learning models.
 
 \section{Summary}
   \par In this chapter, we explored two datasets: Cursive Handwriting dataset, \textit{IRONOFF} and sketch drawing dataset \textit{QuickDraw!}. Each of these datasets contains several tasks/categories (the letters/digits in case of \textit{IRONOFF}, and the shapes in case of \textit{QuickDraw!}), and we can explore the styles around each of those tasks. We explored basic information about each task (number of strokes, drawing time, and the pausing time).
