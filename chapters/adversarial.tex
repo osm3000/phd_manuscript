@@ -37,40 +37,107 @@
   \end{figure}
 
 \section{How to test this?}
-  \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier (on the softmax outcome of the classifier\footnote{The classifier outcome is the highest value of the softmax for one of the outcomes. Thus, the objective of the generator is to generate an image that maximize the softmax value for the desired decision.}). The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}.
+  \subsection{Experimental setup}
+    \par I designed an experiment in order to see how this actually works. I build a variety of classifier models (oracles) -- in order study the phenomena across multiple algorithms -- on the MNIST dataset~\citep{lecun-mnisthandwrittendigit-2010}, figure~\ref{fig:mnist}, and then build an image generator that is optimized on the outcome of each classifier (on the softmax outcome of the classifier\footnote{The classifier outcome is the highest value of the softmax for one of the outcomes. Thus, the objective of the generator is to generate an image that maximize the softmax value for the desired decision.}). The optimizer is an genetic algorithm~\citep{eiben2003introduction}. The experiment setup is shown in figure~\ref{fig:adversarial_exp_setup}.
 
-  Different algorithms had been tested, starting from logistic regression, kNN\footnote{In this case, I reduced the images size from 64x64 to 8x8, in order to reduce the computational time and memory needed.}(5 neighbors), neural networks (1 hidden layer, 5 neurons) and random forests (30 estimators).
+    Different algorithms had been tested, starting from logistic regression, kNN\footnote{In this case, I reduced the images size from 64x64 to 8x8, in order to reduce the computational time and memory needed.}(5 neighbors), neural networks (1 hidden layer, 5 neurons).
 
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.4]{images/adv_attack/mnist.png}
-    \caption{MNIST is a popular offline handwriting dataset for digits from 0-9. 70K examples are available, 60K for training/validation and 10K for testing. The images size is 64x64.}
-    \label{fig:mnist}
-  \end{figure}
+    \begin{figure}[!htbp]
+      \centering
+      \includegraphics[scale=0.4]{images/adv_attack/mnist.png}
+      \caption{MNIST is a popular offline handwriting dataset for digits from 0-9. 70K examples are available, 60K for training/validation and 10K for testing. The images size is 64x64.}
+      \label{fig:mnist}
+    \end{figure}
 
-  \begin{figure}
-    \centering
-    \includegraphics[scale=0.4]{images/adv_attack/adversarial_optimization.png}
-    \caption{The setup of the experiment to understand the effect of using an oracle as the guidance for training a generator. The oracles were trained on MNIST dataset in order to classify the digits, and the generator is optimized based on what the oracle output. The generator objective is to generate images for different digits.}
-    \label{fig:adversarial_exp_setup}
-  \end{figure}
+    \begin{figure}[!htbp]
+      \centering
+      \includegraphics[scale=0.4]{images/adv_attack/adversarial_optimization.png}
+      \caption{The setup of the experiment to understand the effect of using an oracle as the guidance for training a generator. The oracles were trained on MNIST dataset in order to classify the digits, and the generator is optimized based on what the oracle output. The generator objective is to generate images for different digits.}
+      \label{fig:adversarial_exp_setup}
+    \end{figure}
 
-  \par I report the accuracy performance of these classifiers on the training and test data in table~\ref{tbl:classifier_performance}. It can be seen that the models seems to perform quite well on the task, thus, these models seem as good candidates to be oracles in order to train a generator.
+  \subsection{Models performance on the classification task}
+    \par I report the accuracy performance of these classifiers on the training and test data in table~\ref{tbl:classifier_performance}. It can be seen that the models seems to perform quite well on the task, thus, these models seem as good candidates to be oracles in order to train a generator.
 
-  \begin{table}
-    \centering
-    \begin{tabular}{l c c} \hline
-      Classifier & Train & Test \\ \hline
-      Logistic Regression & 92.7 &  92 \\ %\hline
-      kNN & 99 & 96.1 \\ %\hline
-      Random Forests & 99 & 96.57 \\ %\hline
-      Neural networks & 98.57 & 97.1 \\ \hline
-    \end{tabular}
-    \caption{The accuracy of the different classifiers used. The models perform well on the MNIST data.}
-    \label{tbl:classifier_performance}
-  \end{table}
+    \begin{table}[!htbp]
+      \centering
+      \begin{tabular}{l c c} \hline
+        Classifier & Train & Test \\ \hline
+        Logistic Regression & 92.7 &  92 \\ %\hline
+        kNN & 99 & 96.1 \\ %\hline
+        % Random Forests & 99 & 96.57 \\ %\hline
+        Neural networks & 98.57 & 97.1 \\ \hline
+      \end{tabular}
+      \caption{The accuracy of the different classifiers used. The models perform well on the MNIST data. All the models have a satisfying performance.}
+      \label{tbl:classifier_performance}
+    \end{table}
 
-  \textbf{TO BE COMPLETED WITH THE RESULTS AND THE KNN ANALYSIS}
+  \subsection{Using the oracles to train the generator}
+    \par Now that the potential oracles are trained, I started using them to train generators. The objective is to generate an image that maximizes the relevant likelihood of the required digit in the oracle model (i.e., maximize the probability of this digits in the oracle). The results are in figure~\ref{fig:generator_on_oracles}. We can see that all the oracles had been fooled quite easily by the generator. The oracles are show absolute confidence about the content of the images from the generator, while those images have no meaningful content or any resemblance to the ground truth digits. This here shows my original point, that the numbers from the oracle do not represent a trustworthy feedback in order to train a generator.
+
+    \begin{figure}[!htbp]
+      \centering
+      \begin{subfigure}[b]{\textwidth}
+        \includegraphics[scale=0.5]{images/adv_attack/lr.png}
+        \caption{Logistic Regression}
+        \label{subfig:lr}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[b]{\textwidth}
+        \includegraphics[scale=0.5]{images/adv_attack/mlp.png}
+        \caption{Multi-layer Perceptron}
+        \label{subfig:mlp}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[b]{\textwidth}
+        \includegraphics[scale=0.5]{images/adv_attack/knn.png}
+        \caption{KNN}
+        \label{subfig:knn}
+      \end{subfigure}
+      \label{fig:generator_on_oracles}
+      \caption{Results of using different oracles in order to train a generator. Each generated image has the target digit and the final oracle confidence about it. Logistic regression, MLP and KNN were fooled very easily, with absolute confidence about the meaning of the different images.}
+    \end{figure}
+    % \begin{figure}[htb]\ContinuedFloat
+    %   \begin{subfigure}[b]{\textwidth}
+    %     \includegraphics[scale=0.5]{images/adv_attack/rf.png}
+    %     \caption{Random Forests}
+    %     \label{subfig:rf}
+    %   \end{subfigure}
+    % \end{figure}
+
+  \subsection{Diving into KNN}
+    \par Given the previous results, I was curious if something can be done to avoid these results. I started to look at the KNN algorithm, since it is more easier to interpret. I analyzed the average distance of the test set and the adversarial examples to the training set. The results are shown in figure~\ref{fig:knn_analysis}. The adversarial examples have a much higher distance to the training data than the test data.
+    \begin{figure}[!htbp]
+      \centering
+      \includegraphics[scale=1.0]{images/adv_attack/knn_analysis.png}
+      \caption{KNN analysis: comparing the difference in the distance between the test data and the adversarial examples relative to the training data. We can see that the adversarial examples have a much higher distance than the test data.}
+      \label{fig:knn_analysis}
+    \end{figure}
+
+    \par To understand what is happening, let's discuss it on case of only 2 categories, see figure~\ref{fig:knn_illustration_1}. What the generator is doing is that it tries to place the adversarial examples far from the relative examples. KNN classifies examples based on the nearest neighbors, aside from the distance. Thus, it is easily fooled.
+
+    \begin{figure}[!htbp]
+      \centering
+      \includegraphics[scale=0.5]{images/adv_attack/kNN_visualization.jpg}
+      \caption{How adversarial examples are developed to fool KNN: the generator simply tries to put the malicious examples as far as possible from the clusters. In the same time, the KNN algorithm just classifies examples based on the nearest neighbors, aside from the distance.}
+      \label{fig:knn_illustration_1}
+    \end{figure}
+
+    \par I tried to see if we can mitigate this point, by using this information to develop a new generator, with an optimization objective of both maximizing the confidence of the KNN likelihood, while in the same time adding a penalty on the distance to the relevant training data. The results are shown in figure~\ref{fig:knn_results_2}. We can see that we start to have more clear numbers. Except for digit 1, the other images are comprehensible and correct. However, repeating this experiment multiple times did not reveal changes in the generated images (see figure~\ref{fig:knn_illustration_2}). What I conclude is that the resulting images are reflecting the average/mean of the different images in for the required digits, thus, no diverse set of images for each digit are generated. What we would like to have in a generator training is to capture the data distribution, and not just zoom in on the mean value.
+
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.5]{images/adv_attack/KNN_modified.png}
+      \caption{KNN results after modifying the optimization objective: instead of only maximize the likelihood of the intended digit, I also added a penalty on the distance to the training data. The images are more relevant and comprehensible in this case.}
+      \label{fig:knn_results_2}
+    \end{figure}
+
+    \begin{figure}
+      \centering
+      \includegraphics[scale=0.5]{images/adv_attack/kNN_visualization_with_new_loss.jpg}
+      \caption{Illustration for the performance of KNN after having the modified objective function (the likelihood of the oracle and the distance to the training data). While the results are quite good, the resulting images are reflecting the average/mean of the different images in for the required digits, thus, no diverse set of images for each digit are generated.}
+      \label{fig:knn_illustration_2}
+    \end{figure}
 
 \section{What is the lesson learned?}
   \par Even if the model (oracle) is doing extremely well on the ground-truth distribution, it is should not be used naively as a replacement for the ground truth, in order to evaluate other models (like a generator). The generator can easily learn how to deceives the oracle in order to maximize the final performance numbers, without any consideration for what these numbers implies. I believe that this is an interesting direction in research though, with a lot of potential, by developing some safeguards to protect the model from being deceived, reporting the model confidence about the current input, or having some estimation for the model error once we change the distribution.
