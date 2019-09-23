@@ -29,6 +29,34 @@ Handwriting styles
 * Mention that we are using the max size of data on the target task (much stronger evidence about the quality of transfer learning, that even with the max advantage available to the baseline model, we still perform better).
 * In the different tables, highlight the good results! to make it easier to find!!
 ==============================================================================================
+General:
+  * Make the captions of the images and tables more self-explanatory. Right now, they are quite brief, and do not summarize the message from that table or image.
+
+Introduction:
+
+Dataset:
+  * I need Gerard to approve the QuickDraw preprocessing step
+
 GBEM:
   * Remember to mention the DTL paper somewhere.
-  
+
+Framework:
+  * Remember to mention the ICAART paper somewhere.
+  * Add numbers of the hyperparameters and the size of the bottleneck
+
+SEAT:
+  * When mentioning the results, do as Damien said, by talking about the numbers (simply, put some words, it looks quite empty at the moment)
+  * Revisit the state of the art as Gerard mentioned before.
+  * Add the roundness results
+    - Huge pain in my ass right now
+
+Discussion:
+
+Conclusion
+
+Hyperparameters:
+  * Write quickly about the search strategy used.
+
+Adversarial:
+  * Add the results of this experiment.
+  * Add the analysis of the knn performance

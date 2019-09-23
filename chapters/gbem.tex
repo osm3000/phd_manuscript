@@ -111,13 +111,14 @@ where $T$ is the length of the sequence, and the $N$ is the number of sequential
 \par Given this formalization, the objective is to find the set of weights and biases of the network, that will minimize the chosen loss function. We will explore the optimization algorithms in section~\prettyref{subsec:optimization}.
 
 \subsection{Optimization Algorithms} \label{subsec:optimization}
-\par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converge to a better solution, and require less tweaking in order to achieve a good performance. All these methods are derivatives of gradient descent optimization, defined as~\citep{gradientdescent}:
+% \par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converge to a better solution, and require less tweaking in order to achieve a good performance. All these methods are derivatives of stochastic gradient descent optimization~\citep{robbins1951stochastic}., defined as~\citep{gradientdescent}:
+\par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converge to a better solution, and require less tweaking in order to achieve a good performance. All these methods are derivatives of stochastic gradient descent optimization~\citep{robbins1951stochastic}.
+%
+% \begin{quote}
+%     Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function. To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point.
+% \end{quote}
 
-\begin{quote}
-    Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function. To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point.
-\end{quote}
-
-\par If the function to be optimized is convex~\citep{convexfn} -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure~\prettyref{fig:grad_descent}.
+\par If the function to be optimized is convex~\citep{ben2001lectures} -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure~\prettyref{fig:grad_descent}.
 
 \begin{figure}
     \centering
@@ -228,7 +229,7 @@ There are multiple ways to bias the model, all targeting the same thing: initial
 
 \paragraph{Initialize the first hidden state directly} This is a common approach, used image captioning~\citep{karpathy2015deep}, machine translation, and sequence-to-sequence autoencoders. This is illustrated in figure~\prettyref{subfig:hidden_state}.
 
-\paragraph{Using the first time-step} This method was used in the work done in~\citep{vinyals2015show}, in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. This is similar to have a word at $X_{-1}$. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure~\prettyref{subfig:first_timestep}.
+\paragraph{Using the first time-step} This method was used in the work done in~\citep{vinyals2015show}, in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure~\prettyref{subfig:first_timestep}.
 
 \paragraph{Using context sequence -- multiple time-steps --} In this approach, the model is provided with some time-steps from the ground truth, in give it a context. At the end of the these given time-steps, the hidden state is initialized with information about what to be done. A use case for this scenario -- for example -- is when training a language model on multiple authors. When asking the model to generate, you can provide some sentences from the author you want, so the model can follow on this.
 
@@ -316,6 +317,8 @@ There are multiple ways to bias the model, all targeting the same thing: initial
     \item How to evaluate the generated traces?
     \item What benchmarks are suitable to compare to?
 \end{itemize}
+
+\par Our contributions will be on how to evaluate the generated traces, proposing multiple benchmarks, and using the prior knowledge about the power of those benchmarks in order to ground the the proposed evaluation metrics. The work done in this chapter was published in~\citep{mohammed2018handwriting}.
 
 \subsection{Our proposed evaluation metrics}\label{subsec:eval_metrics}
 \par Evaluation is a challenging problem when using generative models. We want metrics to capture the distance between the generated and the ground truth distributions. One of our contributions is to propose using the following metrics:
