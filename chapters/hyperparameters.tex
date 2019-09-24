@@ -3,6 +3,14 @@
 
 \par Yet, when it comes to hyper-parameters, it is not that obvious\footnote{By not obvious, I am politely meaning it was an utter suffering!}. There is two main strategies for finding hyper-parameters\footnote{As wonderfully explained by 'Andrew Ng' in his \textit{Deep Learning Specialization} in \textit{Coursera} platform, \url{https://www.coursera.org/specializations/deep-learning}}:
 \begin{itemize}
-  \item Babysitting the model: for people with small computational
-  \item Using a search strategy: one of the dominant search strategies in this case is a random search in the hyper-parameter space.
+  \item Manual search: for people with small computational budget. The idea is to get some sense of how the model behave, have educated guess overtime on the behavior of the different hyper-parameters, change them in a local manner.
+  \item Using a search strategy: in order to better cover the possible hyper-parameters by using a heuristic to perform the search, and one of the dominant search strategies in deep learning is a random search~\cite{bergstra2012random}. It is important though to have a suitable range for the hyper-parameters, otherwise, a lot of computational resources can be wasted. During my thesis, I used the random search strategy.
+
+  In a more aggressive kind of search, the search for hyper-parameters start from coarse and converge to fine type of search, in order to find the best possible set of hyper-parameters. I did not adapt such a strategy, just the coarse search.
+
+  Intensive methods to search for hyper-parameters, like grid-search, are not feasible with computationally demanding methods like deep learning.
 \end{itemize}
+
+\par The range of the hyper-parameters differs, for example, the learning rate of the optimizer is recommended to be on log-scale. For width of layer, I performed quick exploration on what are the upper and lower limits that makes sense (in my case, 64 and 256 served as the limits). For the number of layers, it was between 1 and 3. I search for the learning rate was done alone first, and then fixed for the rest of the experiments, to reduce the search time from one side.
+
+\par Another point is when to stop the training of a particular set of hyper-parameters, and move on to the other sets. To completely converge, the network can take a lot of time (and many epochs). I used a very conservative approach, of using the validation set to determine the stopping point (early stopping), and putting a threshold on the max number of epochs. Probably a better (and faster) solution exist, but to the best of my knowledge, I could not find such a solution.
