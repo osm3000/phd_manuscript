@@ -76,28 +76,28 @@ Basic information about \textit{IRONOFF} dataset as a whole:
         \includegraphics[scale=0.25]{images/dataset/handness_dist.png}
     \end{subfigure}
     ~
-    \caption{Summary statistics about the writers in \textit{IRONOFF}: the age, gender, country and handiness.}
+    \caption{Summary statistics about the writers in \textit{IRONOFF}: the age, gender, country and handiness. Most of participants are around 20 years old, and the majority are French. Also males are the dominant participants, the data can be concerned balanced in that regard, while on the aspect of handiness, the vast majority of the participants are right handed.}
     \label{fig:ironoff_basic_stats}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
     \includegraphics[scale=0.32]{images/dataset/ironoff_strokes.jpg}
-    \caption{Summary statistics strokes for all categories in \textit{IRONOFF} dataset (uppercase and lowercase letters, and digits), starting from the simplest to the more complex.}
+    \caption{Summary statistics strokes for all categories in \textit{IRONOFF} dataset (uppercase and lowercase letters, and digits), starting from the simplest to the more complex. We can see that letters/digits like \textit{C, L, O, 0} are quite simple, just one mostly one stroke and a small variances, whole letters like \textit{H, I, E} have more strokes, and more variance in the way they are drawn.}
     \label{fig:ironoff_strokes}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
-    \includegraphics[scale=0.4]{images/dataset/drawing_time.png}
-    \caption{Drawing time for all categories in \textit{IRONOFF} dataset, arranged from the smallest to the largest.}
+    \includegraphics[scale=0.35]{images/dataset/drawing_time.png}
+    \caption{Drawing time for all categories in \textit{IRONOFF} dataset, arranged from the smallest to the largest. Drawing time is an indication on the complexity of the task. Categories like \textit{C,c,L,O,0} have small pausing time -- since they are mostly one stroke --, while categories like \textit{k,B,m,E} have a longer pausing time, since they do have multiple different strokes, or complex stroke -- like in case of \textit{m}--.}
     \label{fig:ironoff_drawingtime}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
-    \includegraphics[scale=0.4]{images/dataset/pausing_time.png}
-    \caption{Pausing time for all categories in \textit{IRONOFF} dataset, arranged from the smallest to the largest.}
+    \includegraphics[scale=0.35]{images/dataset/pausing_time.png}
+    \caption{Pausing time for all categories in \textit{IRONOFF} dataset. Pausing time is one indication on the complexity of the task, and in case of multiple strokes, they can indicate of the strokes are repetitive or different, or that that strokes are simple or complex~\citep{seraphin2019analyzing}. Categories like \textit{2,C,0,3,6} have small pausing time -- since they are mostly one stroke --, while categories like \textit{F,J,Q,j} have a longer pausing time, since they do have multiple different strokes, or complex stroke -- like in case of \textit{m}--.}
     \label{fig:ironoff_pausingtime}
 \end{sidewaysfigure}
 
@@ -107,7 +107,7 @@ Basic information about \textit{IRONOFF} dataset as a whole:
 \begin{sidewaysfigure}[!htbp]
     \centering
     \boxed{\includegraphics[scale=0.7]{images/dataset/quickdraw_preview.jpg}}
-    \caption{Examples from different categories in \textit{QuickDraw!} dataset. Source of the images are~\citep{quickdraw}}
+    \caption{Examples from different categories in \textit{QuickDraw!} dataset. Source of the images are~\citep{quickdraw}. All-in-all, the data has 345 categories.}
     \label{fig:quickdraw_preview}
 \end{sidewaysfigure}
 
@@ -321,10 +321,10 @@ Basic information about \textit{IRONOFF} dataset as a whole:
     \end{figure}
 
     \subsection{\textit{QuickDraw!} strokes preprocessing}
-    \par \textbf{Ask G\'erard to proof read this part -- not very sure about it}
+    % \par \textbf{Ask G\'erard to proof read this part -- not very sure about it}
     \par As mentioned earlier, \textit{QuickDraw!} drawings was done mainly using the mouse, which leads to different characteristics than \textit{IRONOFF}, mainly in terms of strokes. As shown in the exploratory analysis of the strokes distribution, the participants usually perform the drawings in fewer strokes than expects. This creates a problem for us in the machine learning part, as the strokes are very sparse, and hard to learn. The work done in~\citep{ha2017neural} report the same issue. Early experiments on our side on the machine learning part showed great difficulty in learning the proper strokes.
 
-    \par In order to get around this issue, we processed the strokes, depending on the shape, in order to generate more balanced distribution of strokes. After some exploration, we first identify that the problem is that the participants do not release the stroke, instead, they wait or slow instead of performing a stroke. We monitor the time used during the drawing, and search for this 'waiting' period during the drawing. We identify this waiting period as a stroke. This process helped us having a better distribution, thus, enhancing the performance of our machine learning models.
+    \par In order to get around this issue, we processed the data in order to generate more balanced distribution of strokes. After some exploration, we first identify that the problem is that the participants do not release the stroke, instead, they wait or slow instead of performing a stroke. The period we find is 90 ms. We monitor the time used during the drawing, and search for this 'waiting' period during the drawing. We identify this waiting period as a stroke. This process helped us having a better distribution, thus, enhancing the performance of our machine learning models.
 
 \section{Summary}
   \par In this chapter, we explored two datasets: Cursive Handwriting dataset, \textit{IRONOFF} and sketch drawing dataset \textit{QuickDraw!}. Each of these datasets contains several tasks/categories (the letters/digits in case of \textit{IRONOFF}, and the shapes in case of \textit{QuickDraw!}), and we can explore the styles around each of those tasks. We explored basic information about each task (number of strokes, drawing time, and the pausing time).

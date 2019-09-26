@@ -68,7 +68,8 @@
 \usepackage{pagenote}
 \usepackage{breakcites} % added by omar - to divide long citations
 % \usepackage{natbib}
-\usepackage[semicolon, sort]{natbib}
+% \usepackage[semicolon,sort,numbers,square]{natbib}
+\usepackage[semicolon,sort]{natbib}
 \usepackage{enumitem}
 \usepackage{apalike}
 
@@ -93,7 +94,7 @@
 \usepackage{minitoc} % to create a small table of content in the begining of each chapter
 \usepackage{wrapfig} % to wrap figures in text
 
-\usepackage{prettyref} % better reference format
+% \usepackage{prettyref} % better reference format
 
  \usepackage[stable]{footmisc} % to add footnotes to a section
 
@@ -225,8 +226,9 @@
 % \setcounter{endnote}{0}
 % \theendnotes
 
-\bibliographystyle{apalike} % I need to solve this style problem with the bibliography
-% \bibliography{bibliography}
-{\small \bibliography{bibliography}}
+\bibliographystyle{plainnat} % I need to solve this style problem with the bibliography
+% \bibliographystyle{ksfh_nat} % I need to solve this style problem with the bibliography
+\bibliography{bibliography}
+% {\small \bibliography{bibliography}}
 
 \end{document}
