@@ -66,14 +66,14 @@ The advantage of deep learning techniques is that it overcome (to a big extent) 
         p(h_n) = p(h_{n-1}, x_{n})
         \label{eq:rnn_factorization}
     \end{equation}
-    This can be done using \textit{Recurrent Neural Networks} (RNN), which will be explained later in detail (section~\prettyref{sec:RNN}). In this case, the network is looping over the tokens one-by-one, updating the state variable each time.
-    \item Use the whole sequential data (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation~\prettyref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in~\citep{oord2016wavenet,gehring2017convolutional}, using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
+    This can be done using \textit{Recurrent Neural Networks} (RNN), which will be explained later in detail (section~\ref{sec:RNN}). In this case, the network is looping over the tokens one-by-one, updating the state variable each time.
+    \item Use the whole sequential data (all its tokens) as input to the network in the same time. In this case, the network is trying to model equation~\ref{eq:rnn_obj_training_0} heads-on. This approach has gained popularity recently with the work done in~\citep{oord2016wavenet,gehring2017convolutional}, using convolution networks in order to model sequential data (speech for the first, language text for the second). The advantages of this approach is removing the sequential aspect of the network, and leveraging parallelism when treating the whole sequence. This results in faster training, while still achieving state-of-the art results.
 \end{enumerate}
 
 \par There is no one solution that fits all here, it simply depends on the problem and the constraints on the solution. In case of variable-length sequential data, the first approach is the one to go for. In the case of fixed-length sequential data, the second approach should be considered (easier to train the model, faster to optimize, faster to infer from).
 
 \subsection{Recurrent Neural Networks and Sequence Modeling} \label{sec:RNN}
-As mentioned briefly in the previous section (\prettyref{sec:seq_data}), \textit{Recurrent Neural Networks} (RNN) is a type of neural networks, that can handle sequential aspect in data. In its simplest format, it is a simple feed-forward network, applied on each token in the sequential data point, while carrying the information about the previous tokens using a latent variable $h$, commonly referred to as \textit{the hidden state variable}. This is demonstrated in figure~\prettyref{fig:basic_rnn_model}.
+As mentioned briefly in the previous section (\ref{sec:seq_data}), \textit{Recurrent Neural Networks} (RNN) is a type of neural networks, that can handle sequential aspect in data. In its simplest format, it is a simple feed-forward network, applied on each token in the sequential data point, while carrying the information about the previous tokens using a latent variable $h$, commonly referred to as \textit{the hidden state variable}. This is demonstrated in figure~\ref{fig:basic_rnn_model}.
 
 \begin{figure}
     \centering
@@ -108,7 +108,7 @@ As mentioned briefly in the previous section (\prettyref{sec:seq_data}), \textit
 \end{equation}
 where $T$ is the length of the sequence, and the $N$ is the number of sequential data points available, and $\hat{y_{n, t}}$ is predicted output by the model, while $\hat{y_{n, t}}$ is the ground truth output.
 
-\par Given this formalization, the objective is to find the set of weights and biases of the network, that will minimize the chosen loss function. We will explore the optimization algorithms in section~\prettyref{subsec:optimization}.
+\par Given this formalization, the objective is to find the set of weights and biases of the network, that will minimize the chosen loss function. We will explore the optimization algorithms in section~\ref{subsec:optimization}.
 
 \subsection{Optimization Algorithms} \label{subsec:optimization}
 % \par One of the important factors in the recent success of deep learning is the advances in optimization algorithms. These algorithmic advances make the optimization easier, converge to a better solution, and require less tweaking in order to achieve a good performance. All these methods are derivatives of stochastic gradient descent optimization~\citep{robbins1951stochastic}., defined as~\citep{gradientdescent}:
@@ -118,7 +118,7 @@ where $T$ is the length of the sequence, and the $N$ is the number of sequential
 %     Gradient descent is a first-order iterative optimization algorithm for finding the minimum of a function. To find a local minimum of a function using gradient descent, one takes steps proportional to the negative of the gradient (or approximate gradient) of the function at the current point.
 % \end{quote}
 
-\par If the function to be optimized is convex~\citep{ben2001lectures} -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure~\prettyref{fig:grad_descent}.
+\par If the function to be optimized is convex~\citep{ben2001lectures} -- differentiable, and have a global optima --, then gradient descent can find this global optima. An example for the different optimization iteration can be seen in figure~\ref{fig:grad_descent}.
 
 \begin{figure}
     \centering
@@ -133,27 +133,29 @@ where $T$ is the length of the sequence, and the $N$ is the number of sequential
     \theta_{t+1} = \theta_{t} - \alpha \times \frac{d Loss(\theta_t)}{d\theta_t}
     \label{eq:grad_descent}
 \end{equation}
-where $\theta$ refers to the parameters we want to optimize, $t,t+1$ refers to the current and the next iterations respectively, $\alpha$ is the learning rate (how large the step to take at each iteration), and $Loss$ is the loss/objective function we want to optimize our parameter for. Optimization by gradient descent is a \textit{batch optimization}: the loss function and its gradient is calculated all given data examples. This iterative process keeps going till we wither do not observe a tangible change in the performance of the parameters, or we exhaust our computational budget. An illustration for this process can be seen in figure~\prettyref{fig:grad_descent_inuitive}.
+where $\theta$ refers to the parameters we want to optimize, $t,t+1$ refers to the current and the next iterations respectively, $\alpha$ is the learning rate (how large the step to take at each iteration), and $Loss$ is the loss/objective function we want to optimize our parameter for. Optimization by gradient descent is a \textit{batch optimization}: the loss function and its gradient is calculated all given data examples. This iterative process keeps going till we wither do not observe a tangible change in the performance of the parameters, or we exhaust our computational budget. An illustration for this process can be seen in figure~\ref{fig:grad_descent_inuitive}.
 
 \begin{figure}
     \centering
     \includegraphics{images/gbem/gradient_descent_informal.png}
-    \caption{The process of gradient descent is iterative, and include 3 steps: evaluate the quality of the current parameters (forward-pass step), get the error value, use the error-value in order to update the parameters/getting new set of parameters (back-propagation step). This process is repeated N times, which is decided by either not observing any update in the error, or we ran out of computational resources.}
+    \caption{The process of gradient descent is iterative, and include 3 steps: evaluate the quality of the current parameters (forward-pass step), get the error value, use the error-value in order to update the parameters/getting new set of parameters (\textit{Back-Propagation} step). This process is repeated N times, which is decided by either not observing any update in the error, or we ran out of computational resources.}
     \label{fig:grad_descent_inuitive}
 \end{figure}
+
+\par In case of recurrent neural networks, an adaptation from of \textit{Back-Propagation} step is used, called \textit{Back-Propagation Through Time} (BPTT)~\citep{werbos1988generalization,robinson:utility,mozer1995focused}. It simply works by unfolding the recurrent neural network to the length of the input sequence -- with each copy of the network having the same parameters --, and then apply the normal \textit{Back-Propagation} step consequently on each step, in order to find the proper network parameters.
 
 Before we dive into the different optimization methods currently used, it is important first to stress on an important characteristic of all modern deep neural networks, which are~\citep{Goodfellow-et-al-2016}:
 \begin{itemize}
     \item \textbf{Differentiability}: All the components of the neural networks (activation function, loss objective, regularization, ...etc) are differentiable components. This issue is not about mandatory by theory, but by convenience: good optimizers exist that can use this feature in order to optimize the network faster, while being able to scale with appropriately with the given number of data points and the number of parameters to be optimized.
     \item \textbf{Non-convexity}: While the neural network is built of convex parts, the composition of those parts together is not convex. The reasoning for this particular point is out of the scope of this document. We refer you to the book~\citep{Goodfellow-et-al-2016} for more details --. While this seems to be a disadvantage, it is actually a powerful advantage of the neural network. Neural networks are \textit{universal approximator}, meaning that they can approximate/learn any function. A convex function can not approximate non-convex function, but the other way around works~\citep{lecture_nn_optimization}.
 
-    Using gradient descent optimization methods in this case leads to convergence to local optima points. The initial conditions of the network (the initial random parameters, and the strategy of their selection) and the optimization strategy and parameters (learning rate, decay factor\cdots,etc) will play an important rule to determine the convergence characteristics (speed of convergence, and local optima) of the neural network.
+    Using gradient descent optimization methods in this case leads to convergence to local optima points. The initial conditions of the network (the initial random parameters, and the strategy of their selection) and the optimization strategy and parameters (learning rate, decay factor...,etc) will play an important rule to determine the convergence characteristics (speed of convergence, and local optima) of the neural network.
 \end{itemize}
 
 % \subsubsection{Mini-batch optimization}
 \par Another important aspect of the success of deep learning is the availability of large amount of data. To optimize a deep neural network (can be the order of millions of parameters) using large amount of data (can be in the order of millions of data examples) using gradient descent, is not physically feasible. We do not have the hardware capability to process all of these data in the same time.
 
-\par To get around this issue, \textit{mini-batch} optimization is used: instead of performing gradient descent based on the information from the whole data, we divide the data into chunks (mini-batches). For each mini-batch, we calculate the loss and the gradient, and update the parameters, and then move on the next batch. The gradient descent in this case is called \textit{Stochastic Gradient Descent}, SGD,~\citep{robbins1951stochastic}, following the same equation~\prettyref{eq:grad_descent}, but applied to only a mini-batch at a time, instead of the whole data (batch).
+\par To get around this issue, \textit{mini-batch} optimization is used: instead of performing gradient descent based on the information from the whole data, we divide the data into chunks (mini-batches). For each mini-batch, we calculate the loss and the gradient, and update the parameters, and then move on the next batch. The gradient descent in this case is called \textit{Stochastic Gradient Descent}, SGD,~\citep{robbins1951stochastic}, following the same equation~\ref{eq:grad_descent}, but applied to only a mini-batch at a time, instead of the whole data (batch).
 
 \par Many advances built on top of SGD helped in advancing deep learning, like combining SGD with momentum~\citep{rumelhart1988learning}, RMSProp algorithm~\citep{hinton2012neural} and Adam algorithm~\citep{kingma2014adam}.
 
@@ -161,7 +163,7 @@ Before we dive into the different optimization methods currently used, it is imp
 % \subsection{Architectures}
 % \OSM{INCOMPLETE PART}
 %
-% In section~\prettyref{sec:RNN}, we discussed the idea behind the basic RNN and its operation. Then, in section~\prettyref{subsec:optimization}, we how we can optimize the parameters of a neural network in general.
+% In section~\ref{sec:RNN}, we discussed the idea behind the basic RNN and its operation. Then, in section~\ref{subsec:optimization}, we how we can optimize the parameters of a neural network in general.
 %
 % \par One important aspect of RNN is the ability to keep the information over many time-steps. This is an issue however with basic RNN networks. This can happen with a better choice of the architecture, that allow to keep the memory, which also learning to select what is not necessary to keep (what we can forget). This problem is called \textit{vanishing gradient}.
 %
@@ -175,7 +177,7 @@ Before we dive into the different optimization methods currently used, it is imp
 
 
 \subsection{Inference: How to generate sequences from the network?}
-\par There exists several approaches in order to generate information from the networks. In the case of recurrent neural networks, this is a sequential process (one step at a time, till we generate the whole sequence), as illustrated in figure~\prettyref{fig:text_gen}.
+\par There exists several approaches in order to generate information from the networks. In the case of recurrent neural networks, this is a sequential process (one step at a time, till we generate the whole sequence), as illustrated in figure~\ref{fig:text_gen}.
 
 \begin{figure}
     \centering
@@ -203,7 +205,7 @@ During the inference mode, the objective is to generate the most likely sequence
 
 \par A better way will be to use \textit{stochastic sampling}, by leveraging the fact that at each step, we have a probability distribution over all possible tokens. This allows more diversity in the generated tokens, and also allow unlikely tokens to be sampled some of the time.
 
-\par But what if we want to control the level of randomness in the sampling process? Having such control will allow us to explore different ways to infer from the model, in order to determine the most satisfying way. This control can be done using \textit{temperature sampling}. The idea is to reshape the probability distribution over the different token. On one extreme, very high temperature (going to infinity) will flatten the distribution, making the distribution equivalent to \textit{uniform distribution}. On the other extreme, a temperature of zero will be mount to greedy sampling. This is illustrated in figure~\prettyref{fig:temperature_sampling}.
+\par But what if we want to control the level of randomness in the sampling process? Having such control will allow us to explore different ways to infer from the model, in order to determine the most satisfying way. This control can be done using \textit{temperature sampling}. The idea is to reshape the probability distribution over the different token. On one extreme, very high temperature (going to infinity) will flatten the distribution, making the distribution equivalent to \textit{uniform distribution}. On the other extreme, a temperature of zero will be mount to greedy sampling. This is illustrated in figure~\ref{fig:temperature_sampling}.
 
 \begin{sidewaysfigure}[!htbp]
     \centering
@@ -227,13 +229,13 @@ During the inference mode, the objective is to generate the most likely sequence
 
 There are multiple ways to bias the model, all targeting the same thing: initializing the hidden state of the model. Some work in the literature combines multiple of these approaches in the same setup. To the best of my knowledge, there is no one place which all these methods are discussed together.
 
-\paragraph{Initialize the first hidden state directly} This is a common approach, used image captioning~\citep{karpathy2015deep}, machine translation, and sequence-to-sequence autoencoders. This is illustrated in figure~\prettyref{subfig:hidden_state}.
+\paragraph{Initialize the first hidden state directly} This is a common approach, used image captioning~\citep{karpathy2015deep}, machine translation, and sequence-to-sequence autoencoders. This is illustrated in figure~\ref{subfig:hidden_state}.
 
-\paragraph{Using the first time-step} This method was used in the work done in~\citep{vinyals2015show}, in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure~\prettyref{subfig:first_timestep}.
+\paragraph{Using the first time-step} This method was used in the work done in~\citep{vinyals2015show}, in the area of image captioning. The prior in this case is the image, and the objective is to generate the text caption for it. In order to condition the model, the authors projected the image information into the same size as the word embedding used, thus creating a \textit{fake} word, and concatenated this new word with the rest of the words. The hidden state after this fake word is now condition on the information from the image. This is illustrated in figure~\ref{subfig:first_timestep}.
 
 \paragraph{Using context sequence -- multiple time-steps --} In this approach, the model is provided with some time-steps from the ground truth, in give it a context. At the end of the these given time-steps, the hidden state is initialized with information about what to be done. A use case for this scenario -- for example -- is when training a language model on multiple authors. When asking the model to generate, you can provide some sentences from the author you want, so the model can follow on this.
 
-\paragraph{Concatenating input time-steps with the condition} In the work done by~\citep{ha2017neural}, although not mentioned explicitly, the dataset used -- the \textit{QuickDraw} dataset, discussed earlier -- is quite complicated -- they choose different tasks than us --. It is hard to make the model remember the information about such a complex task over a long time span. Thus, the authors use a mix of \textit{initializing the first hidden state} and \textit{concatenating with the first time-step} in order to make it easier for the model to remember the task. This is illustrated in figure~\prettyref{subfig:cat_timestep}.
+\paragraph{Concatenating input time-steps with the condition} In the work done by~\citep{ha2017neural}, although not mentioned explicitly, the dataset used -- the \textit{QuickDraw} dataset, discussed earlier -- is quite complicated -- they choose different tasks than us --. It is hard to make the model remember the information about such a complex task over a long time span. Thus, the authors use a mix of \textit{initializing the first hidden state} and \textit{concatenating with the first time-step} in order to make it easier for the model to remember the task. This is illustrated in figure~\ref{subfig:cat_timestep}.
 
 \paragraph{Concatenating the hidden state with the condition} This approach is more popular now, since it allows the use of \textit{attention mechanisms}~\citep{NIPS2010_4089,denil2012learning}. Examples for this in image captioning~\citep{xu2015show}, speech synthesis~\citep{wang2017tacotron}.
 
@@ -304,7 +306,7 @@ There are multiple ways to bias the model, all targeting the same thing: initial
   %
   % \par The BLEU score is global: all frames of the generated sequence contribute to the final score. The BLEU score is used to compare segments of generated traces with the ground truth. Depending on the number of \textit{grams} chosen, the BLEU score can compare larger segments, thus giving us different levels of granularity to assess the quality of the generated samples.
 
-  % The EoS is a simple yet important style feature. Some letters take longer (i.e. written using many strokes, like H or E) to write than other letters (e.g with one stroke like O or C). It is also an idiosyncratic feature of the writer: writers have different writing speeds, depending on age, education or cognitive/peripheral disorders. We used these metrics in our work as well as a letter-specific metric (applicable only to a subset of the data): the average angular momentum of the letter X will be discussed in detail in the section~\prettyref{sec:evaluation} below.
+  % The EoS is a simple yet important style feature. Some letters take longer (i.e. written using many strokes, like H or E) to write than other letters (e.g with one stroke like O or C). It is also an idiosyncratic feature of the writer: writers have different writing speeds, depending on age, education or cognitive/peripheral disorders. We used these metrics in our work as well as a letter-specific metric (applicable only to a subset of the data): the average angular momentum of the letter X will be discussed in detail in the section~\ref{sec:evaluation} below.
 
   % \par The EoS is a simple yet important style feature. Some letters take longer (e.g., written using many strokes, like H or E) to write than other letters (e.g., written with one stroke like O or C). It is also an idiosyncratic feature of the writer: writers have different writing speeds, depending on age, education or cognitive/peripheral disorders.
 
@@ -337,7 +339,7 @@ Score_{N} = \min{(0, 1 - \frac{L_{R}}{L_{G}})} \prod^{N}_{n=1}BLEU_{n}
 where: $G$ is all the generated sequences, $N$ is the total number of N-grams we want to consider. $Count_{Clipped}$ is clipped N-grams count (if the number of N-grams in the generate sequence is larger than the reference sequence, the count is limited to the number in the reference sequence only), $L_R$ is the length of the reference sequence, $L_G$ is the length of the generated sequence.
 The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short generated sequences (shorter than the reference sequence), which will deceptively achieve high scores.
 
-\par In order to get into the intuition of using such a metric in evaluating the quality of handwriting generation, we can imagine that we are comparing segments of a generated trace to segments in the ground truth letter, by asking the following question: does the segment in the generated trace exist (anywhere) in the original trace? The shorter segments represent \textit{adequacy} (i.e., does the generated trace use the same elementary moves like the ground truth trace). The longer segments represents \textit{fluency} of drawing (i.e., how good the drawing is)\footnote{This last interpretation of short and long segments is adapted from the~\citep{papineni2002bleu}, which uses them for text translation evaluation.}. See figure~\prettyref{fig:bleu_score}.
+\par In order to get into the intuition of using such a metric in evaluating the quality of handwriting generation, we can imagine that we are comparing segments of a generated trace to segments in the ground truth letter, by asking the following question: does the segment in the generated trace exist (anywhere) in the original trace? The shorter segments represent \textit{adequacy} (i.e., does the generated trace use the same elementary moves like the ground truth trace). The longer segments represents \textit{fluency} of drawing (i.e., how good the drawing is)\footnote{This last interpretation of short and long segments is adapted from the~\citep{papineni2002bleu}, which uses them for text translation evaluation.}. See figure~\ref{fig:bleu_score}.
 
 \begin{figure}[!htbp]
     \centering
@@ -353,7 +355,7 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
         \includegraphics[scale=0.3, trim={10cm 7cm 10cm 7cm},clip]{images/gbem/bleu_score_3.png}
     \end{subfigure}
 
-    \caption{Using BLEU score of different sizes, we compare segments of variable length in the generated trace to the target trace.}
+    \caption{Using BLEU score of different sizes, we compare segments of variable length in the generated trace to the target trace. The smaller BLEU scores evaluate the \texit{adequacy} of the drawing, while the bigger BLEU scores evalute the \textit{fluency}~\citep{papineni2002bleu}.}
     \label{fig:bleu_score}
 \end{figure}
 
@@ -367,8 +369,8 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
 % \end{description}
 % \par Starting from the images of the letters, we wanted to test if we can extract information about the style. We two approaches, based on deep learning framework:
 % \begin{description}[noitemsep]
-    \item[Image classifier embedding]: we train a convolution neural network (CNN) to classify the letters images\footnote{This letter classification task achieves $95.1\%$ classification accuracy, which we consider very good.}, as shown in figure~\prettyref{fig:architectures}. We use an intermediate layer as to extract embeddings, that will encode information about the letter images. This model should perform the same or a more performance than using the letter identity only, since it learns to clusters the letters, and there are classification errors. But we expect it to perform less than the letter + writer identities.
-    \item[Image auto-encoder latent space]: we train a letter image autoencoder, using reconstruction error, and use the latent space as a representation of the letter + style. The architecture we use can be seen in figure~\prettyref{fig:architectures}. The latent space encodes the similarity between the letters. This model should perform worse than using the letter identity only, since, while it capture the similarity between the letter images, it does not capture discriminative features about each letter itself.
+    \item[Image classifier embedding]: we train a convolution neural network (CNN) to classify the letters images\footnote{This letter classification task achieves $95.1\%$ classification accuracy, which we consider very good.}, as shown in figure~\ref{fig:architectures}. We use an intermediate layer as to extract embeddings, that will encode information about the letter images. This model should perform the same or a more performance than using the letter identity only, since it learns to clusters the letters, and there are classification errors. But we expect it to perform less than the letter + writer identities.
+    \item[Image auto-encoder latent space]: we train a letter image autoencoder, using reconstruction error, and use the latent space as a representation of the letter + style. The architecture we use can be seen in figure~\ref{fig:architectures}. The latent space encodes the similarity between the letters. This model should perform worse than using the letter identity only, since, while it capture the similarity between the letter images, it does not capture discriminative features about each letter itself.
 \end{description}
 
 \par From this discussion, we can say that cardinal power of the different conditions is:
@@ -388,23 +390,23 @@ The term $\min(0, 1 - \frac{L_{R}}{L_{G}})$ is added in order to penalize short 
     \begin{subfigure}{0.4\textwidth}
         \includegraphics[scale=1.0]{images/gbem/autoenc.png}
     \end{subfigure}
-    \caption{Left: architecture of the CNN letter classifier. Batch normalization is used after each convolution layer. The \textit{Dense 1} layer is the embedding that is used to condition our generator. Right: the autoencoder architecture we used. The first \textit{Dense 34} layer provides the latent space used to condition the generator.}
+    \caption{Left: architecture of the CNN letter classifier we used. Batch normalization is used after each convolution layer. The \textit{Dense 1} layer -- with a size of 34 -- is the embedding that is used to condition our generator. Right: the autoencoder architecture we used. The output of the first \textit{Dense 34} layer provides the latent space used to condition the generator.}
     \label{fig:architectures}
 \end{figure}
 
 \subsection{Proposed model}
-We use a type of RNN called Gated-Recurrent Network (GRU)~\citep{chung2014empirical}, which is known for having a better memory ability than basic RNN, thus, making it suitable choice for long sequence. Our model is a conditioned-GRU model, demonstrated in figure~\prettyref{fig:dtl_model}. Using this model, we compare different style approached discussed in section~\prettyref{subsec:ground_metrics}, and use the generation results from that model in order to ground the proposed evaluation metrics, discussed in section~\prettyref{subsec:eval_metrics}.
+We use a type of RNN called Gated-Recurrent Network (GRU)~\citep{chung2014empirical}, which is known for having a better memory ability than basic RNN, thus, making it suitable choice for long sequence. Our model is a conditioned-GRU model, demonstrated in figure~\ref{fig:dtl_model}. Using this model, we compare different style approached discussed in section~\ref{subsec:ground_metrics}, and use the generation results from that model in order to ground the proposed evaluation metrics, discussed in section~\ref{subsec:eval_metrics}.
 \begin{figure}[!htbp]
     \centering
     \begin{subfigure}[b]{\textwidth}
         \includegraphics[width=\textwidth]{images/gbem/dtl_training.png}
-        \caption{Training mode, using \textit{teacher forcing} methodology~\citep{Williams:1989:LAC:1351124.1351135,Goodfellow-et-al-2016}.}
+        \caption{Training mode, using \textit{teacher forcing} methodology~\citep{Williams:1989:LAC:1351124.1351135,Goodfellow-et-al-2016}, where the model gets its input from the ground truth all the time.}
         \label{subfig:dtl_training}
     \end{subfigure}
     ~
     \begin{subfigure}[b]{\textwidth}
         \includegraphics[width=\textwidth]{images/gbem/dtl_generation.png}
-        \caption{Generation/Inference mode}
+        \caption{Generation/Inference mode, where the model gets its input at each time step from its own output at the previous time step.}
         \label{subfig:dtl_generation}
     \end{subfigure}
 
@@ -413,14 +415,14 @@ We use a type of RNN called Gated-Recurrent Network (GRU)~\citep{chung2014empiri
 \end{figure}
 
 \subsection{Results}
-\par We train our different models and generate the traces from them as explained earlier. In this section, we compare the different models using the evaluation metrics discussed before. We  observe the consistency of the reported metrics with the prior information about the cardinal power of the different methods, equation~\prettyref{eq:cardinal_power}. This is how we ground our metrics.
+\par We train our different models and generate the traces from them as explained earlier. In this section, we compare the different models using the evaluation metrics discussed before. We  observe the consistency of the reported metrics with the prior information about the cardinal power of the different methods, equation~\ref{eq:cardinal_power}. This is how we ground our metrics.
 
 \subsubsection{BLEU score}
-\par The final results using the BLEU score can be seen in table~\prettyref{table:1}. The results vary when measuring BLEU-1. But, as we increase the number of grams, BLEU-2 and BLEU-3, to measure the similarity between larger segments of the traces, we can observe:
+\par The final results using the BLEU score can be seen in table~\ref{table:1}. The results vary when measuring BLEU-1. But, as we increase the number of grams, BLEU-2 and BLEU-3, to measure the similarity between larger segments of the traces, we can observe:
 \begin{itemize}
     \item The letter + writer condition performed better than all other conditions, thus showing that having access to information about the writer, like the writer id, improve the quality of the handwriting synthesis.
-    \item The image classifier condition performs better than the letter identity only, but less than the letter + writer bias. Since the classifier is trained on a single objective only (to classify the letters), and the classifier performs well, we expect the embedding to cluster the letters well, as seen in figure~\prettyref{subfig:classifier_latent}. We can expect the model to capture some of the writer style, possibly in the inter-cluster variance. This is an interesting result, suggesting that some fine tuning for the image classifier while in the generation task could be beneficial to capture more details about the styles.
-    \item The image autoencoder bias performed the worst. To understand why, we plot a 2-D projection of its latent space using t-SNE~\citep{maaten2008visualizing}, figure~\prettyref{subfig:autoenc_latent}. Since the autoencoder is trained to minimize the reconstruction error, the distance in the latent space encode the proximity between the images. It can be observed also that this latent space does not encode discriminative features for the letters. Using this latent space for our generator, we find the model gets confused between nearby letters, resulting sometimes in generating different letters than requested.
+    \item The image classifier condition performs better than the letter identity only, but less than the letter + writer bias. Since the classifier is trained on a single objective only (to classify the letters), and the classifier performs well, we expect the embedding to cluster the letters well, as seen in figure~\ref{subfig:classifier_latent}. We can expect the model to capture some of the writer style, possibly in the inter-cluster variance. This is an interesting result, suggesting that some fine tuning for the image classifier while in the generation task could be beneficial to capture more details about the styles.
+    \item The image autoencoder bias performed the worst. To understand why, we plot a 2-D projection of its latent space using t-SNE~\citep{maaten2008visualizing}, figure~\ref{subfig:autoenc_latent}. Since the autoencoder is trained to minimize the reconstruction error, the distance in the latent space encode the proximity between the images. It can be observed also that this latent space does not encode discriminative features for the letters. Using this latent space for our generator, we find the model gets confused between nearby letters, resulting sometimes in generating different letters than requested.
 \end{itemize}
 
 \begin{table}[!htbp]
@@ -442,14 +444,14 @@ Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.
 \begin{sidewaysfigure}[!htbp]
     \centering
     \begin{subfigure}[b]{0.6\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/AutoEnc_Vis_tsne.png}
+        \includegraphics[width=\textwidth]{images/gbem/auto_Vis_pca.png}
         \caption{Bottleneck of the auto-encoder}
         \label{subfig:autoenc_latent}
     \end{subfigure}
     % ~
     \quad
     \begin{subfigure}[b]{0.6\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/Classifier_Vis_tsne.png}
+        \includegraphics[width=\textwidth]{images/gbem/class_Vis_pca.png}
         \caption{Bottleneck of the classifier}
         \label{subfig:classifier_latent}
     \end{subfigure}
@@ -460,7 +462,7 @@ Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.
 \end{sidewaysfigure}
 
 \subsubsection{Sequence length}
-\par As mentioned earlier, we performed a statistical test between the paired distributions of lengths of the generated and the reference tracings. The results are shown in table~\prettyref{table:2}. We can see the following:
+\par As mentioned earlier, we performed a statistical test between the paired distributions of lengths of the generated and the reference tracings. The results are shown in table~\ref{table:2}. We can see the following:
 \begin{itemize}
     \item The results from the statistical test shows that the letter + writer bias outperform the rest of the biases, achieving p-value $< 0.05$. This is quite reassuring, since it is also in line with the results from the BLEU score.
     \item The results from the Pearson correlation coefficients are also consistent with the rest of the results. High coefficients are given to the letter + writer bias, compared to the other methods. The image classifier and autoencoder gives the lowest results. This could be due to insufficient information about the letter length that can be inferred from the image. For the image classifier, as noted earlier, a fine-tuning during the generation task is worth exploring.
@@ -476,13 +478,13 @@ Image classifier & 0.32 & 0.62\\ \hline
 Image autoencoder & 0.25 & 0.29 \\ \hline
 \textbf{Letter + Writer bias} & \textbf{0.55} & \textbf{0.04}\\ \hline
 \end{tabular}
-\caption{Pearson correlation coefficients and associated p-values for the EOS distributions of the different style biases.}
+\caption{Pearson correlation coefficients and associated p-values for the EOS distributions of the different style biases. A \textit{letter + writer} bias performs much better than others biases, while the \textit{image autoencoder} bias performs the worse. This confirms with our expectations about the relative power of the different biases.}
 
 \label{table:2}
 \end{table}
 
 \subsection{Examples of the generated letters}
-\par The design choices of our experiments (discretization, and ignoring the pen state) affects the final shape of the letters, yet, the letters and their style are quite recognizable. See examples for the original letters in figure~\prettyref{fig:orig_letters_examples}. Examples for the generation with our methods are in figure~\prettyref{fig:letters_examples_gbem}. This is a subjective indication that our model is working properly, producing real-like comprehensible letters.
+\par The design choices of our experiments (discretization, and ignoring the pen state) affects the final shape of the letters, yet, the letters and their style are quite recognizable. See examples for the original letters in figure~\ref{fig:orig_letters_examples}. Examples for the generation with our methods are in figure~\ref{fig:letters_examples_gbem}. This is a subjective indication that our model is working properly, producing real-like comprehensible letters.
 
 \begin{sidewaysfigure}%[!htbp]
 \centering

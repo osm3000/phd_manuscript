@@ -177,7 +177,9 @@ Basic information about \textit{IRONOFF} dataset as a whole:
         \includegraphics[scale=0.28]{images/dataset/recog_octagon.png}
     \end{subfigure}
 
-    \caption{The distribution of the strokes in \textit{QuickDraw!} for the recognized shapes, for each category.}
+    % \caption{The distribution of the strokes in \textit{QuickDraw!} for the recognized shapes, for each category. The majority of the shapes are recognized. Unrecognized drawings usually have more strokes or longer than the rest of the drawings.}
+    \caption{The recognized VS non-recognized drawings in \textit{QuickDraw!} in each of the selected categories. The majority of the shapes are recognized. Unrecognized drawings usually have more strokes or longer than the rest of the drawings.}
+
     \label{fig:recognition}
 % \end{figure}
 \end{sidewaysfigure}
@@ -204,28 +206,29 @@ Basic information about \textit{IRONOFF} dataset as a whole:
         \includegraphics[scale=0.28]{images/dataset/strokes_frequency_octagon.png}
     \end{subfigure}
 
-    \caption{The recognized VS non-recognized drawings in \textit{QuickDraw!} in each of the selected categories.}
+    \caption{The distribution of the strokes in \textit{QuickDraw!} for the recognized shapes, for each category. We can see that most of the drawings, for the different categories, have only one stroke, and the distribution spread slightly as the shape gets more complicated. It was expected that the strokes will have a different distribution -- for the octagon, we were expecting to see majority of the drawing around 8 strokes --. We believe this is due to the use of the mouse during the drawing, and the non-mastery level of participants in using the mouse for drawing.}
+
     \label{fig:stroke_count}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
     \includegraphics[scale=0.4]{images/dataset/quickdraw_strokes.png}
-    \caption{QuickDraw! strokes statistics for each of the selected categories.}
+    \caption{\textit{QuickDraw!} strokes statistics for each of the selected categories. Strokes is an indication of the complexity of the drawing. Circle have the lowest number of strokes, thus the simplest, while octagon has the largest number -- and largest variance --, thus it is the most complex shape.}
     \label{fig:quickdraw_strokes}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
     \includegraphics[scale=0.4]{images/dataset/quickdraw_pausing_time.png}
-    \caption{QuickDraw! pausing time statistics for each of the selected categories.}
+    \caption{QuickDraw! pausing time statistics for each of the selected categories. It is another indication on the complexity of the shape and its strokes. Circle category has the least pausing time, while the octagon has the largest one.}
     \label{fig:quickdraw_pausing_time}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[!htbp]
     \centering
     \includegraphics[scale=0.4]{images/dataset/quickdraw_drawing_time.png}
-    \caption{QuickDraw! drawing time statistics for each of the selected categories.}
+    \caption{QuickDraw! drawing time statistics for each of the selected categories. It is another indication on the complexity of the shape and its strokes. Circle category has the least drawing time, while the octagon has the largest one.}
     \label{fig:quickdraw_drawing_time}
 \end{sidewaysfigure}
 
