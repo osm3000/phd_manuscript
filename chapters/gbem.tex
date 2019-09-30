@@ -414,6 +414,8 @@ We use a type of RNN called Gated-Recurrent Network (GRU)~\citep{chung2014empiri
     \label{fig:dtl_model}
 \end{figure}
 
+\par We ran random hyper-parameter tuning over a wide range of parameters, in order to select the final model. The selected model were a based GRU cell, with 3 hidden layers, each of size $256$, and a dropout of $0.3$. Adam optimizer~\citep{kingma2014adam} is selected, with a learning rate of $10^-3$. A \textit{Multi-Layer Perceptron} (MLP) is applied to the output of the GRU at each time step, with an output size of 34. Two SoftMax operation are then applied, in order to extract the freeman code and the speed level.
+
 \subsection{Results}
 \par We train our different models and generate the traces from them as explained earlier. In this section, we compare the different models using the evaluation metrics discussed before. We  observe the consistency of the reported metrics with the prior information about the cardinal power of the different methods, equation~\ref{eq:cardinal_power}. This is how we ground our metrics.
 
@@ -427,10 +429,10 @@ We use a type of RNN called Gated-Recurrent Network (GRU)~\citep{chung2014empiri
 
 \begin{table}[!htbp]
 \centering
-\begin{tabular}{|c||c|c|c||c|c|c|}
+\begin{tabular}{l|c c c|c c c}
 \hline
-\multicolumn{1}{|c||}{Aspect/Feature} & \multicolumn{3}{c||}{ Speed } & \multicolumn{3}{c|}{ Freeman }   \\
-\hline
+\multicolumn{1}{c|}{Aspect/Feature} & \multicolumn{3}{c|}{ Speed } & \multicolumn{3}{c}{ Freeman }   \\ \hline
+% \hline
 Model / B-score      & B-1  & B-2  & B-3           & B-1  & B-2   & B-3              \\ \hline
 Letter identity          & 49.7 & 37.3 & 24.2          & 47.4 & 36.6  & 26.8               \\\hline
 Image classifier     & 50.9 & 38.2 & 24.6          & 48.5 & 37.9 & 28.1             \\\hline
@@ -442,22 +444,27 @@ Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.
 \end{table}
 
 \begin{sidewaysfigure}[!htbp]
-    \centering
-    \begin{subfigure}[b]{0.6\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/auto_Vis_pca.png}
-        \caption{Bottleneck of the auto-encoder}
-        \label{subfig:autoenc_latent}
-    \end{subfigure}
-    % ~
-    \quad
-    \begin{subfigure}[b]{0.6\textwidth}
-        \includegraphics[width=\textwidth]{images/gbem/class_Vis_pca.png}
-        \caption{Bottleneck of the classifier}
-        \label{subfig:classifier_latent}
-    \end{subfigure}
-    % \caption{Shape of the autoencoder latent space. Left: each color represent one letter. Right: labeling for some of the letters, to illustrate proximity.}
-    % \includegraphics[width=\textwidth]{figures/AutoEnc_Vis_tsne.png}
-    \caption{Figure \subref{subfig:autoenc_latent} shows the autoencoder latent space, there is no clear separation between letters; the encoding is based on the similarity of the images only, while figure \subref{subfig:classifier_latent} shows the classifier embedding, there is a clear separation between the letters - with few exceptions -.}
+    \begin{center}
+      \begin{subfigure}[b]{0.75\textwidth}
+      % \begin{subfigure}[b]{0.45\textwidth}
+          % \includegraphics[width=\textwidth]{images/gbem/auto_Vis_pca.png}
+          \includegraphics[scale=0.39]{images/gbem/auto_Vis_pca.png}
+          \caption{Bottleneck of the auto-encoder}
+          \label{subfig:autoenc_latent}
+      \end{subfigure}
+      % ~
+      \quad
+      \begin{subfigure}[b]{0.75\textwidth}
+      % \begin{subfigure}[b]{0.45\textwidth}
+          % \includegraphics[width=\textwidth]{images/gbem/class_Vis_pca.png}
+          \includegraphics[scale=0.39]{images/gbem/class_Vis_pca.png}
+          \caption{Bottleneck of the classifier}
+          \label{subfig:classifier_latent}
+      \end{subfigure}
+      % \caption{Shape of the autoencoder latent space. Left: each color represent one letter. Right: labeling for some of the letters, to illustrate proximity.}
+      % \includegraphics[width=\textwidth]{figures/AutoEnc_Vis_tsne.png}
+      \caption{We project the bottlenecks of both the autoencoder and the classifier, using PCA, in order to get an idea about the reason these bottlenecks lead to a very different performance. Figure \subref{subfig:autoenc_latent} shows the autoencoder latent space, there is no clear separation between letters; the encoding is based on the similarity of the images only, while figure \subref{subfig:classifier_latent} shows the classifier embedding, there is a clear separation between the letters - with few exceptions -.}
+    \end{center}
 
 \end{sidewaysfigure}
 
@@ -470,8 +477,8 @@ Image autoencoder    & \textbf{51.9} & 37.9 & 23.1          & 46.4 & 35.0  & 24.
 
 \begin{table}[!htbp]
 \centering
-\begin{tabular}{|c|c|c|}
-\hline
+% \begin{tabular}{|c|c|c|}
+\begin{tabular}{l c c} \hline
 Models & Pearson coefficient & p-value \\ \hline
 Letter bias & 0.38 & 0.84 \\ \hline
 Image classifier & 0.32 & 0.62\\ \hline
@@ -764,8 +771,8 @@ Image autoencoder & 0.25 & 0.29 \\ \hline
 
 \par In this chapter, we sit the foundations for the work done in my thesis. I first discussed the relevant areas in the state-of-the-art concerning recurrent neural networks, optimization, inference/generation and evaluation of generation. I then detailed how we combine these elements in order to address the questions in this thesis. We addressed three points:
 \begin{itemize}
-    \item How to generate traces using deep generative models?: we proposed to use a conditioned-GRU model. I explained the process behind training, optimizing and choosing hyper-parameters for this model, and showed some of the generated letters.
-    \item How to evaluate the quality of the generated letters?: we proposed two evaluation criteria, BLEU score metric -- inspired by its usage in evaluating text quality -- and End-of-Sequence quality, as a way to capture some aspects of the distribution, and a feasible way to measure the distance between two distributions.
+    \item How to generate traces using deep generative models? We proposed to use a conditioned-GRU model. I explained the process behind training, optimizing and choosing hyper-parameters for this model, and showed some of the generated letters.
+    \item How to evaluate the quality of the generated letters? We proposed two evaluation criteria, BLEU score metric -- inspired by its usage in evaluating text quality -- and End-of-Sequence quality, as a way to capture some aspects of the distribution, and a feasible way to measure the distance between two distributions.
     \item We proposed multiple benchmarks for future evaluation of style extraction models, and to ground the proposed evaluation metrics as well.
 \end{itemize}
 Now that we have our benchmarks and evaluation metrics, it is time to go for the next chapter...
