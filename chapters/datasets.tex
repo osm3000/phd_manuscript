@@ -352,9 +352,9 @@ Basic information about \textit{IRONOFF} dataset as a whole:
   \subsection{Feature engineering: Direction and Speed}
     \par Following the emphasis of the previous section, we choose discrete representation for our data. A requirement for a good quantization scheme should keep the important information in the original signal\footnote{In some applications, like in digital communications for example, the quantization (or digitization process) has other rules, like compressing the signal, increasing the signal-to-noise ratio, and increase the robustness of the signal. This is outside the scope of our work however.}
 
-    \par In case of \textit{IRONOFF}, the letters tracings has been cleaned by removing points related to false starts or corrections as well extra strokes. Tracings were re-sampled at $100 kHz$, and the ones with length exceeding 1 second has been removed. This is because they are quite rare, thus, their existence would significantly degrade the performance of our model.
+    \par In case of \textit{IRONOFF}, the letters tracings has been cleaned by removing points related to false starts or corrections as well extra strokes. Tracings were re-sampled at $100 Hz$, and the ones with length exceeding 1 second has been removed. This is because they are quite rare, thus, their existence would significantly degrade the performance of our model.
 
-    \par For \textit{QuickDraw!}, the re-sampling frequency is $50 kHz$, and consider tracings that are less than 200 time steps. This is because the tracings tend to be longer than in \textit{IRONOFF}. This starts to become clearer when the task gets more complex (the octagon being the most complex one).
+    \par For \textit{QuickDraw!}, the re-sampling frequency is $50 Hz$, and consider tracings that are less than 200 time steps. This is because the tracings tend to be longer than in \textit{IRONOFF}. This starts to become clearer when the task gets more complex (the octagon being the most complex one).
 
     \par We represent each letter tracing by two features: direction and speed. Each feature is quantized into 16 levels and represented as a one-hot encoded vector.
 
