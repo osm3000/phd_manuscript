@@ -139,6 +139,18 @@
 \fancyhead[LO]{\changefont \thepage}
 \renewcommand*{\sectionmarkformat}{} % to remove the section number in the headers
 
+\newenvironment{dedication} % In order to write a dedication
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
 % See this page for info about the fancy formats
 % https://www.overleaf.com/learn/latex/Headers_and_footers
 
@@ -174,6 +186,10 @@ Thesis co-supervisor: Damien Pellier}
 \maketitle
 
 \dominitoc% Initialization of minitoc package
+
+\begin{dedication}
+To my late father and my uncle, the two inspirations and aspirations of my life.
+\end{dedication}
 
 \input{chapters/acknowledgement.tex}
 
